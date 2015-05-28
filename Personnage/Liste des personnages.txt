@@ -1,0 +1,16 @@
+0/canne à pêche, logo, pelle, powered by
+1/Mystique
+2/Raven
+3/Hank
+4/Erik
+5/Charles
+6/Maryo
+7/Sean
+8/Lynk
+M/Monstre
+TRY:
+	-1/original guerrier
+	-2/original magicien
+	-3/original boulanger
+	-4/original paysan
+	-5/original commerçant

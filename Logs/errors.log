@@ -1,0 +1,1186 @@
+import _frozen_importlib # frozen
+import imp # builtin
+import sys # builtin
+# installing zipimport hook
+import 'zipimport' # <class '_frozen_importlib.BuiltinImporter'>
+# installed zipimport hook
+# C:\Python33\lib\encodings\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\encodings\__init__.py
+# code object from C:\Python33\lib\encodings\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\__pycache__\codecs.cpython-33.pyc matches C:\Python33\lib\codecs.py
+# code object from C:\Python33\lib\__pycache__\codecs.cpython-33.pyc
+import '_codecs' # <class '_frozen_importlib.BuiltinImporter'>
+import 'codecs' # <_frozen_importlib.SourceFileLoader object at 0x020AA8D0>
+# C:\Python33\lib\encodings\__pycache__\aliases.cpython-33.pyc matches C:\Python33\lib\encodings\aliases.py
+# code object from C:\Python33\lib\encodings\__pycache__\aliases.cpython-33.pyc
+import 'encodings.aliases' # <_frozen_importlib.SourceFileLoader object at 0x02242B10>
+import 'encodings' # <_frozen_importlib.SourceFileLoader object at 0x020AA510>
+# C:\Python33\lib\encodings\__pycache__\mbcs.cpython-33.pyc matches C:\Python33\lib\encodings\mbcs.py
+# code object from C:\Python33\lib\encodings\__pycache__\mbcs.cpython-33.pyc
+import 'encodings.mbcs' # <_frozen_importlib.SourceFileLoader object at 0x022527F0>
+import 'signal' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\encodings\__pycache__\utf_8.cpython-33.pyc matches C:\Python33\lib\encodings\utf_8.py
+# code object from C:\Python33\lib\encodings\__pycache__\utf_8.cpython-33.pyc
+import 'encodings.utf_8' # <_frozen_importlib.SourceFileLoader object at 0x022529B0>
+# C:\Python33\lib\encodings\__pycache__\latin_1.cpython-33.pyc matches C:\Python33\lib\encodings\latin_1.py
+# code object from C:\Python33\lib\encodings\__pycache__\latin_1.cpython-33.pyc
+import 'encodings.latin_1' # <_frozen_importlib.SourceFileLoader object at 0x02252AB0>
+# C:\Python33\lib\__pycache__\io.cpython-33.pyc matches C:\Python33\lib\io.py
+# code object from C:\Python33\lib\__pycache__\io.cpython-33.pyc
+# C:\Python33\lib\__pycache__\abc.cpython-33.pyc matches C:\Python33\lib\abc.py
+# code object from C:\Python33\lib\__pycache__\abc.cpython-33.pyc
+# C:\Python33\lib\__pycache__\_weakrefset.cpython-33.pyc matches C:\Python33\lib\_weakrefset.py
+# code object from C:\Python33\lib\__pycache__\_weakrefset.cpython-33.pyc
+import '_weakrefset' # <_frozen_importlib.SourceFileLoader object at 0x02259250>
+import 'abc' # <_frozen_importlib.SourceFileLoader object at 0x02252D30>
+import 'io' # <_frozen_importlib.SourceFileLoader object at 0x02252C10>
+# C:\Python33\lib\encodings\__pycache__\cp850.cpython-33.pyc matches C:\Python33\lib\encodings\cp850.py
+# code object from C:\Python33\lib\encodings\__pycache__\cp850.cpython-33.pyc
+import 'encodings.cp850' # <_frozen_importlib.SourceFileLoader object at 0x02258050>
+# C:\Python33\lib\__pycache__\locale.cpython-33.pyc matches C:\Python33\lib\locale.py
+# code object from C:\Python33\lib\__pycache__\locale.cpython-33.pyc
+# C:\Python33\lib\__pycache__\re.cpython-33.pyc matches C:\Python33\lib\re.py
+# code object from C:\Python33\lib\__pycache__\re.cpython-33.pyc
+# C:\Python33\lib\__pycache__\sre_compile.cpython-33.pyc matches C:\Python33\lib\sre_compile.py
+# code object from C:\Python33\lib\__pycache__\sre_compile.cpython-33.pyc
+import '_sre' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\__pycache__\sre_parse.cpython-33.pyc matches C:\Python33\lib\sre_parse.py
+# code object from C:\Python33\lib\__pycache__\sre_parse.cpython-33.pyc
+# C:\Python33\lib\__pycache__\sre_constants.cpython-33.pyc matches C:\Python33\lib\sre_constants.py
+# code object from C:\Python33\lib\__pycache__\sre_constants.cpython-33.pyc
+import 'sre_constants' # <_frozen_importlib.SourceFileLoader object at 0x0227F750>
+import 'sre_parse' # <_frozen_importlib.SourceFileLoader object at 0x022787D0>
+import 'sre_compile' # <_frozen_importlib.SourceFileLoader object at 0x02258F10>
+# C:\Python33\lib\__pycache__\functools.cpython-33.pyc matches C:\Python33\lib\functools.py
+# code object from C:\Python33\lib\__pycache__\functools.cpython-33.pyc
+import '_functools' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\collections\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\collections\__init__.py
+# code object from C:\Python33\lib\collections\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\collections\__pycache__\abc.cpython-33.pyc matches C:\Python33\lib\collections\abc.py
+# code object from C:\Python33\lib\collections\__pycache__\abc.cpython-33.pyc
+import 'collections.abc' # <_frozen_importlib.SourceFileLoader object at 0x022AEA30>
+import '_collections' # <class '_frozen_importlib.BuiltinImporter'>
+import 'operator' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\__pycache__\keyword.cpython-33.pyc matches C:\Python33\lib\keyword.py
+# code object from C:\Python33\lib\__pycache__\keyword.cpython-33.pyc
+import 'keyword' # <_frozen_importlib.SourceFileLoader object at 0x022C2B70>
+# C:\Python33\lib\__pycache__\heapq.cpython-33.pyc matches C:\Python33\lib\heapq.py
+# code object from C:\Python33\lib\__pycache__\heapq.cpython-33.pyc
+import 'itertools' # <class '_frozen_importlib.BuiltinImporter'>
+import '_heapq' # <class '_frozen_importlib.BuiltinImporter'>
+import 'heapq' # <_frozen_importlib.SourceFileLoader object at 0x022C2BB0>
+# C:\Python33\lib\__pycache__\weakref.cpython-33.pyc matches C:\Python33\lib\weakref.py
+# code object from C:\Python33\lib\__pycache__\weakref.cpython-33.pyc
+import 'weakref' # <_frozen_importlib.SourceFileLoader object at 0x022C2AF0>
+# C:\Python33\lib\__pycache__\reprlib.cpython-33.pyc matches C:\Python33\lib\reprlib.py
+# code object from C:\Python33\lib\__pycache__\reprlib.cpython-33.pyc
+import 'reprlib' # <_frozen_importlib.SourceFileLoader object at 0x0230E410>
+import 'collections' # <_frozen_importlib.SourceFileLoader object at 0x02299790>
+import 'functools' # <_frozen_importlib.SourceFileLoader object at 0x02278AB0>
+# C:\Python33\lib\__pycache__\copyreg.cpython-33.pyc matches C:\Python33\lib\copyreg.py
+# code object from C:\Python33\lib\__pycache__\copyreg.cpython-33.pyc
+import 'copyreg' # <_frozen_importlib.SourceFileLoader object at 0x02299230>
+import 're' # <_frozen_importlib.SourceFileLoader object at 0x02258370>
+import '_locale' # <class '_frozen_importlib.BuiltinImporter'>
+import 'locale' # <_frozen_importlib.SourceFileLoader object at 0x022582B0>
+# C:\Python33\lib\encodings\__pycache__\cp1252.cpython-33.pyc matches C:\Python33\lib\encodings\cp1252.py
+# code object from C:\Python33\lib\encodings\__pycache__\cp1252.cpython-33.pyc
+import 'encodings.cp1252' # <_frozen_importlib.SourceFileLoader object at 0x02258D50>
+# C:\Python33\lib\__pycache__\site.cpython-33.pyc matches C:\Python33\lib\site.py
+# code object from C:\Python33\lib\__pycache__\site.cpython-33.pyc
+# C:\Python33\lib\__pycache__\os.cpython-33.pyc matches C:\Python33\lib\os.py
+# code object from C:\Python33\lib\__pycache__\os.cpython-33.pyc
+import 'errno' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\__pycache__\stat.cpython-33.pyc matches C:\Python33\lib\stat.py
+# code object from C:\Python33\lib\__pycache__\stat.cpython-33.pyc
+import 'stat' # <_frozen_importlib.SourceFileLoader object at 0x02332410>
+# C:\Python33\lib\__pycache__\ntpath.cpython-33.pyc matches C:\Python33\lib\ntpath.py
+# code object from C:\Python33\lib\__pycache__\ntpath.cpython-33.pyc
+# C:\Python33\lib\__pycache__\genericpath.cpython-33.pyc matches C:\Python33\lib\genericpath.py
+# code object from C:\Python33\lib\__pycache__\genericpath.cpython-33.pyc
+import 'genericpath' # <_frozen_importlib.SourceFileLoader object at 0x02332FD0>
+import 'ntpath' # <_frozen_importlib.SourceFileLoader object at 0x02332C70>
+import 'os' # <_frozen_importlib.SourceFileLoader object at 0x02324230>
+# C:\Python33\lib\__pycache__\sysconfig.cpython-33.pyc matches C:\Python33\lib\sysconfig.py
+# code object from C:\Python33\lib\__pycache__\sysconfig.cpython-33.pyc
+import 'sysconfig' # <_frozen_importlib.SourceFileLoader object at 0x02324790>
+import 'site' # <_frozen_importlib.SourceFileLoader object at 0x0231A710>
+# C:\Python33\lib\__pycache__\glob.cpython-33.pyc matches C:\Python33\lib\glob.py
+# code object from C:\Python33\lib\__pycache__\glob.cpython-33.pyc
+# C:\Python33\lib\__pycache__\fnmatch.cpython-33.pyc matches C:\Python33\lib\fnmatch.py
+# code object from C:\Python33\lib\__pycache__\fnmatch.cpython-33.pyc
+# C:\Python33\lib\__pycache__\posixpath.cpython-33.pyc matches C:\Python33\lib\posixpath.py
+# code object from C:\Python33\lib\__pycache__\posixpath.cpython-33.pyc
+import 'posixpath' # <_frozen_importlib.SourceFileLoader object at 0x023F6C10>
+import 'fnmatch' # <_frozen_importlib.SourceFileLoader object at 0x023F6A30>
+import 'glob' # <_frozen_importlib.SourceFileLoader object at 0x02343C10>
+# C:\Python33\lib\site-packages\PIL\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\__init__.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\__init__.cpython-33.pyc
+import 'PIL' # <_frozen_importlib.SourceFileLoader object at 0x023F6D50>
+# C:\Python33\lib\site-packages\PIL\__pycache__\Image.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\Image.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\Image.cpython-33.pyc
+# C:\Python33\lib\__pycache__\__future__.cpython-33.pyc matches C:\Python33\lib\__future__.py
+# code object from C:\Python33\lib\__pycache__\__future__.cpython-33.pyc
+import '__future__' # <_frozen_importlib.SourceFileLoader object at 0x0237C8B0>
+# C:\Python33\lib\__pycache__\warnings.cpython-33.pyc matches C:\Python33\lib\warnings.py
+# code object from C:\Python33\lib\__pycache__\warnings.cpython-33.pyc
+# C:\Python33\lib\__pycache__\linecache.cpython-33.pyc matches C:\Python33\lib\linecache.py
+# code object from C:\Python33\lib\__pycache__\linecache.cpython-33.pyc
+# C:\Python33\lib\__pycache__\tokenize.cpython-33.pyc matches C:\Python33\lib\tokenize.py
+# code object from C:\Python33\lib\__pycache__\tokenize.cpython-33.pyc
+# C:\Python33\lib\__pycache__\token.cpython-33.pyc matches C:\Python33\lib\token.py
+# code object from C:\Python33\lib\__pycache__\token.cpython-33.pyc
+import 'token' # <_frozen_importlib.SourceFileLoader object at 0x0238DC10>
+import 'tokenize' # <_frozen_importlib.SourceFileLoader object at 0x02384D50>
+import 'linecache' # <_frozen_importlib.SourceFileLoader object at 0x02384A10>
+import 'warnings' # <_frozen_importlib.SourceFileLoader object at 0x02384130>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\PIL\\_imaging.pyd'
+import 'PIL._imaging' # <_frozen_importlib.ExtensionFileLoader object at 0x02389270>
+# C:\Python33\lib\site-packages\PIL\__pycache__\ImageMode.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\ImageMode.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\ImageMode.cpython-33.pyc
+import 'PIL.ImageMode' # <_frozen_importlib.SourceFileLoader object at 0x023898F0>
+# C:\Python33\lib\site-packages\PIL\__pycache__\_binary.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\_binary.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\_binary.cpython-33.pyc
+import 'PIL._binary' # <_frozen_importlib.SourceFileLoader object at 0x02384610>
+# C:\Python33\lib\site-packages\PIL\__pycache__\_util.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\_util.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\_util.cpython-33.pyc
+import 'PIL._util' # <_frozen_importlib.SourceFileLoader object at 0x02391550>
+# C:\Python33\lib\__pycache__\numbers.cpython-33.pyc matches C:\Python33\lib\numbers.py
+# code object from C:\Python33\lib\__pycache__\numbers.cpython-33.pyc
+import 'numbers' # <_frozen_importlib.SourceFileLoader object at 0x02391C70>
+import 'PIL.Image' # <_frozen_importlib.SourceFileLoader object at 0x023F6E70>
+# C:\Python33\lib\site-packages\PIL\__pycache__\BmpImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\BmpImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\BmpImagePlugin.cpython-33.pyc
+# C:\Python33\lib\site-packages\PIL\__pycache__\ImageFile.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\ImageFile.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\ImageFile.cpython-33.pyc
+# C:\Python33\lib\__pycache__\traceback.cpython-33.pyc matches C:\Python33\lib\traceback.py
+# code object from C:\Python33\lib\__pycache__\traceback.cpython-33.pyc
+import 'traceback' # <_frozen_importlib.SourceFileLoader object at 0x023F84D0>
+import 'PIL.ImageFile' # <_frozen_importlib.SourceFileLoader object at 0x023E58D0>
+# C:\Python33\lib\site-packages\PIL\__pycache__\ImagePalette.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\ImagePalette.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\ImagePalette.cpython-33.pyc
+import 'array' # <class '_frozen_importlib.BuiltinImporter'>
+# C:\Python33\lib\site-packages\PIL\__pycache__\ImageColor.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\ImageColor.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\ImageColor.cpython-33.pyc
+import 'PIL.ImageColor' # <_frozen_importlib.SourceFileLoader object at 0x023F8D30>
+import 'PIL.ImagePalette' # <_frozen_importlib.SourceFileLoader object at 0x023F8050>
+import 'math' # <class '_frozen_importlib.BuiltinImporter'>
+import 'PIL.BmpImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x0237C7D0>
+# C:\Python33\lib\site-packages\PIL\__pycache__\GifImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\GifImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\GifImagePlugin.cpython-33.pyc
+import 'PIL.GifImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x023E5710>
+# C:\Python33\lib\site-packages\PIL\__pycache__\JpegImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\JpegImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\JpegImagePlugin.cpython-33.pyc
+# C:\Python33\lib\__pycache__\struct.cpython-33.pyc matches C:\Python33\lib\struct.py
+# code object from C:\Python33\lib\__pycache__\struct.cpython-33.pyc
+import '_struct' # <class '_frozen_importlib.BuiltinImporter'>
+import 'struct' # <_frozen_importlib.SourceFileLoader object at 0x02407F10>
+# C:\Python33\lib\site-packages\PIL\__pycache__\TiffImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\TiffImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\TiffImagePlugin.cpython-33.pyc
+import 'PIL.TiffImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x0240C5D0>
+# C:\Python33\lib\site-packages\PIL\__pycache__\JpegPresets.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\JpegPresets.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\JpegPresets.cpython-33.pyc
+import 'PIL.JpegPresets' # <_frozen_importlib.SourceFileLoader object at 0x0240CF70>
+import 'PIL.JpegImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x02402970>
+# C:\Python33\lib\site-packages\PIL\__pycache__\PpmImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\PpmImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\PpmImagePlugin.cpython-33.pyc
+# C:\Python33\lib\__pycache__\string.cpython-33.pyc matches C:\Python33\lib\string.py
+# code object from C:\Python33\lib\__pycache__\string.cpython-33.pyc
+import '_string' # <class '_frozen_importlib.BuiltinImporter'>
+import 'string' # <_frozen_importlib.SourceFileLoader object at 0x02407510>
+import 'PIL.PpmImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x02407250>
+# C:\Python33\lib\site-packages\PIL\__pycache__\PngImagePlugin.cpython-33.pyc matches C:\Python33\lib\site-packages\PIL\PngImagePlugin.py
+# code object from C:\Python33\lib\site-packages\PIL\__pycache__\PngImagePlugin.cpython-33.pyc
+import 'zlib' # <class '_frozen_importlib.BuiltinImporter'>
+import 'PIL.PngImagePlugin' # <_frozen_importlib.SourceFileLoader object at 0x02407930>
+# F:\UrWorld\UrWorld _code\__pycache__\niveau.cpython-33.pyc matches F:\UrWorld\UrWorld _code\niveau.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\niveau.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\__pycache__\commerces_p.cpython-33.pyc matches F:\UrWorld\UrWorld _code\commerces_p.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\commerces_p.cpython-33.pyc
+# C:\Python33\lib\__pycache__\pickle.cpython-33.pyc matches C:\Python33\lib\pickle.py
+# code object from C:\Python33\lib\__pycache__\pickle.cpython-33.pyc
+# C:\Python33\lib\__pycache__\types.cpython-33.pyc matches C:\Python33\lib\types.py
+# code object from C:\Python33\lib\__pycache__\types.cpython-33.pyc
+import 'types' # <_frozen_importlib.SourceFileLoader object at 0x023C40F0>
+# C:\Python33\lib\__pycache__\_compat_pickle.cpython-33.pyc matches C:\Python33\lib\_compat_pickle.py
+# code object from C:\Python33\lib\__pycache__\_compat_pickle.cpython-33.pyc
+import '_compat_pickle' # <_frozen_importlib.SourceFileLoader object at 0x023C40B0>
+import '_pickle' # <class '_frozen_importlib.BuiltinImporter'>
+import 'pickle' # <_frozen_importlib.SourceFileLoader object at 0x023B1090>
+# C:\Python33\lib\__pycache__\random.cpython-33.pyc matches C:\Python33\lib\random.py
+# code object from C:\Python33\lib\__pycache__\random.cpython-33.pyc
+# C:\Python33\lib\__pycache__\hashlib.cpython-33.pyc matches C:\Python33\lib\hashlib.py
+# code object from C:\Python33\lib\__pycache__\hashlib.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\DLLs\\_hashlib.pyd'
+import '_hashlib' # <_frozen_importlib.ExtensionFileLoader object at 0x023D3DB0>
+import 'hashlib' # <_frozen_importlib.SourceFileLoader object at 0x023D3510>
+import '_random' # <class '_frozen_importlib.BuiltinImporter'>
+import 'random' # <_frozen_importlib.SourceFileLoader object at 0x023C4030>
+# possible namespace for F:\UrWorld\UrWorld _code\BModules
+# namespace module loaded with path _NamespacePath(['F:\\UrWorld\\UrWorld _code\\BModules'])
+import 'BModules' # <_frozen_importlib.NamespaceLoader object at 0x023D3670>
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\reader.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\reader.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\reader.cpython-33.pyc
+# C:\Python33\lib\__pycache__\textwrap.cpython-33.pyc matches C:\Python33\lib\textwrap.py
+# code object from C:\Python33\lib\__pycache__\textwrap.cpython-33.pyc
+import 'textwrap' # <_frozen_importlib.SourceFileLoader object at 0x023D8B90>
+# C:\Python33\lib\site-packages\pygame\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\__init__.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\__init__.cpython-33.pyc
+import 'atexit' # <class '_frozen_importlib.BuiltinImporter'>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\base.pyd'
+import 'pygame.base' # <_frozen_importlib.ExtensionFileLoader object at 0x024B0890>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\constants.pyd'
+import 'pygame.constants' # <_frozen_importlib.ExtensionFileLoader object at 0x024B0E30>
+# C:\Python33\lib\site-packages\pygame\__pycache__\version.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\version.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\version.cpython-33.pyc
+import 'pygame.version' # <_frozen_importlib.SourceFileLoader object at 0x024B8B90>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\rect.pyd'
+import 'pygame.rect' # <_frozen_importlib.ExtensionFileLoader object at 0x024B8C30>
+# C:\Python33\lib\site-packages\pygame\__pycache__\compat.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\compat.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\compat.cpython-33.pyc
+import 'pygame.compat' # <_frozen_importlib.SourceFileLoader object at 0x024B8DB0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\rwobject.pyd'
+import 'pygame.rwobject' # <_frozen_importlib.ExtensionFileLoader object at 0x024BF1B0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\surflock.pyd'
+import 'pygame.surflock' # <_frozen_importlib.ExtensionFileLoader object at 0x024BF290>
+# C:\Python33\lib\site-packages\pygame\__pycache__\colordict.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\colordict.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\colordict.cpython-33.pyc
+import 'pygame.colordict' # <_frozen_importlib.SourceFileLoader object at 0x024BF130>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\color.pyd'
+import 'pygame.color' # <_frozen_importlib.ExtensionFileLoader object at 0x024BF110>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\bufferproxy.pyd'
+import 'pygame.bufferproxy' # <_frozen_importlib.ExtensionFileLoader object at 0x024BF6B0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\math.pyd'
+import 'pygame.math' # <_frozen_importlib.ExtensionFileLoader object at 0x024BF870>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\cdrom.pyd'
+import 'pygame.cdrom' # <_frozen_importlib.ExtensionFileLoader object at 0x024C1550>
+# C:\Python33\lib\site-packages\pygame\__pycache__\cursors.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\cursors.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\cursors.cpython-33.pyc
+import 'pygame.cursors' # <_frozen_importlib.SourceFileLoader object at 0x024C3470>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\surface.pyd'
+import 'pygame.surface' # <_frozen_importlib.ExtensionFileLoader object at 0x024C3D50>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\display.pyd'
+import 'pygame.display' # <_frozen_importlib.ExtensionFileLoader object at 0x024C3110>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\draw.pyd'
+import 'pygame.draw' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5030>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\event.pyd'
+import 'pygame.event' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5130>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\imageext.pyd'
+import 'pygame.imageext' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5270>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\image.pyd'
+import 'pygame.image' # <_frozen_importlib.ExtensionFileLoader object at 0x024D51F0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\joystick.pyd'
+import 'pygame.joystick' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5230>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\key.pyd'
+import 'pygame.key' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5310>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\mouse.pyd'
+import 'pygame.mouse' # <_frozen_importlib.ExtensionFileLoader object at 0x024D5350>
+# C:\Python33\lib\site-packages\pygame\__pycache__\sprite.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\sprite.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\sprite.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\time.pyd'
+import 'pygame.time' # <_frozen_importlib.ExtensionFileLoader object at 0x024DDDB0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\mask.pyd'
+import 'pygame.mask' # <_frozen_importlib.ExtensionFileLoader object at 0x024DDE90>
+import 'pygame.sprite' # <_frozen_importlib.SourceFileLoader object at 0x024D53F0>
+# C:\Python33\lib\site-packages\pygame\threads\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\threads\__init__.py
+# code object from C:\Python33\lib\site-packages\pygame\threads\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\__pycache__\queue.cpython-33.pyc matches C:\Python33\lib\queue.py
+# code object from C:\Python33\lib\__pycache__\queue.cpython-33.pyc
+# C:\Python33\lib\__pycache__\threading.cpython-33.pyc matches C:\Python33\lib\threading.py
+# code object from C:\Python33\lib\__pycache__\threading.cpython-33.pyc
+import 'time' # <class '_frozen_importlib.BuiltinImporter'>
+import 'threading' # <_frozen_importlib.SourceFileLoader object at 0x0250DF10>
+import 'queue' # <_frozen_importlib.SourceFileLoader object at 0x0250D3B0>
+import 'pygame.threads' # <_frozen_importlib.SourceFileLoader object at 0x024DD090>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\pixelcopy.pyd'
+import 'pygame.pixelcopy' # <_frozen_importlib.ExtensionFileLoader object at 0x0250D4F0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\pixelarray.pyd'
+import 'pygame.pixelarray' # <_frozen_importlib.ExtensionFileLoader object at 0x0250D330>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\overlay.pyd'
+import 'pygame.overlay' # <_frozen_importlib.ExtensionFileLoader object at 0x0250DCD0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\transform.pyd'
+import 'pygame.transform' # <_frozen_importlib.ExtensionFileLoader object at 0x0250DE30>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\font.pyd'
+import 'pygame.font' # <_frozen_importlib.ExtensionFileLoader object at 0x02514290>
+# C:\Python33\lib\site-packages\pygame\__pycache__\sysfont.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\sysfont.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\sysfont.cpython-33.pyc
+import 'pygame.sysfont' # <_frozen_importlib.SourceFileLoader object at 0x0251B0F0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\mixer_music.pyd'
+import 'pygame.mixer_music' # <_frozen_importlib.ExtensionFileLoader object at 0x0250DC70>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\mixer.pyd'
+import 'pygame.mixer' # <_frozen_importlib.ExtensionFileLoader object at 0x02525270>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\movie.pyd'
+import 'pygame.movie' # <_frozen_importlib.ExtensionFileLoader object at 0x02525330>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\scrap.pyd'
+import 'pygame.scrap' # <_frozen_importlib.ExtensionFileLoader object at 0x02525390>
+# C:\Python33\lib\site-packages\pygame\__pycache__\surfarray.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\surfarray.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\surfarray.cpython-33.pyc
+# C:\Python33\lib\__pycache__\imp.cpython-33.pyc matches C:\Python33\lib\imp.py
+# code object from C:\Python33\lib\__pycache__\imp.cpython-33.pyc
+# C:\Python33\lib\importlib\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\importlib\__init__.py
+# code object from C:\Python33\lib\importlib\__pycache__\__init__.cpython-33.pyc
+import 'importlib' # <_frozen_importlib.SourceFileLoader object at 0x02532DD0>
+# C:\Python33\lib\importlib\__pycache__\machinery.cpython-33.pyc matches C:\Python33\lib\importlib\machinery.py
+# code object from C:\Python33\lib\importlib\__pycache__\machinery.cpython-33.pyc
+import 'importlib.machinery' # <_frozen_importlib.SourceFileLoader object at 0x02532F30>
+import 'imp' # <_frozen_importlib.SourceFileLoader object at 0x02532910>
+# C:\Python33\lib\site-packages\pygame\__pycache__\_numpysurfarray.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\_numpysurfarray.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\_numpysurfarray.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\__pycache__\__config__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\__config__.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\__config__.cpython-33.pyc
+import 'numpy.__config__' # <_frozen_importlib.SourceFileLoader object at 0x02541DF0>
+# C:\Python33\lib\site-packages\numpy\__pycache__\version.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\version.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\version.cpython-33.pyc
+import 'numpy.version' # <_frozen_importlib.SourceFileLoader object at 0x02546050>
+# C:\Python33\lib\site-packages\numpy\__pycache__\_import_tools.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\_import_tools.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\_import_tools.cpython-33.pyc
+import 'numpy._import_tools' # <_frozen_importlib.SourceFileLoader object at 0x025460D0>
+# C:\Python33\lib\site-packages\numpy\__pycache__\add_newdocs.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\add_newdocs.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\add_newdocs.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\info.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\info.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\info.cpython-33.pyc
+import 'numpy.lib.info' # <_frozen_importlib.SourceFileLoader object at 0x02546E50>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\type_check.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\type_check.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\type_check.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\info.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\info.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\info.cpython-33.pyc
+import 'numpy.core.info' # <_frozen_importlib.SourceFileLoader object at 0x02605210>
+# C:\Python33\lib\__pycache__\datetime.cpython-33.pyc matches C:\Python33\lib\datetime.py
+# code object from C:\Python33\lib\__pycache__\datetime.cpython-33.pyc
+import '_datetime' # <class '_frozen_importlib.BuiltinImporter'>
+import 'datetime' # <_frozen_importlib.SourceFileLoader object at 0x026053D0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\core\\multiarray.pyd'
+import 'numpy.core.multiarray' # <_frozen_importlib.ExtensionFileLoader object at 0x02605350>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\core\\umath.pyd'
+import 'numpy.core.umath' # <_frozen_importlib.ExtensionFileLoader object at 0x0257BD90>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\_internal.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\_internal.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\_internal.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\compat\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\compat\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\compat\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\compat\__pycache__\_inspect.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\compat\_inspect.py
+# code object from C:\Python33\lib\site-packages\numpy\compat\__pycache__\_inspect.cpython-33.pyc
+import 'numpy.compat._inspect' # <_frozen_importlib.SourceFileLoader object at 0x02595030>
+# C:\Python33\lib\site-packages\numpy\compat\__pycache__\py3k.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\compat\py3k.py
+# code object from C:\Python33\lib\site-packages\numpy\compat\__pycache__\py3k.cpython-33.pyc
+import 'numpy.compat.py3k' # <_frozen_importlib.SourceFileLoader object at 0x02595770>
+import 'numpy.compat' # <_frozen_importlib.SourceFileLoader object at 0x02591C50>
+import 'numpy.core._internal' # <_frozen_importlib.SourceFileLoader object at 0x025911B0>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\numerictypes.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\numerictypes.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\numerictypes.cpython-33.pyc
+import 'numpy.core.numerictypes' # <_frozen_importlib.SourceFileLoader object at 0x025918D0>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\numeric.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\numeric.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\numeric.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\core\\_dotblas.pyd'
+import 'numpy.core._dotblas' # <_frozen_importlib.ExtensionFileLoader object at 0x025A5210>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\arrayprint.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\arrayprint.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\arrayprint.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\fromnumeric.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\fromnumeric.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\fromnumeric.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\_methods.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\_methods.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\_methods.cpython-33.pyc
+import 'numpy.core._methods' # <_frozen_importlib.SourceFileLoader object at 0x025AED50>
+import 'numpy.core.fromnumeric' # <_frozen_importlib.SourceFileLoader object at 0x025AE8D0>
+import 'numpy.core.arrayprint' # <_frozen_importlib.SourceFileLoader object at 0x02337C90>
+import 'numpy.core.numeric' # <_frozen_importlib.SourceFileLoader object at 0x02591CB0>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\defchararray.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\defchararray.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\defchararray.cpython-33.pyc
+import 'numpy.core.defchararray' # <_frozen_importlib.SourceFileLoader object at 0x02591B50>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\records.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\records.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\records.cpython-33.pyc
+import 'numpy.core.records' # <_frozen_importlib.SourceFileLoader object at 0x02595810>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\memmap.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\memmap.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\memmap.cpython-33.pyc
+import 'numpy.core.memmap' # <_frozen_importlib.SourceFileLoader object at 0x026B0FB0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\core\\scalarmath.pyd'
+import 'numpy.core.scalarmath' # <_frozen_importlib.ExtensionFileLoader object at 0x026BB510>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\function_base.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\function_base.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\function_base.cpython-33.pyc
+import 'numpy.core.function_base' # <_frozen_importlib.SourceFileLoader object at 0x026BB4B0>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\machar.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\machar.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\machar.cpython-33.pyc
+import 'numpy.core.machar' # <_frozen_importlib.SourceFileLoader object at 0x026BB750>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\getlimits.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\getlimits.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\getlimits.cpython-33.pyc
+import 'numpy.core.getlimits' # <_frozen_importlib.SourceFileLoader object at 0x026BB610>
+# C:\Python33\lib\site-packages\numpy\core\__pycache__\shape_base.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\core\shape_base.py
+# code object from C:\Python33\lib\site-packages\numpy\core\__pycache__\shape_base.cpython-33.pyc
+import 'numpy.core.shape_base' # <_frozen_importlib.SourceFileLoader object at 0x026BBFB0>
+# C:\Python33\lib\site-packages\numpy\testing\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\testing\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\testing\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\unittest\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\unittest\__init__.py
+# code object from C:\Python33\lib\unittest\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\unittest\__pycache__\result.cpython-33.pyc matches C:\Python33\lib\unittest\result.py
+# code object from C:\Python33\lib\unittest\__pycache__\result.cpython-33.pyc
+# C:\Python33\lib\unittest\__pycache__\util.cpython-33.pyc matches C:\Python33\lib\unittest\util.py
+# code object from C:\Python33\lib\unittest\__pycache__\util.cpython-33.pyc
+import 'unittest.util' # <_frozen_importlib.SourceFileLoader object at 0x026C3650>
+import 'unittest.result' # <_frozen_importlib.SourceFileLoader object at 0x026C3110>
+# C:\Python33\lib\unittest\__pycache__\case.cpython-33.pyc matches C:\Python33\lib\unittest\case.py
+# code object from C:\Python33\lib\unittest\__pycache__\case.cpython-33.pyc
+# C:\Python33\lib\__pycache__\difflib.cpython-33.pyc matches C:\Python33\lib\difflib.py
+# code object from C:\Python33\lib\__pycache__\difflib.cpython-33.pyc
+import 'difflib' # <_frozen_importlib.SourceFileLoader object at 0x026D1F30>
+# C:\Python33\lib\__pycache__\pprint.cpython-33.pyc matches C:\Python33\lib\pprint.py
+# code object from C:\Python33\lib\__pycache__\pprint.cpython-33.pyc
+import 'pprint' # <_frozen_importlib.SourceFileLoader object at 0x026F9850>
+import 'unittest.case' # <_frozen_importlib.SourceFileLoader object at 0x026C3B70>
+# C:\Python33\lib\unittest\__pycache__\suite.cpython-33.pyc matches C:\Python33\lib\unittest\suite.py
+# code object from C:\Python33\lib\unittest\__pycache__\suite.cpython-33.pyc
+import 'unittest.suite' # <_frozen_importlib.SourceFileLoader object at 0x026FF890>
+# C:\Python33\lib\unittest\__pycache__\loader.cpython-33.pyc matches C:\Python33\lib\unittest\loader.py
+# code object from C:\Python33\lib\unittest\__pycache__\loader.cpython-33.pyc
+import 'unittest.loader' # <_frozen_importlib.SourceFileLoader object at 0x0270A050>
+# C:\Python33\lib\unittest\__pycache__\main.cpython-33.pyc matches C:\Python33\lib\unittest\main.py
+# code object from C:\Python33\lib\unittest\__pycache__\main.cpython-33.pyc
+# C:\Python33\lib\__pycache__\optparse.cpython-33.pyc matches C:\Python33\lib\optparse.py
+# code object from C:\Python33\lib\__pycache__\optparse.cpython-33.pyc
+# C:\Python33\lib\__pycache__\gettext.cpython-33.pyc matches C:\Python33\lib\gettext.py
+# code object from C:\Python33\lib\__pycache__\gettext.cpython-33.pyc
+# C:\Python33\lib\__pycache__\copy.cpython-33.pyc matches C:\Python33\lib\copy.py
+# code object from C:\Python33\lib\__pycache__\copy.cpython-33.pyc
+import 'copy' # <_frozen_importlib.SourceFileLoader object at 0x027277F0>
+import 'gettext' # <_frozen_importlib.SourceFileLoader object at 0x027164D0>
+import 'optparse' # <_frozen_importlib.SourceFileLoader object at 0x0270A970>
+# C:\Python33\lib\unittest\__pycache__\runner.cpython-33.pyc matches C:\Python33\lib\unittest\runner.py
+# code object from C:\Python33\lib\unittest\__pycache__\runner.cpython-33.pyc
+# C:\Python33\lib\unittest\__pycache__\signals.cpython-33.pyc matches C:\Python33\lib\unittest\signals.py
+# code object from C:\Python33\lib\unittest\__pycache__\signals.cpython-33.pyc
+import 'unittest.signals' # <_frozen_importlib.SourceFileLoader object at 0x0270A9D0>
+import 'unittest.runner' # <_frozen_importlib.SourceFileLoader object at 0x0257B670>
+import 'unittest.main' # <_frozen_importlib.SourceFileLoader object at 0x0270A1D0>
+import 'unittest' # <_frozen_importlib.SourceFileLoader object at 0x026BBE10>
+# C:\Python33\lib\site-packages\numpy\testing\__pycache__\decorators.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\testing\decorators.py
+# code object from C:\Python33\lib\site-packages\numpy\testing\__pycache__\decorators.cpython-33.pyc
+import 'numpy.testing.decorators' # <_frozen_importlib.SourceFileLoader object at 0x02716330>
+# C:\Python33\lib\site-packages\numpy\testing\__pycache__\utils.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\testing\utils.py
+# code object from C:\Python33\lib\site-packages\numpy\testing\__pycache__\utils.cpython-33.pyc
+# C:\Python33\lib\__pycache__\shutil.cpython-33.pyc matches C:\Python33\lib\shutil.py
+# code object from C:\Python33\lib\__pycache__\shutil.cpython-33.pyc
+# C:\Python33\lib\__pycache__\tarfile.cpython-33.pyc matches C:\Python33\lib\tarfile.py
+# code object from C:\Python33\lib\__pycache__\tarfile.cpython-33.pyc
+import 'tarfile' # <_frozen_importlib.SourceFileLoader object at 0x027548F0>
+# C:\Python33\lib\__pycache__\bz2.cpython-33.pyc matches C:\Python33\lib\bz2.py
+# code object from C:\Python33\lib\__pycache__\bz2.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\DLLs\\_bz2.pyd'
+import '_bz2' # <_frozen_importlib.ExtensionFileLoader object at 0x02771EF0>
+import 'bz2' # <_frozen_importlib.SourceFileLoader object at 0x02771E10>
+import 'shutil' # <_frozen_importlib.SourceFileLoader object at 0x02742770>
+# C:\Python33\lib\__pycache__\contextlib.cpython-33.pyc matches C:\Python33\lib\contextlib.py
+# code object from C:\Python33\lib\__pycache__\contextlib.cpython-33.pyc
+import 'contextlib' # <_frozen_importlib.SourceFileLoader object at 0x0277F7D0>
+# C:\Python33\lib\__pycache__\tempfile.cpython-33.pyc matches C:\Python33\lib\tempfile.py
+# code object from C:\Python33\lib\__pycache__\tempfile.cpython-33.pyc
+import 'tempfile' # <_frozen_importlib.SourceFileLoader object at 0x0277FBD0>
+# C:\Python33\lib\site-packages\numpy\testing\__pycache__\nosetester.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\testing\nosetester.py
+# code object from C:\Python33\lib\site-packages\numpy\testing\__pycache__\nosetester.cpython-33.pyc
+import 'numpy.testing.nosetester' # <_frozen_importlib.SourceFileLoader object at 0x02742470>
+import 'numpy.testing.utils' # <_frozen_importlib.SourceFileLoader object at 0x027423B0>
+import 'numpy.testing' # <_frozen_importlib.SourceFileLoader object at 0x026BBC30>
+import 'numpy.core' # <_frozen_importlib.SourceFileLoader object at 0x025F3B70>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\ufunclike.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\ufunclike.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\ufunclike.cpython-33.pyc
+import 'numpy.lib.ufunclike' # <_frozen_importlib.SourceFileLoader object at 0x025F3B50>
+import 'numpy.lib.type_check' # <_frozen_importlib.SourceFileLoader object at 0x02546FB0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\index_tricks.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\index_tricks.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\index_tricks.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\function_base.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\function_base.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\function_base.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\twodim_base.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\twodim_base.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\twodim_base.cpython-33.pyc
+import 'numpy.lib.twodim_base' # <_frozen_importlib.SourceFileLoader object at 0x0279FCF0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\utils.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\utils.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\utils.cpython-33.pyc
+import 'numpy.lib.utils' # <_frozen_importlib.SourceFileLoader object at 0x0279FD70>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\lib\\_compiled_base.pyd'
+import 'numpy.lib._compiled_base' # <_frozen_importlib.ExtensionFileLoader object at 0x027B9930>
+import 'numpy.lib.function_base' # <_frozen_importlib.SourceFileLoader object at 0x02791A50>
+# C:\Python33\lib\site-packages\numpy\matrixlib\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\matrixlib\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\matrixlib\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\matrixlib\__pycache__\defmatrix.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\matrixlib\defmatrix.py
+# code object from C:\Python33\lib\site-packages\numpy\matrixlib\__pycache__\defmatrix.cpython-33.pyc
+import 'numpy.matrixlib.defmatrix' # <_frozen_importlib.SourceFileLoader object at 0x0279FAD0>
+import 'numpy.matrixlib' # <_frozen_importlib.SourceFileLoader object at 0x0279FB10>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\stride_tricks.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\stride_tricks.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\stride_tricks.cpython-33.pyc
+import 'numpy.lib.stride_tricks' # <_frozen_importlib.SourceFileLoader object at 0x0279F650>
+import 'numpy.lib.index_tricks' # <_frozen_importlib.SourceFileLoader object at 0x026BB990>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\nanfunctions.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\nanfunctions.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\nanfunctions.cpython-33.pyc
+import 'numpy.lib.nanfunctions' # <_frozen_importlib.SourceFileLoader object at 0x025F3890>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\shape_base.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\shape_base.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\shape_base.cpython-33.pyc
+import 'numpy.lib.shape_base' # <_frozen_importlib.SourceFileLoader object at 0x025F3CF0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\scimath.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\scimath.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\scimath.cpython-33.pyc
+import 'numpy.lib.scimath' # <_frozen_importlib.SourceFileLoader object at 0x02791190>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\polynomial.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\polynomial.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\polynomial.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\linalg\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\linalg\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\linalg\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\linalg\__pycache__\info.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\linalg\info.py
+# code object from C:\Python33\lib\site-packages\numpy\linalg\__pycache__\info.cpython-33.pyc
+import 'numpy.linalg.info' # <_frozen_importlib.SourceFileLoader object at 0x02B72FB0>
+# C:\Python33\lib\site-packages\numpy\linalg\__pycache__\linalg.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\linalg\linalg.py
+# code object from C:\Python33\lib\site-packages\numpy\linalg\__pycache__\linalg.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\linalg\\lapack_lite.pyd'
+import 'numpy.linalg.lapack_lite' # <_frozen_importlib.ExtensionFileLoader object at 0x02B7C1D0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\linalg\\_umath_linalg.pyd'
+import 'numpy.linalg._umath_linalg' # <_frozen_importlib.ExtensionFileLoader object at 0x02B82430>
+import 'numpy.linalg.linalg' # <_frozen_importlib.SourceFileLoader object at 0x02B7C030>
+import 'numpy.linalg' # <_frozen_importlib.SourceFileLoader object at 0x02B72510>
+import 'numpy.lib.polynomial' # <_frozen_importlib.SourceFileLoader object at 0x027C07B0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\arraysetops.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\arraysetops.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\arraysetops.cpython-33.pyc
+import 'numpy.lib.arraysetops' # <_frozen_importlib.SourceFileLoader object at 0x02B72190>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\npyio.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\npyio.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\npyio.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\format.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\format.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\format.cpython-33.pyc
+import 'numpy.lib.format' # <_frozen_importlib.SourceFileLoader object at 0x02B8BBD0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\_datasource.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\_datasource.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\_datasource.cpython-33.pyc
+import 'numpy.lib._datasource' # <_frozen_importlib.SourceFileLoader object at 0x02B8B7D0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\_iotools.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\_iotools.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\_iotools.cpython-33.pyc
+import 'numpy.lib._iotools' # <_frozen_importlib.SourceFileLoader object at 0x02B973F0>
+import 'numpy.lib.npyio' # <_frozen_importlib.SourceFileLoader object at 0x02B7C290>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\financial.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\financial.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\financial.cpython-33.pyc
+import 'numpy.lib.financial' # <_frozen_importlib.SourceFileLoader object at 0x02B82510>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\arrayterator.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\arrayterator.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\arrayterator.cpython-33.pyc
+import 'numpy.lib.arrayterator' # <_frozen_importlib.SourceFileLoader object at 0x02B82AB0>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\arraypad.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\arraypad.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\arraypad.cpython-33.pyc
+import 'numpy.lib.arraypad' # <_frozen_importlib.SourceFileLoader object at 0x02B9F630>
+# C:\Python33\lib\site-packages\numpy\lib\__pycache__\_version.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\lib\_version.py
+# code object from C:\Python33\lib\site-packages\numpy\lib\__pycache__\_version.cpython-33.pyc
+import 'numpy.lib._version' # <_frozen_importlib.SourceFileLoader object at 0x02B9FC90>
+import 'numpy.lib' # <_frozen_importlib.SourceFileLoader object at 0x02546A30>
+import 'numpy.add_newdocs' # <_frozen_importlib.SourceFileLoader object at 0x02546770>
+# C:\Python33\lib\site-packages\numpy\fft\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\fft\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\fft\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\fft\__pycache__\info.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\fft\info.py
+# code object from C:\Python33\lib\site-packages\numpy\fft\__pycache__\info.cpython-33.pyc
+import 'numpy.fft.info' # <_frozen_importlib.SourceFileLoader object at 0x025E3F10>
+# C:\Python33\lib\site-packages\numpy\fft\__pycache__\fftpack.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\fft\fftpack.py
+# code object from C:\Python33\lib\site-packages\numpy\fft\__pycache__\fftpack.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\fft\\fftpack_lite.pyd'
+import 'numpy.fft.fftpack_lite' # <_frozen_importlib.ExtensionFileLoader object at 0x025E39D0>
+import 'numpy.fft.fftpack' # <_frozen_importlib.SourceFileLoader object at 0x025E3E50>
+# C:\Python33\lib\site-packages\numpy\fft\__pycache__\helper.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\fft\helper.py
+# code object from C:\Python33\lib\site-packages\numpy\fft\__pycache__\helper.cpython-33.pyc
+import 'numpy.fft.helper' # <_frozen_importlib.SourceFileLoader object at 0x025E3F50>
+import 'numpy.fft' # <_frozen_importlib.SourceFileLoader object at 0x025E3510>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\polynomial.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\polynomial.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\polynomial.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\polyutils.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\polyutils.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\polyutils.cpython-33.pyc
+import 'numpy.polynomial.polyutils' # <_frozen_importlib.SourceFileLoader object at 0x025F32F0>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\_polybase.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\_polybase.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\_polybase.cpython-33.pyc
+import 'numpy.polynomial._polybase' # <_frozen_importlib.SourceFileLoader object at 0x025F3450>
+import 'numpy.polynomial.polynomial' # <_frozen_importlib.SourceFileLoader object at 0x025F3590>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\chebyshev.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\chebyshev.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\chebyshev.cpython-33.pyc
+import 'numpy.polynomial.chebyshev' # <_frozen_importlib.SourceFileLoader object at 0x02BD4CF0>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\legendre.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\legendre.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\legendre.cpython-33.pyc
+import 'numpy.polynomial.legendre' # <_frozen_importlib.SourceFileLoader object at 0x02BD8570>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\hermite.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\hermite.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\hermite.cpython-33.pyc
+import 'numpy.polynomial.hermite' # <_frozen_importlib.SourceFileLoader object at 0x02BD8E70>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\hermite_e.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\hermite_e.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\hermite_e.cpython-33.pyc
+import 'numpy.polynomial.hermite_e' # <_frozen_importlib.SourceFileLoader object at 0x02BE26D0>
+# C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\laguerre.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\polynomial\laguerre.py
+# code object from C:\Python33\lib\site-packages\numpy\polynomial\__pycache__\laguerre.cpython-33.pyc
+import 'numpy.polynomial.laguerre' # <_frozen_importlib.SourceFileLoader object at 0x02BE28F0>
+import 'numpy.polynomial' # <_frozen_importlib.SourceFileLoader object at 0x025E3530>
+# C:\Python33\lib\site-packages\numpy\random\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\random\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\random\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\random\__pycache__\info.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\random\info.py
+# code object from C:\Python33\lib\site-packages\numpy\random\__pycache__\info.cpython-33.pyc
+import 'numpy.random.info' # <_frozen_importlib.SourceFileLoader object at 0x02C7E310>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\numpy\\random\\mtrand.pyd'
+import 'numpy.random.mtrand' # <_frozen_importlib.ExtensionFileLoader object at 0x02C7E5D0>
+import 'numpy.random' # <_frozen_importlib.SourceFileLoader object at 0x02C7E4B0>
+# C:\Python33\lib\site-packages\numpy\__pycache__\ctypeslib.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\ctypeslib.py
+# code object from C:\Python33\lib\site-packages\numpy\__pycache__\ctypeslib.cpython-33.pyc
+# C:\Python33\lib\ctypes\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\ctypes\__init__.py
+# code object from C:\Python33\lib\ctypes\__pycache__\__init__.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\DLLs\\_ctypes.pyd'
+import '_ctypes' # <_frozen_importlib.ExtensionFileLoader object at 0x02C87510>
+# C:\Python33\lib\ctypes\__pycache__\_endian.cpython-33.pyc matches C:\Python33\lib\ctypes\_endian.py
+# code object from C:\Python33\lib\ctypes\__pycache__\_endian.cpython-33.pyc
+import 'ctypes._endian' # <_frozen_importlib.SourceFileLoader object at 0x02C8DFB0>
+import 'ctypes' # <_frozen_importlib.SourceFileLoader object at 0x02C84E30>
+import 'numpy.ctypeslib' # <_frozen_importlib.SourceFileLoader object at 0x02C84850>
+# C:\Python33\lib\site-packages\numpy\ma\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\ma\__init__.py
+# code object from C:\Python33\lib\site-packages\numpy\ma\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\numpy\ma\__pycache__\core.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\ma\core.py
+# code object from C:\Python33\lib\site-packages\numpy\ma\__pycache__\core.cpython-33.pyc
+import 'numpy.ma.core' # <_frozen_importlib.SourceFileLoader object at 0x02C8D070>
+# C:\Python33\lib\site-packages\numpy\ma\__pycache__\extras.cpython-33.pyc matches C:\Python33\lib\site-packages\numpy\ma\extras.py
+# code object from C:\Python33\lib\site-packages\numpy\ma\__pycache__\extras.cpython-33.pyc
+import 'numpy.ma.extras' # <_frozen_importlib.SourceFileLoader object at 0x02C8D2B0>
+import 'numpy.ma' # <_frozen_importlib.SourceFileLoader object at 0x02C84910>
+import 'numpy' # <_frozen_importlib.SourceFileLoader object at 0x02541290>
+import 'pygame._numpysurfarray' # <_frozen_importlib.SourceFileLoader object at 0x025410F0>
+import 'pygame.surfarray' # <_frozen_importlib.SourceFileLoader object at 0x025253D0>
+# C:\Python33\lib\site-packages\pygame\__pycache__\sndarray.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\sndarray.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\sndarray.cpython-33.pyc
+# C:\Python33\lib\site-packages\pygame\__pycache__\_numpysndarray.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\_numpysndarray.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\_numpysndarray.cpython-33.pyc
+import 'pygame._numpysndarray' # <_frozen_importlib.SourceFileLoader object at 0x025417D0>
+import 'pygame.sndarray' # <_frozen_importlib.SourceFileLoader object at 0x025410B0>
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\pygame\\fastevent.pyd'
+import 'pygame.fastevent' # <_frozen_importlib.ExtensionFileLoader object at 0x02541850>
+import 'pygame' # <_frozen_importlib.SourceFileLoader object at 0x024B00F0>
+import 'BModules.reader' # <_frozen_importlib.SourceFileLoader object at 0x023C41B0>
+# F:\UrWorld\UrWorld _code\__pycache__\constantes.cpython-33.pyc matches F:\UrWorld\UrWorld _code\constantes.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\constantes.cpython-33.pyc
+import 'constantes' # <_frozen_importlib.SourceFileLoader object at 0x02541670>
+# possible namespace for F:\UrWorld\UrWorld _code\BModules
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\discussion.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\discussion.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\discussion.cpython-33.pyc
+# C:\Python33\lib\__pycache__\socket.cpython-33.pyc matches C:\Python33\lib\socket.py
+# code object from C:\Python33\lib\__pycache__\socket.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\DLLs\\_socket.pyd'
+import '_socket' # <_frozen_importlib.ExtensionFileLoader object at 0x02D62950>
+import 'socket' # <_frozen_importlib.SourceFileLoader object at 0x02D62090>
+# C:\Python33\lib\__pycache__\subprocess.cpython-33.pyc matches C:\Python33\lib\subprocess.py
+# code object from C:\Python33\lib\__pycache__\subprocess.cpython-33.pyc
+import 'gc' # <class '_frozen_importlib.BuiltinImporter'>
+import 'msvcrt' # <class '_frozen_importlib.BuiltinImporter'>
+import '_winapi' # <class '_frozen_importlib.BuiltinImporter'>
+import 'subprocess' # <_frozen_importlib.SourceFileLoader object at 0x02D62E70>
+# C:\Python33\lib\__pycache__\platform.cpython-33.pyc matches C:\Python33\lib\platform.py
+# code object from C:\Python33\lib\__pycache__\platform.cpython-33.pyc
+import 'platform' # <_frozen_importlib.SourceFileLoader object at 0x02D62ED0>
+# C:\Python33\lib\site-packages\pygame\__pycache__\locals.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\locals.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\locals.cpython-33.pyc
+import 'pygame.locals' # <_frozen_importlib.SourceFileLoader object at 0x02D64210>
+# C:\Python33\lib\tkinter\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\tkinter\__init__.py
+# code object from C:\Python33\lib\tkinter\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\tkinter\__pycache__\_fix.cpython-33.pyc matches C:\Python33\lib\tkinter\_fix.py
+# code object from C:\Python33\lib\tkinter\__pycache__\_fix.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\DLLs\\_tkinter.pyd'
+import '_tkinter' # <_frozen_importlib.ExtensionFileLoader object at 0x02E46810>
+import 'tkinter._fix' # <_frozen_importlib.SourceFileLoader object at 0x02DA4710>
+# C:\Python33\lib\tkinter\__pycache__\constants.cpython-33.pyc matches C:\Python33\lib\tkinter\constants.py
+# code object from C:\Python33\lib\tkinter\__pycache__\constants.cpython-33.pyc
+import 'tkinter.constants' # <_frozen_importlib.SourceFileLoader object at 0x02E469F0>
+import 'tkinter' # <_frozen_importlib.SourceFileLoader object at 0x02D64530>
+import 'BModules.discussion' # <_frozen_importlib.SourceFileLoader object at 0x02D55DB0>
+import 'commerces_p' # <_frozen_importlib.SourceFileLoader object at 0x023A0890>
+# F:\UrWorld\UrWorld _code\__pycache__\ombrage_bloc.cpython-33.pyc matches F:\UrWorld\UrWorld _code\ombrage_bloc.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\ombrage_bloc.cpython-33.pyc
+import 'ombrage_bloc' # <_frozen_importlib.SourceFileLoader object at 0x02D55770>
+# C:\Python33\lib\site-packages\pygame\__pycache__\pkgdata.cpython-33.pyc matches C:\Python33\lib\site-packages\pygame\pkgdata.py
+# code object from C:\Python33\lib\site-packages\pygame\__pycache__\pkgdata.cpython-33.pyc
+import 'pygame.pkgdata' # <_frozen_importlib.SourceFileLoader object at 0x02D944B0>
+import 'niveau' # <_frozen_importlib.SourceFileLoader object at 0x02416E10>
+# F:\UrWorld\UrWorld _code\__pycache__\gentest.cpython-33.pyc matches F:\UrWorld\UrWorld _code\gentest.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\gentest.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\__pycache__\structs.cpython-33.pyc matches F:\UrWorld\UrWorld _code\structs.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\structs.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\__pycache__\blocks.cpython-33.pyc matches F:\UrWorld\UrWorld _code\blocks.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\blocks.cpython-33.pyc
+import 'blocks' # <_frozen_importlib.SourceFileLoader object at 0x02E51690>
+# F:\UrWorld\UrWorld _code\__pycache__\conditions.cpython-33.pyc matches F:\UrWorld\UrWorld _code\conditions.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\conditions.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\__pycache__\properties.cpython-33.pyc matches F:\UrWorld\UrWorld _code\properties.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\properties.cpython-33.pyc
+import 'properties' # <_frozen_importlib.SourceFileLoader object at 0x02E51FF0>
+import 'conditions' # <_frozen_importlib.SourceFileLoader object at 0x02E51DB0>
+import 'structs' # <_frozen_importlib.SourceFileLoader object at 0x02E51090>
+import 'gentest' # <_frozen_importlib.SourceFileLoader object at 0x02E51030>
+# F:\UrWorld\UrWorld _code\__pycache__\jeu.cpython-33.pyc matches F:\UrWorld\UrWorld _code\jeu.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\jeu.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\__pycache__\mobs.cpython-33.pyc matches F:\UrWorld\UrWorld _code\mobs.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\mobs.cpython-33.pyc
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\GIFImage.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\GIFImage.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\GIFImage.cpython-33.pyc
+import 'BModules.GIFImage' # <_frozen_importlib.SourceFileLoader object at 0x02E68AF0>
+import 'mobs' # <_frozen_importlib.SourceFileLoader object at 0x02E680B0>
+# F:\UrWorld\UrWorld _code\__pycache__\mana.cpython-33.pyc matches F:\UrWorld\UrWorld _code\mana.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\mana.cpython-33.pyc
+import 'mana' # <_frozen_importlib.SourceFileLoader object at 0x02E68470>
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\tree.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\tree.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\tree.cpython-33.pyc
+import 'BModules.tree' # <_frozen_importlib.SourceFileLoader object at 0x02E6BC50>
+# C:\Python33\lib\tkinter\__pycache__\messagebox.cpython-33.pyc matches C:\Python33\lib\tkinter\messagebox.py
+# code object from C:\Python33\lib\tkinter\__pycache__\messagebox.cpython-33.pyc
+# C:\Python33\lib\tkinter\__pycache__\commondialog.cpython-33.pyc matches C:\Python33\lib\tkinter\commondialog.py
+# code object from C:\Python33\lib\tkinter\__pycache__\commondialog.cpython-33.pyc
+import 'tkinter.commondialog' # <_frozen_importlib.SourceFileLoader object at 0x02E6D630>
+import 'tkinter.messagebox' # <_frozen_importlib.SourceFileLoader object at 0x02E6D030>
+# C:\Python33\lib\tkinter\__pycache__\filedialog.cpython-33.pyc matches C:\Python33\lib\tkinter\filedialog.py
+# code object from C:\Python33\lib\tkinter\__pycache__\filedialog.cpython-33.pyc
+# C:\Python33\lib\tkinter\__pycache__\dialog.cpython-33.pyc matches C:\Python33\lib\tkinter\dialog.py
+# code object from C:\Python33\lib\tkinter\__pycache__\dialog.cpython-33.pyc
+import 'tkinter.dialog' # <_frozen_importlib.SourceFileLoader object at 0x02E7D290>
+import 'tkinter.filedialog' # <_frozen_importlib.SourceFileLoader object at 0x02E6D4D0>
+# F:\UrWorld\UrWorld _code\__pycache__\ia.cpython-33.pyc matches F:\UrWorld\UrWorld _code\ia.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\ia.cpython-33.pyc
+import 'ia' # <_frozen_importlib.SourceFileLoader object at 0x02E6DB10>
+# F:\UrWorld\UrWorld _code\__pycache__\life.cpython-33.pyc matches F:\UrWorld\UrWorld _code\life.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\life.cpython-33.pyc
+import 'life' # <_frozen_importlib.SourceFileLoader object at 0x02E7D430>
+# C:\Python33\lib\tkinter\__pycache__\colorchooser.cpython-33.pyc matches C:\Python33\lib\tkinter\colorchooser.py
+# code object from C:\Python33\lib\tkinter\__pycache__\colorchooser.cpython-33.pyc
+import 'tkinter.colorchooser' # <_frozen_importlib.SourceFileLoader object at 0x02E7D410>
+# F:\UrWorld\UrWorld _code\__pycache__\bdd_co.cpython-33.pyc matches F:\UrWorld\UrWorld _code\bdd_co.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\bdd_co.cpython-33.pyc
+import 'bdd_co' # <_frozen_importlib.SourceFileLoader object at 0x02E7D570>
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\progress_bar.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\progress_bar.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\progress_bar.cpython-33.pyc
+import 'BModules.progress_bar' # <_frozen_importlib.SourceFileLoader object at 0x02E7D950>
+# F:\UrWorld\UrWorld _code\BModules\__pycache__\trois_d_mod.cpython-33.pyc matches F:\UrWorld\UrWorld _code\BModules\trois_d_mod.py
+# code object from F:\UrWorld\UrWorld _code\BModules\__pycache__\trois_d_mod.cpython-33.pyc
+# C:\Python33\lib\site-packages\visual\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\visual\__init__.py
+# code object from C:\Python33\lib\site-packages\visual\__pycache__\__init__.cpython-33.pyc
+# C:\Python33\lib\site-packages\visual\__pycache__\visual_all.cpython-33.pyc matches C:\Python33\lib\site-packages\visual\visual_all.py
+# code object from C:\Python33\lib\site-packages\visual\__pycache__\visual_all.cpython-33.pyc
+# C:\Python33\lib\site-packages\vis\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\__init__.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\__init__.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\vis\\cvisual.pyd'
+import 'vis.cvisual' # <_frozen_importlib.ExtensionFileLoader object at 0x02EDDC50>
+# C:\Python33\lib\site-packages\vis\__pycache__\primitives.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\primitives.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\primitives.cpython-33.pyc
+# C:\Python33\lib\site-packages\Polygon\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\Polygon\__init__.py
+# code object from C:\Python33\lib\site-packages\Polygon\__pycache__\__init__.cpython-33.pyc
+# extension module loaded from 'C:\\Python33\\lib\\site-packages\\Polygon\\cPolygon.pyd'
+import 'Polygon.cPolygon' # <_frozen_importlib.ExtensionFileLoader object at 0x02F06110>
+import 'Polygon' # <_frozen_importlib.SourceFileLoader object at 0x02EF2C10>
+# C:\Python33\lib\site-packages\vis\__pycache__\shapes.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\shapes.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\shapes.cpython-33.pyc
+# C:\Python33\lib\site-packages\Polygon\__pycache__\Shapes.cpython-33.pyc matches C:\Python33\lib\site-packages\Polygon\Shapes.py
+# code object from C:\Python33\lib\site-packages\Polygon\__pycache__\Shapes.cpython-33.pyc
+import 'Polygon.Shapes' # <_frozen_importlib.SourceFileLoader object at 0x02F06650>
+# C:\Python33\lib\site-packages\ttfquery\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\ttfquery\__init__.py
+# code object from C:\Python33\lib\site-packages\ttfquery\__pycache__\__init__.cpython-33.pyc
+import 'ttfquery' # <_frozen_importlib.SourceFileLoader object at 0x02F06F90>
+# C:\Python33\lib\site-packages\ttfquery\__pycache__\describe.cpython-33.pyc matches C:\Python33\lib\site-packages\ttfquery\describe.py
+# code object from C:\Python33\lib\site-packages\ttfquery\__pycache__\describe.cpython-33.pyc
+# C:\Python33\lib\site-packages\FontTools\fontTools\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\FontTools\fontTools\__init__.py
+# code object from C:\Python33\lib\site-packages\FontTools\fontTools\__pycache__\__init__.cpython-33.pyc
+import 'fontTools' # <_frozen_importlib.SourceFileLoader object at 0x02F4D050>
+# C:\Python33\lib\site-packages\FontTools\fontTools\ttLib\__pycache__\__init__.cpython-33.pyc matches C:\Python33\lib\site-packages\FontTools\fontTools\ttLib\__init__.py
+# code object from C:\Python33\lib\site-packages\FontTools\fontTools\ttLib\__pycache__\__init__.cpython-33.pyc
+import 'fontTools.ttLib' # <_frozen_importlib.SourceFileLoader object at 0x02F4D1F0>
+import 'ttfquery.describe' # <_frozen_importlib.SourceFileLoader object at 0x02F0F5D0>
+# C:\Python33\lib\site-packages\ttfquery\__pycache__\glyphquery.cpython-33.pyc matches C:\Python33\lib\site-packages\ttfquery\glyphquery.py
+# code object from C:\Python33\lib\site-packages\ttfquery\__pycache__\glyphquery.cpython-33.pyc
+import 'ttfquery.glyphquery' # <_frozen_importlib.SourceFileLoader object at 0x02F56630>
+# C:\Python33\lib\site-packages\ttfquery\__pycache__\glyph.cpython-33.pyc matches C:\Python33\lib\site-packages\ttfquery\glyph.py
+# code object from C:\Python33\lib\site-packages\ttfquery\__pycache__\glyph.cpython-33.pyc
+import 'ttfquery.glyph' # <_frozen_importlib.SourceFileLoader object at 0x02F568B0>
+import 'vis.shapes' # <_frozen_importlib.SourceFileLoader object at 0x02F062F0>
+# C:\Python33\lib\site-packages\vis\__pycache__\crayola.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\crayola.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\crayola.cpython-33.pyc
+# C:\Python33\lib\__pycache__\colorsys.cpython-33.pyc matches C:\Python33\lib\colorsys.py
+# code object from C:\Python33\lib\__pycache__\colorsys.cpython-33.pyc
+import 'colorsys' # <_frozen_importlib.SourceFileLoader object at 0x02F56CB0>
+import 'vis.crayola' # <_frozen_importlib.SourceFileLoader object at 0x02F56BD0>
+import 'vis.primitives' # <_frozen_importlib.SourceFileLoader object at 0x02EF2030>
+# C:\Python33\lib\site-packages\vis\__pycache__\ui.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\ui.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\ui.cpython-33.pyc
+# C:\Python33\lib\site-packages\vis\__pycache__\materials.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\materials.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\materials.cpython-33.pyc
+C:\Python33\lib\site-packages\vis\materials.py:70: FutureWarning: comparison to `None` will result in an elementwise object comparison in the future.
+  self.__setattr__(key, value)
+import 'vis.materials' # <_frozen_importlib.SourceFileLoader object at 0x02F6B0B0>
+import 'vis.ui' # <_frozen_importlib.SourceFileLoader object at 0x02F56E50>
+# C:\Python33\lib\site-packages\vis\__pycache__\site_settings.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\site_settings.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\site_settings.cpython-33.pyc
+import 'vis.site_settings' # <_frozen_importlib.SourceFileLoader object at 0x02F56DD0>
+import 'vis' # <_frozen_importlib.SourceFileLoader object at 0x02E7DE90>
+# C:\Python33\lib\site-packages\vis\__pycache__\paths.cpython-33.pyc matches C:\Python33\lib\site-packages\vis\paths.py
+# code object from C:\Python33\lib\site-packages\vis\__pycache__\paths.cpython-33.pyc
+import 'vis.paths' # <_frozen_importlib.SourceFileLoader object at 0x02E7DCD0>
+import 'visual.visual_all' # <_frozen_importlib.SourceFileLoader object at 0x02E7DA10>
+import 'visual' # <_frozen_importlib.SourceFileLoader object at 0x02E7D770>
+import 'BModules.trois_d_mod' # <_frozen_importlib.SourceFileLoader object at 0x02E7D5F0>
+# F:\UrWorld\UrWorld _code\__pycache__\items.cpython-33.pyc matches F:\UrWorld\UrWorld _code\items.py
+# code object from F:\UrWorld\UrWorld _code\__pycache__\items.cpython-33.pyc
+import 'items' # <_frozen_importlib.SourceFileLoader object at 0x02E7D790>
+# F:\UrWorld\UrWorld _code\Mods\__pycache__\__init__.cpython-33.pyc matches F:\UrWorld\UrWorld _code\Mods\__init__.py
+# code object from F:\UrWorld\UrWorld _code\Mods\__pycache__\__init__.cpython-33.pyc
+import 'Mods' # <_frozen_importlib.SourceFileLoader object at 0x02E7DFF0>
+import 'jeu' # <_frozen_importlib.SourceFileLoader object at 0x02E51ED0>
+Création des miniatures ...
+Lancement du programme . . .
+Début de la génération ...
+>>  0 minutes  0 secondes.
+Fin de la génération !
+equipement_en_cours.sav >>> Chargé !
+
+monnaie.sav >>> Chargé !
+
+bloc.sav >>> Chargé !
+
+niveau.sav >>> Chargé !
+
+pos.sav >>> Chargé !
+
+fov.sav >>> Chargé !
+
+mana.sav >>> Chargé !
+
+couleur.sav >>> Chargé !
+
+ombres.sav >>> Chargé !
+
+teleporteurs.sav >>> Chargé !
+
+
+
+********************************** SAUVEGARDE **********************************
+
+Sauvegarde réussie !
+
+
+Python 3.3.5 (v3.3.5:62cf4e77f785, Mar  9 2014, 10:37:12) [MSC v.1600 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+# cleanup[2] struct
+# cleanup[2] visual.visual_all
+# cleanup[2] vis.materials
+# cleanup[2] copy
+# cleanup[2] _tkinter
+# cleanup[2] encodings.latin_1
+# cleanup[2] encodings.aliases
+# cleanup[2] pygame._numpysurfarray
+# cleanup[2] pygame.fastevent
+# cleanup[2] vis.ui
+# cleanup[2] numpy.lib.arrayterator
+# cleanup[2] numpy.compat.py3k
+# cleanup[2] numpy.lib.scimath
+# cleanup[2] contextlib
+# cleanup[2] numpy.compat
+# cleanup[2] _io
+# cleanup[2] vis.cvisual
+# cleanup[2] numpy.polynomial._polybase
+# cleanup[2] pygame
+# cleanup[2] numpy.version
+# cleanup[2] pygame.movie
+# cleanup[2] pygame.sndarray
+# cleanup[2] numpy.core.arrayprint
+# cleanup[2] _pickle
+# cleanup[2] posixpath
+# cleanup[2] pygame.mixer_music
+# cleanup[2] encodings.cp850
+# cleanup[2] io
+# cleanup[2] signal
+# cleanup[2] pygame.draw
+# cleanup[2] numpy.matrixlib.defmatrix
+# cleanup[2] _bz2
+# cleanup[2] pygame.transform
+# cleanup[2] msvcrt
+# cleanup[2] numpy.linalg
+# cleanup[2] pygame.math
+# cleanup[2] numpy.polynomial.laguerre
+# cleanup[2] numpy.lib._iotools
+# cleanup[2] pygame.color
+# cleanup[2] pygame.font
+# cleanup[2] numpy.lib.financial
+# cleanup[2] numpy.linalg.linalg
+# cleanup[2] _random
+# cleanup[2] pygame.sprite
+# cleanup[2] pygame.compat
+# cleanup[2] numpy.polynomial.legendre
+# cleanup[2] pygame.event
+# cleanup[2] ctypes
+# cleanup[2] numpy.ma
+# cleanup[2] numpy.linalg.lapack_lite
+# cleanup[2] numpy.lib.type_check
+# cleanup[2] numpy.matrixlib
+# cleanup[2] pygame._numpysndarray
+# cleanup[2] _collections
+# cleanup[2] os.path
+# cleanup[2] time
+# cleanup[2] numpy.random.info
+# cleanup[2] numpy.testing.utils
+# cleanup[2] pygame.rwobject
+# cleanup[2] numpy.core._dotblas
+# cleanup[2] numpy.fft.info
+# cleanup[2] pygame.scrap
+# cleanup[2] _locale
+# cleanup[2] linecache
+# cleanup[2] numpy._import_tools
+# cleanup[2] codecs
+# cleanup[2] numpy.polynomial.chebyshev
+# cleanup[2] locale
+# cleanup[2] types
+# cleanup[2] pygame.locals
+# cleanup[2] vis.crayola
+# cleanup[2] pygame.pkgdata
+# cleanup[2] sre_compile
+# cleanup[2] numpy.core.shape_base
+# cleanup[2] pygame.colordict
+# cleanup[2] numpy.random.mtrand
+# cleanup[2] numpy.core._methods
+# cleanup[2] numpy.lib.utils
+# cleanup[2] numpy.core.numerictypes
+# cleanup[2] vis.primitives
+# cleanup[2] math
+# cleanup[2] numpy.polynomial.hermite
+# cleanup[2] heapq
+# cleanup[2] pygame.bufferproxy
+# cleanup[2] conditions
+# cleanup[2] numpy.lib.ufunclike
+# cleanup[2] warnings
+# cleanup[2] pygame.surface
+# cleanup[2] numpy.lib.index_tricks
+# cleanup[2] numpy.lib.polynomial
+# cleanup[2] collections.abc
+# cleanup[2] genericpath
+# cleanup[2] _string
+# cleanup[2] numpy.core.scalarmath
+# cleanup[2] numbers
+# cleanup[2] numpy.fft.fftpack
+# cleanup[2] _heapq
+# cleanup[2] numpy.ctypeslib
+# cleanup[2] encodings.mbcs
+# cleanup[2] _imp
+# cleanup[2] importlib.machinery
+# cleanup[2] errno
+# cleanup[2] numpy.lib.nanfunctions
+# cleanup[2] ctypes._endian
+# cleanup[2] pygame.mixer
+# cleanup[2] pygame.threads
+# cleanup[2] numpy.__config__
+# cleanup[2] _frozen_importlib
+# cleanup[2] numpy.lib
+# cleanup[2] numpy.linalg._umath_linalg
+# cleanup[2] vis.site_settings
+# cleanup[2] numpy.lib.npyio
+# cleanup[2] _struct
+# cleanup[2] sre_parse
+# cleanup[2] numpy.lib.arraypad
+# cleanup[2] atexit
+# cleanup[2] numpy.core.getlimits
+# cleanup[2] pygame.constants
+# cleanup[2] pygame.base
+# cleanup[2] numpy.core._internal
+# cleanup[2] fnmatch
+# cleanup[2] numpy.polynomial.polynomial
+# cleanup[2] numpy.core.machar
+# cleanup[2] zlib
+# cleanup[2] numpy.lib._datasource
+# cleanup[2] numpy.testing.nosetester
+# cleanup[2] importlib._bootstrap
+# cleanup[2] numpy.polynomial.hermite_e
+# cleanup[2] random
+# cleanup[2] structs
+# cleanup[2] nt
+# cleanup[2] numpy.fft
+# cleanup[2] pygame.display
+# cleanup[2] shutil
+# cleanup[2] pygame.surflock
+# cleanup[2] numpy.lib._compiled_base
+# cleanup[2] functools
+# cleanup[2] fontTools.ttLib
+# cleanup[2] abc
+# cleanup[2] tarfile
+# cleanup[2] pygame.joystick
+# cleanup[2] _sre
+# cleanup[2]# clear builtins._
+# clear sys.path
+# clear sys.argv
+# clear sys.ps1
+# clear sys.ps2
+# clear sys.last_type
+# clear sys.last_value
+# clear sys.last_traceback
+# clear sys.path_hooks
+# clear sys.path_importer_cache
+# clear sys.meta_path
+# clear sys.flags
+# clear sys.float_info
+# restore sys.stdin
+# restore sys.stdout
+# restore sys.stderr
+# cleanup __main__
+# cleanup[1] fontTools
+# cleanup[1] PIL
+# cleanup[1] unittest.main
+# cleanup[1] hashlib
+# cleanup[1] bdd_co
+# cleanup[1] tempfile
+# cleanup[1] commerces_p
+# cleanup[1] life
+# cleanup[1] Mods
+# cleanup[1] queue
+# cleanup[1] PIL.PpmImagePlugin
+# cleanup[1] sre_constants
+# cleanup[1] importlib
+# cleanup[1] __future__
+# cleanup[1] unittest
+# cleanup[1] unittest.runner
+# cleanup[1] site
+# cleanup[1] gentest
+# cleanup[1] PIL.BmpImagePlugin
+# cleanup[1] unittest.loader
+# cleanup[1] token
+# cleanup[1] unittest.suite
+# cleanup[1] reprlib
+# cleanup[1] numpy.lib.info
+# cleanup[1] sysconfig
+# cleanup[1] optparse
+# cleanup[1] keyword
+# cleanup[1] _weakrefset
+# cleanup[1] unittest.signals
+# cleanup[1] jeu
+# cleanup[1] niveau
+# cleanup[1] unittest.case
+# cleanup[1] Polygon
+# cleanup[1] PIL.GifImagePlugin
+# cleanup[1] datetime
+# cleanup[1] PIL.PngImagePlugin
+# cleanup[1] gettext
+# cleanup[1] ombrage_bloc
+# cleanup[1] unittest.result
+# cleanup[1] blocks
+# cleanup[1] ia
+# cleanup[1] items
+# cleanup[1] PIL.JpegImagePlugin
+# cleanup[1] bz2
+# cleanup[1] ttfquery
+# cleanup[1] numpy.core.memmap
+# cleanup[1] PIL.JpegPresets
+# cleanup[1] mana
+# cleanup[1] PIL._util
+# cleanup[1] BModules
+# cleanup[1] BModules.trois_d_mod
+# cleanup[1] unittest.util
+# cleanup[1] mobs
+# cleanup[1] Polygon.Shapes
+# cleanup[1] PIL.TiffImagePlugin
+# cleanup[1] BModules.GIFImage
+# cleanup[1] PIL.ImagePalette
+# cleanup[1] BModules.discussion
+# cleanup[1] platform
+# cleanup[1] tkinter
+# cleanup[1] tkinter._fix
+# cleanup[1] pprint
+# cleanup[1] PIL.ImageColor
+# cleanup[1] tkinter.filedialog
+# cleanup[1] difflib
+# cleanup[1] constantes
+# cleanup[1] BModules.tree
+# cleanup[1] BModules.reader
+# cleanup[1] PIL._binary
+# cleanup[1] BModules.progress_bar
+# cleanup[1] PIL.ImageFile
+# cleanup[1] tkinter.colorchooser
+# cleanup[1] tkinter.dialog
+# cleanup[1] tkinter.commondialog
+# cleanup[1] socket
+# cleanup[1] subprocess
+# cleanup[1] tkinter.messagebox
+# cleanup[1] textwrap
+# cleanup[1] tkinter.constants
+# cleanup[1] PIL.Image
+# cleanup[1] PIL.ImageMode
+# cleanup[2] pygame.mask
+# cleanup[2] ntpath
+# cleanup[2] pygame.image
+# cleanup[2] ttfquery.glyph
+# cleanup[2] numpy.compat._inspect
+# cleanup[2] pygame.pixelcopy
+# cleanup[2] _weakref
+# cleanup[2] imp
+# cleanup[2] ttfquery.glyphquery
+# cleanup[2] _socket
+# cleanup[2] numpy.fft.helper
+# cleanup[2] numpy.core.info
+# cleanup[2] copyreg
+# cleanup[2] numpy.testing.decorators
+# cleanup[2] gc
+# cleanup[2] numpy.core.multiarray
+# cleanup[2] numpy.lib._version
+# cleanup[2] pygame.pixelarray
+# cleanup[2] encodings.utf_8
+# cleanup[2] numpy.lib.stride_tricks
+# cleanup[2] _warnings
+# cleanup[2] numpy.ma.core
+# cleanup[2] numpy.random
+# cleanup[2] numpy.lib.format
+# cleanup[2] operator
+# cleanup[2] _winapi
+# cleanup[2] numpy.polynomial.polyutils
+# cleanup[2] zipimport
+# cleanup[2] pygame.cursors
+# cleanup[2] numpy.fft.fftpack_lite
+# cleanup[2] os
+# cleanup[2] colorsys
+# cleanup[2] numpy.lib.function_base
+# cleanup[2] pygame.rect
+# cleanup[2] PIL._imaging
+# cleanup[2] _thread
+# cleanup[2] itertools
+# cleanup[2] re
+# cleanup[2] encodings
+# cleanup[2] vis
+# cleanup[2] numpy.ma.extras
+# cleanup[2] pickle
+# cleanup[2] _ctypes
+# cleanup[2] numpy.core.numeric
+# cleanup[2] weakref
+# cleanup[2] marshal
+# cleanup[2] numpy
+# cleanup[2] pygame.overlay
+# cleanup[2] winreg
+# cleanup[2] vis.paths
+# cleanup[2] tokenize
+# cleanup[2] glob
+# cleanup[2] _compat_pickle
+# cleanup[2] pygame.version
+# cleanup[2] encodings.cp1252
+ numpy.core.function_base
+# cleanup[2] numpy.core.defchararray
+# cleanup[2] numpy.core.records
+# cleanup[2] numpy.lib.arraysetops
+# cleanup[2] numpy.lib.twodim_base
+# cleanup[2] pygame.cdrom
+# cleanup[2] visual
+# cleanup[2] numpy.core
+# cleanup[2] _functools
+# cleanup[2] numpy.testing
+# cleanup[2] array
+# cleanup[2] mtrand
+# cleanup[2] pygame.sysfont
+# cleanup[2] numpy.core.fromnumeric
+# cleanup[2] _hashlib
+# cleanup[2] pygame.time
+# cleanup[2] pygame.mouse
+# cleanup[2] traceback
+# cleanup[2] properties
+# cleanup[2] string
+# cleanup[2] Polygon.cPolygon
+# cleanup[2] numpy.polynomial
+# cleanup[2] pygame.surfarray
+# cleanup[2] _codecs
+# cleanup[2] pygame.imageext
+# cleanup[2] numpy.linalg.info
+# cleanup[2] _datetime
+# cleanup[2] stat
+# cleanup[2] threading
+# cleanup[2] numpy.lib.shape_base
+# cleanup[2] vis.shapes
+# cleanup[2] collections
+# cleanup[2] pygame.key
+# cleanup[2] numpy.core.umath
+# cleanup[2] ttfquery.describe
+# cleanup[2] numpy.add_newdocs
+# cleanup sys
+# cleanup builtins

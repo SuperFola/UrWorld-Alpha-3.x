@@ -1,0 +1,41 @@
+vide
+
+BOIS
+planches (mur)
+planches claires
+planches foncées
+demi dalle bois
+demi dalle claire
+demi dalle foncée
+
+AQUATIQUE
+eau
+sable
+
+COMPLEXES / INCLASSABLES
+bibliothèques
+toit
+semi_transparent : verre à la minecraft
+semi_transparent : verre bleu
+semi_transparent : verre jaune
+semi_transparent : verre vert
+semi_transparent : verre rouge
+briques
+
+NATUREL
+herbe
+-neige
+-fleurs bleues
+-fleurs rouges
+-fleurs jaunes
+-champignon
+-champignon rouge
+
+MINERAIS
+minerai d'or
+minerai de charbon
+minerai de diamant
+minerai d'émeraude
+minerai de rubis
+pierre
+demi dalle pierre

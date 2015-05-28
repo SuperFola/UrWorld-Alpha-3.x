@@ -1,0 +1,37 @@
+Clavier :
+'Up' : permet de monter
+'Down' : permet de descendre
+'Left' : permet d'aller à gauche
+'Right' : permet d'aller à droite
+'0' : ouvre l'invite pour le tchat
+'1' : bloc courant -> "Biblitohèque"
+'2' : bloc courant -> "Planches"
+'3' : bloc courant -> "Toit"
+'4' : bloc courant -> "Sable"
+'5' : bloc courant -> "Eau"
+'6' : bloc courant -> "Pierre"
+'7' : bloc courant -> "Herbe"
+'8' : bloc courant -> "Minerai d'or"
+'9' : bloc courant -> "Vide"
+'SHIFT' : ouvre l'inventaire
+'SPACE' : permet de sauter
+'ECHAP' : sauvegarder et revient au
+    menu
+'RETURN' : permet de courir ou non
+'Y' : permet de changer de shader
+'P' : (en réseau) affiche ou non les
+    joueurs
+'T' : change le type du curseur
+'I' : active la musique ou non
+'O' : passe en mode créatif ou non
+'D' : permet de parler à quelqu'un
+'E' : change la taille du FOV
+'U' : passe de FULLSCREEN à WINDOWED
+Souris :
+'molette' : permet de changer de
+    bloc courant
+'left clic' : pose un bloc
+'right clic' utilise l'effet associé
+    à un bloc si il y en a un
+'molette clic' : sélectionne le bloc
+    sous le pointeur

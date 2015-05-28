@@ -1,0 +1,12 @@
+Logo     'UrWorld' fait par NeoBlast.
+Images   (des personnages) faites par Jérémy / Manyrio.
+Images   (des niveaux, sprites des blocks) faites par Jérémy / Manyrio.
+Sons     (courts) trouves sur FindSound.
+Musiques (Forest_Maze_Symphony) faites par Mephiles200108420, copyright Nintendo (c).
+
+Merci a josmiley sans qui le jeu n'aurait pas pu voir le jour en FULLSCREEN.
+Merci aussi a AlphaZeta546 grace a qui le scrolling horizontal a pu naitre.
+
+Jeu (idee, code) faits par Folaefolc.
+
+Tous droits reserves a Kubiangle (c)(r)tm et a Folaefolc.

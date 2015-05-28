@@ -1,0 +1,7 @@
+{0} est un jeune garçon de 16ans, et comme tout adolescent, il aime se balader avec ses amis, à l'écart de sa maison. Sa vie bascula le jour où, en s'aventurant dans une forêt interdite, il découvrit le plan machiavélique du Dr. {1}, qui souhaitait assembler les pierres primales dans le but d'anéantir le monde, et lui déroba l'une des pierres !
+                           ---
+Il existe trois pierres primales: Hydra, Pyro, et Sylvestra. Chacune de ces pierres confère au porteur le pouvoir associé à cette pierre.
+Ces artefacts sont en réalité des fragments de l'Orbe, un objet magique d'origine divine qui aurait le pouvoir de créer la vie ... mais aussi d'engendrer la mort ...
+On raconte qu'elle a été brisée en trois pierres lors d'une bataille entre Anemos et Pedion, les créateurs du Monde (accessoirement frère et soeur belliqueux et adversaires).
+                           ---
+Dispersées aux quatre coins du monde, {0} devra se frayer un chemin à travers des chemins hostiles et inconnus, et faire face aux créatures du Dr. {1}, pour finalement réunir les pierres primales afin de rétablir l'Orbe pour le deux divinités, ainsi privant le Dr. {1} d'asseoir son pouvoir tyrannique.

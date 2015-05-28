@@ -1,0 +1,3 @@
+Vous êtes mort !
+Par chance, vous n'avez pas perdu votre inventaire, un habitant d'UrWorld l'a récupéré pour vous de manière à ce que personne ne vous le vole.
+La prochaine fois faites attention avant de vous téléporter ou de vous déplacer : vous pourriez tomber !
