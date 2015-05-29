@@ -13,7 +13,6 @@ import os
 import glob
 from math import ceil
 
-
 class Blocks:
     def __init__(self):
         self.blocs = {}

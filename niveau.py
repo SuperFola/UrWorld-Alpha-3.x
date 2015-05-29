@@ -739,7 +739,7 @@ class LANMap(Carte):
     def collide(self, x, y):
         collision = False
         x -= self.fov[0]
-        if y >= 0 and y <= self.y_max and x >= 0 and x <= self.x_max:
+        if 0 <= y <= self.y_max and 0 <= x <= self.x_max:
             if self.carte[y][x] in self.collision_bloc and self.carte[y][x] != './':
                 collision = True
             else:

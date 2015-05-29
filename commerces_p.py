@@ -143,69 +143,6 @@ def message_affiche_large(message, fenetre, rcenter):
                 sys.exit()
 
 
-def vente(rcenter, fenetre, liste_prix, nom, blocs_, img_tous_blocs):
-    pygame.font.init()
-    font = pygame.font.Font("freesansbold.otf", 9)
-    liste_blocs = [
-        "q", "m", "t",
-        "d", "e", "s",
-        "h", "a", "r",
-        "y", "u", "i",
-        "M", "v", "l",
-        "k", "g", "f",
-        "x", "b", "n",
-        "?", ".", "/"]
-    monnaie_ajout = 0
-    quantite = 0
-    continuer = 1
-    num_choix = 0
-    choix_fait = False
-    while continuer:
-        pygame.time.Clock().tick(120)
-        pygame.draw.rect(fenetre, (20, 20, 20), (10, 10, 580, 440))
-        pygame.draw.rect(fenetre, (20, 180, 20), (290, 290, 19, 10))
-        fenetre.blit(font.render("Valider", 1, (240, 240, 240)), (291, 291))
-        fenetre.blit(
-            font.render("Nombre de ventes : maximum (toutes les occurences du bloc seront vendus)", 1, (240, 240, 240)),
-            (10, 585))
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE or event.key == K_F4:
-                    sys.exit()
-            elif event.type == MOUSEBUTTONDOWN:
-                if event.button == 5:  # la molette descend
-                    if num_choix - 1 >= 0:
-                        num_choix -= 1
-                    elif num_choix == 0:
-                        num_choix = len(nom)  # donc le dernier élément
-                    else:
-                        num_choix = 0
-                elif event.button == 5:  # la molette monte
-                    if num_choix + 1 > len(nom):
-                        num_choix = 0
-                    elif num_choix + 1 < len(nom):
-                        num_choix += 1
-                elif event.button == 1:  # clic gauche
-                    if event.pos[0] >= 600 - 9 and event.pos[0] <= 600 - 9 + 19 \
-                            and event.pos[1] >= 600 - 9 and event.pos[1] <= 600 - 9 + 10:
-                        choix_fait = True
-        if choix_fait:
-            pygame.draw.rect(fenetre, (20, 180, 20), (400, 300 - 225, 16, 10))
-            fenetre.blit(font.render(quantite, 1, (10, 10, 10)), (402, 300 + 2))
-            pygame.display.flip()
-            continuer = 0
-        fenetre.blit(img_tous_blocs[liste_blocs[num_choix]], (34, 300))
-        pygame.display.flip()
-
-    monnaie_ajout = blocs_[liste_blocs[num_choix]]
-    blocs_[liste_blocs[num_choix]] = 0
-
-    with open("Parties" + os.sep + "bloc.sav", "wb+") as bloc_save:
-        mon_pickler = pickle.Pickler(bloc_save)
-        mon_pickler.dump(blocs_)
-    return monnaie_ajout * liste_prix[liste_blocs[num_choix]]
-
-
 def passant_parle(fenetre, situation_actuelle, personnage, structure, monnaie, rcenter, img_tous_blocs, fov):
     """
     Les personnages sont symbolisés par :
