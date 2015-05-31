@@ -11,6 +11,8 @@ from jeu import *
 import sys
 import traceback
 import pdb
+from compressor import Compressor
+
 
 def pdb_post_mortem(exc_type, exc_val, exc_tb):
     # On affiche l'exception histoire de savoir ce qu'on debug
@@ -19,7 +21,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
     # malgré le fait que le programme ne marche plus, donnant accès
     # au contexte qu'il y avait juste avant que ça foire
     pdb.post_mortem(exc_tb)
-    input("Appuyez sur Entrer pour terminer le programme ...")
+
 
 # On dit à python de lancer cette fonction quand il plante
 sys.excepthook = pdb_post_mortem
@@ -62,9 +64,9 @@ largeur_dispo = cst.taille_fenetre_largeur_win
 pas_de_partie = True
 
 # Pas_de_partie changement d'affectation:
-if os.path.exists("Parties" + os.sep + "boubouilles.sav") and os.path.exists("Parties" + os.sep + "dossier.sav"):
+if os.path.exists("Parties" + os.sep + "dossier.sav"):
     pas_de_partie = False
-elif not os.path.exists("Parties" + os.sep + "boubouilles.sav"):
+else:
     pas_de_partie = True
 
 
@@ -112,8 +114,8 @@ def map_generator():
             for x, elem in enumerate(ligne):
                 my_noise_[y][x] = str(my_noise_[y][x])
         with open("Niveaux" + os.sep + "map.lvl", "wb") as file:
-            pickler_1 = pickle.Pickler(file)
-            pickler_1.dump(my_noise_)
+            compressor = Compressor()
+            compressor.dump(my_noise_, file)
     print('>> %2i minutes %2i secondes.' % (int((time.time() - start) // 60),
                                             int((time.time() - start) % 60)))
     print('Fin de la génération !')
@@ -634,10 +636,6 @@ def reseau(surface, grd_font, hauteur_fen):
     return False, hote, port
 
 
-with open("Parties" + os.sep + "boubouilles.sav", "wb") as boubouille:
-    pickle_b = pickle.Pickler(boubouille)
-    pickle_b.dump("Votre partie")
-
 creatif_choisi = True  #pas créatif en fait ;)
 pseudo = ""
 
@@ -732,9 +730,9 @@ while continuer2:
     #mise à jour des variables
     texte_btn_creatif = 'Oui' if not creatif_choisi else 'Non'
     # Pas_de_partie changement d'affectation:
-    if os.path.exists("Parties" + os.sep + "boubouilles.sav") and os.path.exists("Parties" + os.sep + "dossier.sav"):
+    if os.path.exists("Parties" + os.sep + "dossier.sav"):
         pas_de_partie = False
-    elif not os.path.exists("Parties" + os.sep + "boubouilles.sav"):
+    else:
         pas_de_partie = True
     if pas_de_partie:
         pseudo = text_box.value()
@@ -853,9 +851,6 @@ while continuer2:
                             pseudo_w.write(pseudo)
                         #on génére une map dans ce cas
                         if val_retour == 1:
-                            with open("Parties" + os.sep + "boubouilles.sav", "wb") as boubouille:
-                                pickle_b = pickle.Pickler(boubouille)
-                                pickle_b.dump("Votre partie")
                             thread_gen = Thread(target=map_generator)
                             thread_gen.start()
                         #on lance le jeu
@@ -873,9 +868,6 @@ while continuer2:
                             pseudo_w.write(pseudo)
                         #on génére une map dans ce cas
                         if val_retour == 1:
-                            with open("Parties" + os.sep + "boubouilles.sav", "wb") as boubouille:
-                                pickle_b = pickle.Pickler(boubouille)
-                                pickle_b.dump("Votre partie")
                             thread_gen = Thread(target=map_generator)
                             thread_gen.start()
                         #on lance le jeu

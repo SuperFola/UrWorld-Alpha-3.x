@@ -20,7 +20,6 @@ from tkinter.colorchooser import *
 import BModules.GIFImage as GIFImage
 from random import *
 from niveau import *
-from bdd_co import *
 from math import *
 from pygame.locals import *
 import constantes as cst
@@ -453,11 +452,12 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
         eau_bruit.play()
 
 
-    def s_invent_dd(s, fenetre, img_tous_blocs, bloc_choisi, marteau, blocs):
+    def s_invent_dd(s, fenetre, img_tous_blocs, bloc_choisi, marteau, blocs, font, tout, obj_survol):
         check = pygame.image.load("Particules" + os.sep + "check_vert.png").convert_alpha()
         vide_choisi = False
         for y_, ligne in enumerate(s):
             for x_, x_s in enumerate(ligne):
+                nom_entite = x_s
                 if marteau.has_been_2nd_planed(x_s):
                     x_s = x_s[2::]
                 if x_s in blocs.list():
@@ -467,40 +467,30 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                     elif x_s == '0' and bloc_choisi == '0' and not vide_choisi:
                         fenetre.blit(check, (x_ * 31 + 52, y_ * 31 + 52))
                         vide_choisi = True
-
-
-    def maj_idd_numbre(s, blocs_, fenetre, font, marteau, tout, obj_survol):
-        if tout:
-            for i, ligne_entite in enumerate(s):
-                for j, nom_entite in enumerate(ligne_entite):
+                if tout:
                     if marteau.has_been_2nd_planed(nom_entite):
                         nom_entite = nom_entite[2::]
-                    if nom_entite != "0" and nom_entite in blocs_.list() and blocs_.get(nom_entite) <= 999:  #sinon on aura des gros trait blancs tout moches :P
-                        nb = font.render("%3i" % blocs_.get(nom_entite), 1, (240, 240, 240))
-                        fenetre.blit(nb, (52 + j * 31, 52 + i * 31))
-                    elif blocs_.get(nom_entite) > 999 and nom_entite != "0" and nom_entite in blocs_.list():
+                    if nom_entite != "0" and nom_entite in blocs.list() and blocs.get(nom_entite) <= 999:
+                        #sinon on aura des gros trait blancs tout moches :P
+                        nb = font.render("%3i" % blocs.get(nom_entite), 1, (240, 240, 240))
+                        fenetre.blit(nb, (52 + x_ * 31, 52 + y_ * 31))
+                    elif blocs.get(nom_entite) > 999 and nom_entite != "0" and nom_entite in blocs.list():
                         nb = font.render("N/A", 1, (240, 240, 240))
-                        fenetre.blit(nb, (52 + j * 31, 52 + i * 31))
-        else:
-            breaking = False
-            for i in range(len(s)):
-                for j in range(len(s[0])):
-                    entite = s[i][j]
-                    if entite == obj_survol:
-                        if blocs_.get(entite) <= 999:
-                            nb = font.render(blocs_.dict_name()[entite] + " : %3i" % blocs_.get(entite), 1, (240, 240, 240))
-                            pygame.draw.rect(fenetre, (150, 150, 150), (50 + j * 31 + 30, 50 + i * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
-                            fenetre.blit(nb, (52 + j * 31 + 30, 52 + i * 31 + 30))
+                        fenetre.blit(nb, (52 + x_ * 31, 52 + y_ * 31))
+                else:
+                    breaking = False
+                    entite = s[y_][x_]
+                    if entite == obj_survol and not breaking:
+                        if blocs.get(entite) <= 999:
+                            nb = font.render(blocs.dict_name()[entite] + " : %3i" % blocs.get(entite), 1, (240, 240, 240))
+                            pygame.draw.rect(fenetre, (150, 150, 150), (50 + x_ * 31 + 30, 50 + y_ * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
+                            fenetre.blit(nb, (52 + x_ * 31 + 30, 52 + y_ * 31 + 30))
                             breaking = True
-                        elif blocs_.get(entite) > 999:
-                            nb = font.render(blocs_.dict_name()[entite] + " : N/A", 1, (240, 240, 240))
-                            pygame.draw.rect(fenetre, (150, 150, 150), (50 + j * 31 + 30, 50 + i * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
-                            fenetre.blit(nb, (52 + j * 31 + 30, 52 + i * 31 + 30))
+                        elif blocs.get(entite) > 999:
+                            nb = font.render(blocs.dict_name()[entite] + " : N/A", 1, (240, 240, 240))
+                            pygame.draw.rect(fenetre, (150, 150, 150), (50 + x_ * 31 + 30, 50 + y_ * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
+                            fenetre.blit(nb, (52 + x_ * 31 + 30, 52 + y_ * 31 + 30))
                             breaking = True
-                    if breaking:
-                        break
-                if breaking:
-                    break
 
 
     def afficher_degats_pris(fenetre, degats, font, pos_player):
@@ -572,14 +562,11 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                                                                    y_ * 10 + center_screen + 30,
                                                                    10, 10))
 
-            #et on met les icones !
-            s_invent_dd(s, fenetre, img_tous_blocs, obj_retour_actu, marteau, blocs)
+            #et on met les icones et leur quantité !
+            s_invent_dd(s, fenetre, img_tous_blocs, obj_retour_actu, marteau, blocs, font, tout, obj_survol)
 
             #et enfin on laisse TOUT LE TEMPS le bloc suivre la souris, si y en a un ;)
             x_souris, y_souris = souris_ou_t_es(fenetre, arme_h_g)
-
-            #maj des numéros d'entités de blocs dans l'inventaire
-            maj_idd_numbre(s, blocs, fenetre, font, marteau, tout, obj_survol)
 
             if obj_pris != "":
                 #y a un bloc qui doit suivre la souris !

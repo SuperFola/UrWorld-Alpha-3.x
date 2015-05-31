@@ -12,6 +12,7 @@ import re
 import os
 import glob
 from math import ceil
+from compressor import Compressor
 
 class Blocks:
     def __init__(self):
@@ -261,8 +262,9 @@ def map_generator():
         for y, ligne in enumerate(my_noise_):
             for x, elem in enumerate(ligne):
                 my_noise_[y][x] = str(my_noise_[y][x])
-        with open("map.lvl", "wb+") as file:
-            pickle.Pickler(file).dump(my_noise_)
+        with open("map.lvl", "w") as file:
+            compressor = Compressor()
+            compressor.dump(my_noise_, file)
     print('Out[1]: %2i minutes %2i secondes.' % (int((time.time() - start) // 60), int((time.time() - start) % 60)))
     print('In[0]: Fin de la génération !\n')
 
@@ -357,8 +359,9 @@ msg_chat = []
 carte = []
 if not os.path.exists('map.lvl'):
     map_generator()
-with open("map.lvl", 'rb') as f:
-    carte = pickle.Unpickler(f).load()
+with open("map.lvl", 'r') as f:
+    compressor = Compressor()
+    carte = compressor.load(f.read())
 pancartes_txt = []
 teleporteurs_addr = []
 if os.path.exists('teleporteurs.sav'):
@@ -675,8 +678,9 @@ while serveur_lance:
                 else:
                     to_save_into_file += 'in : %s sauvegarde' % connectes[addr]['pseudo']
                     to_save_into_file += "\n"
-                with open("map.lvl", "wb") as save_serveur_map:
-                    pickle.Pickler(save_serveur_map).dump(carte)
+                with open("map.lvl", "w") as save_serveur_map:
+                    compressor = Compressor()
+                    compressor.dump(carte, save_serveur_map)
                     if to_print:
                         print("Out[1]: la carte a bien été sauvegardée")
                     else:
@@ -732,7 +736,7 @@ while serveur_lance:
         pass
 
 if not to_print:
-    with open('log' + str(len(glob.glob("*.log") + 1) + ".log"), "w") as f:
+    with open('log_' + str(len(glob.glob("*.log")) + 1) + ".log", "w") as f:
         f.write(to_save_into_file)
 
 wait = input("Fermeture des connexions. Appuyez sur 'Entrée' pour quitter . . .")

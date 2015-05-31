@@ -4,9 +4,8 @@ from commerces_p import *
 from math import *
 from ombrage_bloc import *
 import glob
-from PIL import Image as PILImage
 from weather import Weather
-import constantes as cst
+from compressor import Compressor
 import pickle
 
 pygame.display.init()
@@ -250,14 +249,15 @@ class Carte:
         self.bloc_fired = -1, -1
         self.map_surf = None
         self.last_map_lst = []
+        self.compressor = Compressor()
 
     def blocs_action(self, methode):
         self.blocs.methode()
 
     def load(self, adresse):
         self.adresse = adresse
-        with open(adresse, 'rb') as map_reading:
-            self.carte = pickle.Unpickler(map_reading).load()
+        with open(adresse, 'r') as map_reading:
+            self.carte = self.compressor.load(map_reading.read())
 
     def load_image(self):
         # Chargement des images (seule celle d'arrivée contient de la transparence)
@@ -619,14 +619,14 @@ class Carte:
                             self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
 
     def save(self):
-        with open(self.adresse, "wb") as map_writing:
-            pickle.Pickler(map_writing).dump(self.carte)
+        with open(self.adresse, "w") as map_writing:
+            self.compressor.dump(self.carte, map_writing)
         if self.new_bloc:
             numero_carte = str(len(glob.glob('Niveaux' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)
-            numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
-            with open('Niveaux' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl',
-                      'wb') as old_map_write:
-                pickle.Pickler(old_map_write).dump(self.carte)
+            if numero_carte <= 9999:
+                numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
+                with open('Niveaux' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'w') as old_map_write:
+                    self.compressor.dump(self.carte, old_map_write)
 
 
 class LANMap(Carte):

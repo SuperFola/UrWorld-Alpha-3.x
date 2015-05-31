@@ -1,7 +1,5 @@
 # -*-coding: utf8-*
 
-import pickle
-import random
 from BModules.reader import Reader
 import constantes as cst
 from BModules.discussion import *
