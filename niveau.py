@@ -617,7 +617,7 @@ class Carte:
                             self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
 
     def save(self):
-        with open(self.adresse, "w") as map_writing:
+        with open(self.adresse, "wb") as map_writing:
             pickle.Pickler(map_writing).dump(self.carte)
         if self.new_bloc:
             numero_carte = str(len(glob.glob('Niveaux' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)

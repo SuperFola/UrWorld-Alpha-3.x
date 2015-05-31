@@ -12,7 +12,7 @@ import sys
 import traceback
 import pdb
 
-
+"""
 def pdb_post_mortem(exc_type, exc_val, exc_tb):
     # On affiche l'exception histoire de savoir ce qu'on debug
     print("".join(traceback.format_exception(exc_type, exc_val, exc_tb)))
@@ -24,6 +24,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 
 # On dit à python de lancer cette fonction quand il plante
 sys.excepthook = pdb_post_mortem
+"""
 
 VERSION = "Alpha 3.0.1"
 
