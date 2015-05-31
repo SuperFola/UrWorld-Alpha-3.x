@@ -114,7 +114,7 @@ class Map(list):
                         new_block = random.choice(biomes[self.current_biome]['snow'])
                     elif distance_from_surface(x, y) == 1:
                         new_block = random.choice(
-                            ['Q', 'S', '§§', PASSANT, PASSANT2, PASSANT3, PASSANT4, PASSANT5, PASSANT6,
+                            ['Q', 'S', '/§', PASSANT, PASSANT2, PASSANT3, PASSANT4, PASSANT5, PASSANT6,
                              PASSANT7, PASSANT8] + [random.choice(biomes[self.current_biome]['grass'])] * 75)
                     else:
                         new_block = random.choice(biomes[self.current_biome]['dirt'])

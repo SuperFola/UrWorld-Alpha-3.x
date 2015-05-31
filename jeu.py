@@ -14,7 +14,6 @@ import socket
 import BModules.tree
 import tkinter.messagebox
 import tkinter.filedialog
-from ia import *
 from tkinter import *
 from tkinter.colorchooser import *
 import BModules.GIFImage as GIFImage

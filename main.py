@@ -11,7 +11,6 @@ from jeu import *
 import sys
 import traceback
 import pdb
-from compressor import Compressor
 
 
 def pdb_post_mortem(exc_type, exc_val, exc_tb):
@@ -26,7 +25,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 # On dit à python de lancer cette fonction quand il plante
 sys.excepthook = pdb_post_mortem
 
-VERSION = "Alpha 3.0.0"
+VERSION = "Alpha 3.0.1"
 
 import glob
 from PIL import Image as PILImage
@@ -81,7 +80,7 @@ s = [
     ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]
 
-print("Lancement du programme . . .")
+print("Lancement du programme ...")
 
 pygame.init()
 root_ = None
@@ -90,17 +89,17 @@ fullscreen = True
 if os.path.exists('test.test'):
     with open("s.sav", "wb") as i:
         pickle.Pickler(i).dump(s)
-    root_ = pygame.display.set_mode((0, 0))  #definition de l'ecran principal
+    root_ = pygame.display.set_mode((0, 0))  # definition de l'ecran principal
     fullscreen = False
 else:
-    root_ = pygame.display.set_mode((0, 0), FULLSCREEN)  #definition de l'ecran principal
+    root_ = pygame.display.set_mode((0, 0), FULLSCREEN)  # definition de l'ecran principal
     fullscreen = True
 
-r = pygame.Rect(0, 0, largeur_dispo, 600)  #definition de la taille de la fenetre de jeu
-r.center = root_.get_rect().center  #centrage de la fenetre par rapport a l'ecran total
-fenetre = root_.subsurface(r)  #definition de la fenetre de jeu
-fenetre.fill((60, 60, 60))  #coloriage de la fenetre de jeu en gris
-pygame.display.update(r)  #mise a jour de la fenetre seulement
+r = pygame.Rect(0, 0, largeur_dispo, 600)  # definition de la taille de la fenetre de jeu
+r.center = root_.get_rect().center  # centrage de la fenetre par rapport a l'ecran total
+fenetre = root_.subsurface(r)  # definition de la fenetre de jeu
+fenetre.fill((60, 60, 60))  # coloriage de la fenetre de jeu en gris
+pygame.display.update(r)  # mise a jour de la fenetre seulement
 pygame.display.set_caption("UrWorld v." + VERSION)
 
 def map_generator():
@@ -114,8 +113,7 @@ def map_generator():
             for x, elem in enumerate(ligne):
                 my_noise_[y][x] = str(my_noise_[y][x])
         with open("Niveaux" + os.sep + "map.lvl", "wb") as file:
-            compressor = Compressor()
-            compressor.dump(my_noise_, file)
+            pickle.Pickler(file).dump(my_noise_)
     print('>> %2i minutes %2i secondes.' % (int((time.time() - start) // 60),
                                             int((time.time() - start) % 60)))
     print('Fin de la génération !')
