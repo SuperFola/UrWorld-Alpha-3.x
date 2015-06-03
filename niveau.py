@@ -6,6 +6,7 @@ from ombrage_bloc import *
 import glob
 from weather import Weather
 import pickle
+import compressor as rle
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -255,6 +256,7 @@ class Carte:
     def load(self, adresse):
         self.adresse = adresse
         with open(adresse, 'rb') as map_reading:
+            #self.carte = rle.RLEUncompress(map_reading).load()
             self.carte = pickle.Unpickler(map_reading).load()
 
     def load_image(self):
@@ -489,6 +491,7 @@ class Carte:
     def reload_map(self):
         if self.adresse != "":
             with open(self.adresse, 'rb') as map_reading:
+                #self.carte = rle.RLEUncompress(map_reading).load()
                 self.carte = pickle.Unpickler(map_reading).load()
 
     def render(self):
@@ -618,12 +621,14 @@ class Carte:
 
     def save(self):
         with open(self.adresse, "wb") as map_writing:
+            #rle.RLECompress(map_writing).dump(self.carte)
             pickle.Pickler(map_writing).dump(self.carte)
         if self.new_bloc:
             numero_carte = str(len(glob.glob('Niveaux' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)
             if int(numero_carte) <= 9999:
                 numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
                 with open('Niveaux' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'wb') as old_map_write:
+                    #rle.RLECompress(old_map_write).dump(self.carte)
                     pickle.Pickler(old_map_write).dump(self.carte)
 
 

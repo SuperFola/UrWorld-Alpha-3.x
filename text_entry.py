@@ -15,7 +15,7 @@ class TextEntry:
         self.focus = True
         self.type_txt = type_txt
         self.dict_special = [
-            K_RSHIFT,
+            K_LSHIFT,
             K_RSHIFT,
             K_BACKSPACE,
             K_CAPSLOCK,

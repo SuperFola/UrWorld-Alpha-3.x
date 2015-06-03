@@ -26,7 +26,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 sys.excepthook = pdb_post_mortem
 """
 
-VERSION = "Alpha 3.0.1"
+VERSION = "Alpha 3.0.3"
 
 import glob
 from PIL import Image as PILImage
@@ -34,6 +34,7 @@ import os
 import sys
 import text_entry
 import restart
+import compressor as rle
 import dialog_box as dlb
 
 miniaturisation = True
@@ -114,6 +115,7 @@ def map_generator():
             for x, elem in enumerate(ligne):
                 my_noise_[y][x] = str(my_noise_[y][x])
         with open("Niveaux" + os.sep + "map.lvl", "wb") as file:
+            #rle.RLECompress(file).dump(my_noise_)
             pickle.Pickler(file).dump(my_noise_)
     print('>> %2i minutes %2i secondes.' % (int((time.time() - start) // 60),
                                             int((time.time() - start) % 60)))
@@ -176,7 +178,7 @@ def run_demos(width, height, fps):
     tmps_change_fond = time.time() + 0.25
     while True:
         the_world_is_a_happy_place += 1
-        if os.path.exists("Niveaux" + os.sep + "map.lvl") and open("Niveaux" + os.sep + "map.lvl", "r").read() != "":
+        if os.path.exists("Niveaux" + os.sep + "map.lvl") and open("Niveaux" + os.sep + "map.lvl", "rb").read() != "":
             if time.time() >= tmps_fin:
                 break
         for event in pygame.event.get():
@@ -636,6 +638,7 @@ def reseau(surface, grd_font, hauteur_fen):
 
 
 creatif_choisi = True  #pas créatif en fait ;)
+dossier_personnage = '0/'
 pseudo = ""
 
 if not pas_de_partie:
