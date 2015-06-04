@@ -290,6 +290,16 @@ class Personnage:
         self.speed = 60
         self.immobile = True
         self.immobile_time = 0
+        self.pseudo = ""
+
+    def get_dossier(self):
+        return self.location
+
+    def get_pseudo(self):
+        return self.pseudo
+
+    def set_pseudo(self, new):
+        self.pseudo = new
 
     def get_speed(self):
         return self.speed
@@ -380,6 +390,9 @@ class Personnage:
         if not mouse:
             self.direction = "perso_droite.png" if situation == "droite" else "perso_gauche.png"
             self.personnage_png = pygame.image.load("Personnage" + os.sep + self.location + self.direction).convert_alpha()
+
+    def get_direction(self):
+        return "droite" if self.direction == "perso_droite.png" else "gauche"
 
     def encaisser_degats(self, degats):
         self.vie.encaisser_degats(degats)

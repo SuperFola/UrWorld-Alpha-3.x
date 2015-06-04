@@ -1,4 +1,6 @@
 import pickle
+import re
+from itertools import groupby
 
 
 class RLECompress:
@@ -36,6 +38,7 @@ class RLECompress:
             #self.file.write(str(array))
             pickle.Pickler(self.file).dump(array)
 
+
 class RLEUncompress:
     def __init__(self, file):
         self.file = file
@@ -62,3 +65,40 @@ class RLEUncompress:
             total_element += 1
         print(total_element)
         return carte_lst
+
+
+RLE_BLOCK_FORMAT = r'\'(\w+)\'(\d+)'
+
+
+def valid(obj):
+    if isinstance(obj, list):
+        return all(map(lambda elt: isinstance(elt, list), obj))
+    return False
+
+
+def dump(file, obj):
+    group_count = lambda g: len(list(group))
+    if valid(obj):
+        dumped = ''
+        for row in obj:
+            for tile, group in groupby(row):
+                dumped += "'" + tile + "'" + str(group_count(group))
+            dumped += '\n'
+        file.write(dumped)
+    else:
+        raise ValueError("Invalid object format")
+
+
+def load(file):
+    loaded = []
+    for line in file:
+        row = []
+        for tile, count in re.findall(RLE_BLOCK_FORMAT, line):
+            row.extend([tile[1:-1:]] * int(count))
+        loaded.append(row)
+    with open("f.txt", "w") as f:
+        for i in loaded:
+            for j in i:
+                f.write(j)
+            f.write("\n")
+    return loaded

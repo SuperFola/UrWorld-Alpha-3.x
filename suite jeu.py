@@ -44,109 +44,10 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
 
     # tres important :
     var_gravite = 0.142  # doit etre supérieur à 20~21_blocs / 150 = MAX >= 0.1401
-
     boumList = []
-    lst_inventaire = ""
-    with open("s.sav", "rb") as invent_dd:
-        depickle_idd = pickle.Unpickler(invent_dd)
-        lst_inventaire = depickle_idd.load()
-
     action = 'teleporte'
-
     #les blocks
     blocs = niveau_pkg.Blocks()
-    blocs.add('p', solid=True, shadow=0, gravity=False, quantity=0, innafichable=True, name='Bloc indestructible', tps_explode=0, take_fire=False)
-    blocs.add('1', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('2', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('3', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('4', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('5', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('6', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('7', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('8', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('Q', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Potion de Vie', tps_explode=0, take_fire=False)
-    blocs.add('S', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Potion de Mana', tps_explode=0, take_fire=False)
-    blocs.add('D', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre des Lasers', tps_explode=0, take_fire=False)
-    blocs.add('F', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de Téléportation', tps_explode=0, take_fire=False)
-    blocs.add('G', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de Feu', tps_explode=0, take_fire=False)
-    blocs.add('H', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre du Cône', tps_explode=0, take_fire=False)
-    blocs.add('J', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de la Sphère', tps_explode=0, take_fire=False)
-    blocs.add('K', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de Construction', tps_explode=0, take_fire=False)
-    blocs.add('qs', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Jaune', tps_explode=0, take_fire=False)
-    blocs.add('sd', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Rose', tps_explode=0, take_fire=False)
-    blocs.add('df', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Vert', tps_explode=0, take_fire=False)
-    blocs.add('fg', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Violet', tps_explode=0, take_fire=False)
-    blocs.add('/§', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Monnaie', tps_explode=0, take_fire=False)
-    blocs.add('§%', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Marteau', tps_explode=0, take_fire=False)
-    blocs.add('a', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai d\'Or', tps_explode=0, take_fire=False)
-    blocs.add('m', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Planches', tps_explode=0, take_fire=True)
-    blocs.add('t', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Tuiles', tps_explode=0, take_fire=False)
-    blocs.add('c', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='PNJ', tps_explode=0, take_fire=False)
-    blocs.add('r', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai de Charbon', tps_explode=0, take_fire=False)
-    blocs.add('u', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai d\'Emeraude', tps_explode=0, take_fire=False)
-    blocs.add('y', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai de Diamant', tps_explode=0, take_fire=False)
-    blocs.add('i', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai de Rubis', tps_explode=0, take_fire=False)
-    blocs.add('M', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Demi bloc de Pierre', tps_explode=0, take_fire=False)
-    blocs.add('x', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Briques', tps_explode=0, take_fire=False)
-    blocs.add('b', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Planches Sombres', tps_explode=0, take_fire=True)
-    blocs.add('n', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Planches Claires', tps_explode=0, take_fire=True)
-    blocs.add('?', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Demi bloc de Planches', tps_explode=0, take_fire=True)
-    blocs.add('.', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Demi bloc de Planches Sombres', tps_explode=0, take_fire=True)
-    blocs.add('/', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Demi bloc de Planches Claires', tps_explode=0, take_fire=True)
-    blocs.add('A', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Bleue', tps_explode=0, take_fire=True)
-    blocs.add('Z', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Grise', tps_explode=0, take_fire=True)
-    blocs.add('E', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Jaune', tps_explode=0, take_fire=True)
-    blocs.add('R', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Rouge', tps_explode=0, take_fire=True)
-    blocs.add('T', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Verte', tps_explode=0, take_fire=False)
-    blocs.add('Y', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Laine Violette', tps_explode=0, take_fire=True)
-    blocs.add('U', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Terre', tps_explode=0, take_fire=False)
-    blocs.add('I', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Neige', tps_explode=0, take_fire=True)
-    blocs.add('s', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pierre', tps_explode=0, take_fire=False)
-    blocs.add('h', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Herbe', tps_explode=0, take_fire=True)
-    blocs.add('B', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Jukebox', tps_explode=0, take_fire=True)
-    blocs.add('er', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Charbon pur', tps_explode=0, take_fire=True)
-    blocs.add('rt', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Diamant pur', tps_explode=0, take_fire=False)
-    blocs.add('ty', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Emeraude pure', tps_explode=0, take_fire=False)
-    blocs.add('yu', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Or pur', tps_explode=0, take_fire=False)
-    blocs.add('ui', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Rubis pur', tps_explode=0, take_fire=False)
-    blocs.add('cv', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Bombe Atomique', tps_explode=0, take_fire=False)
-    blocs.add('vb', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Téléporteur', tps_explode=0, take_fire=False)
-    blocs.add('bn', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pierre de l\'Eau', tps_explode=0, take_fire=False)
-    blocs.add('n?', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pierre du Feu', tps_explode=0, take_fire=False)
-    blocs.add('?.', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pierre de la Terre', tps_explode=0, take_fire=False)
-    blocs.add('d', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Sable', tps_explode=0, take_fire=False)
-    blocs.add('%b', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Transpondeur Temporel', tps_explode=0, take_fire=False)
-    blocs.add('gh', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Bleue', tps_explode=0, take_fire=False)
-    blocs.add('hj', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Grise', tps_explode=0, take_fire=False)
-    blocs.add('jk', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Jaune', tps_explode=0, take_fire=False)
-    blocs.add('kl', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Marron', tps_explode=0, take_fire=False)
-    blocs.add('lm', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Marron Claire', tps_explode=0, take_fire=False)
-    blocs.add('mw', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Marron Foncée', tps_explode=0, take_fire=False)
-    blocs.add('wx', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Rouge', tps_explode=0, take_fire=False)
-    blocs.add('xc', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Table Verte', tps_explode=0, take_fire=False)
-    blocs.add('q', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Bibliothèque', tps_explode=0, take_fire=False)
-    blocs.add('0', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Vide', tps_explode=0, take_fire=False)
-    blocs.add('v', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Verre', tps_explode=0, take_fire=False)
-    blocs.add('l', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Verre Bleu', tps_explode=0, take_fire=False)
-    blocs.add('k', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Verre Jaune', tps_explode=0, take_fire=False)
-    blocs.add('g', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Verre Vert', tps_explode=0, take_fire=False)
-    blocs.add('P', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Feuillage', tps_explode=0, take_fire=True)
-    blocs.add('f', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Verre Rouge', tps_explode=0, take_fire=False)
-    blocs.add('W', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Torche Bleue', tps_explode=0, take_fire=True)
-    blocs.add('X', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Torche Verte', tps_explode=0, take_fire=True)
-    blocs.add('C', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Torche Jaune', tps_explode=0, take_fire=True)
-    blocs.add('V', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Torche Rouge', tps_explode=0, take_fire=True)
-    blocs.add('az', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Champignons Blancs', tps_explode=0, take_fire=False)
-    blocs.add('ze', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Champignons Rouges', tps_explode=0, take_fire=False)
-    blocs.add('io', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Fleur Bleue', tps_explode=0, take_fire=True)
-    blocs.add('op', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Fleur Rouge', tps_explode=0, take_fire=True)
-    blocs.add('pq', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Fleur Jaune', tps_explode=0, take_fire=True)
-    blocs.add('O', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Tronc d\'Arbre', tps_explode=0, take_fire=True)
-    blocs.add('./', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Echelle', tps_explode=0, take_fire=True)
-    blocs.add('e', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Eau', tps_explode=0, take_fire=False)
-    blocs.add('%a', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pancarte', tps_explode=0, take_fire=True)
-    blocs.add('feu', solid=False, shadow=0, gravity=False, quantity=0, innafichable=True, name='Feu', tps_explode=0, take_fire=True)
-
     liste_septre = [
         'D', 'F',
         'G', 'H',
@@ -230,19 +131,8 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
     #VARIABLES INDISPENSABLES AU SCROLLING HORIZONTAL:
     max_scrolling = 20 * fin  #maximum du scrolling
 
-    with open("Parties" + os.sep + "pseudo.sav", "r") as nom_perso:  #pour le pseudo
-        pseudo = nom_perso.read()
-        with open("bonjour.txt", "r") as msg_bjr_lire:
-            grd_msg_bjr = str(msg_bjr_lire.read()).format(pseudo, nom_mechant)
-            grd_msg_bjr += "\n" * 4 + "Bonne aventure `{0}` !".format(pseudo)
     with open("Personnage" + os.sep + "A" + os.sep + "arme.txt", "r") as lire_nom_arme:
         arme_personnage = lire_nom_arme.read()
-    if os.path.exists("Personnage" + os.sep + "0" + os.sep + "vip.file"):
-        with open("Personnage" + os.sep + "0" + os.sep + "vip.file", "r") as lire_vip:
-            if lire_vip.read() == pseudo + "::VIP":
-                vip_bool = True
-            else:
-                vip_bool = False
 
     #sons
     music_liste = [
@@ -268,28 +158,11 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
     #les equipements vers la gauche !
     arme_h_g = pygame.image.load("Personnage" + os.sep + "A" + os.sep + "sword_up_g.png").convert_alpha()
     #personnage(s)
-    monstres_ou_pas = [6, 7, 8, 9]  #niveaux où les monstres apparaissent
+    monstres_ou_pas = [0, 0, 0, 0]
     #items
     marteau = itm.Marteau(rcenter, fenetre, font)
     #reseau
-    params_co = ('', 0)
-
-    #variables
-    if not en_reseau:
-        carte = Carte(fenetre, root, marteau, nb_blocs_large, blocs)
-        carte.load("Niveaux" + os.sep + "map.lvl")
-    else:
-        try:
-            socket_client_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            params_co = (hote, port)
-            socket_client_serv.sendto(pickle.dumps([pseudo, 0, 0, dossier_personnage]), params_co)
-            carte = LANMap(fenetre, root, marteau, nb_blocs_large, socket_client_serv, params_co, blocs)
-            carte.receive_map()
-        except OSError:
-            en_reseau = False
-            message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)
-            carte = Carte(fenetre, root, marteau, nb_blocs_large, blocs)
-            carte.load("Niveaux" + os.sep + "map.lvl")
+    params_co = (hote, port)
 
     #personnage in game
     if not en_reseau:
@@ -304,40 +177,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
     orage = weather.Storm(carte, fenetre, personnage)
     #on ajoute la météo à la carte
     carte.set_meteo('')
-
-
-    def sauvegarder(quitte, perso, equipement_courant,
-                    ombrage, teleporteurs, creatif, pancartes_lst, carte):
-        #def de sauvegarde
-        print("\n\n" + "*" * 34 + " SAUVEGARDE " + "*" * 34 + "\n")
-        #avec Pickle
-        with open("Parties" + os.sep + "equipement_en_cours.sav", "wb") as ecrire_equipement:
-            pickle.Pickler(ecrire_equipement).dump(equipement_courant)
-        with open("Parties" + os.sep + "niveau.sav", "wb") as niv_ecrire:
-            pickle.Pickler(niv_ecrire).dump(numero_niv)
-        with open("Parties" + os.sep + "bloc.sav", "wb") as bloc_save:
-            pickle.Pickler(bloc_save).dump(blocs)
-        with open("Parties" + os.sep + "pos.sav", "wb") as pos_save:
-            pickle.Pickler(pos_save).dump(personnage.get_pos())
-        with open("Parties" + os.sep + "fov.sav", "wb") as fov_ecrire:
-            pickle.Pickler(fov_ecrire).dump(carte.get_fov())
-        with open("Parties" + os.sep + "mana.sav", "wb") as mana_ecrire:
-            pickle.Pickler(mana_ecrire).dump(perso.get_mana())
-        with open("Parties" + os.sep + "couleur.sav", "w") as couleur_ecrire:
-            couleur_ecrire.write(str(carte.get_background_color()))
-        with open("Parties" + os.sep + "ombres.sav", "wb") as ombres_ecrire:
-            pickle.Pickler(ombres_ecrire).dump(ombrage)
-        with open("Parties" + os.sep + "teleporteurs.sav", "wb") as teleport_ecrire:
-            pickle.Pickler(teleport_ecrire).dump(teleporteurs)
-        with open("Parties" + os.sep + "gamemode.sav", "wb") as creatifmode_ecrire:
-            pickle.Pickler(creatifmode_ecrire).dump(creatif)
-        with open("Parties" + os.sep + "shader.sav", "wb") as shader_ecrire:
-            pickle.Pickler(shader_ecrire).dump(carte.get_curent_shader())
-        with open("Parties" + os.sep + "pancartes.sav", "wb") as ecrire_pancartes:
-            pickle.Pickler(ecrire_pancartes).dump(pancartes_lst)
-        print('Sauvegarde réussie !\n\n')
-        if quitte:
-            sys.exit()
 
 
     def boum_atomique(carte, x, y, max_scrolling):
@@ -362,17 +201,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                 carte.remove_bloc(x - 1, y + 1, '0')
             if x + 1 <= max_scrolling:
                 carte.remove_bloc(x + 1, y + 1, '0')
-
-
-    def molette_(s, number_of_case, direction):
-        s = [elt for line in s for elt in line]
-        if direction == 'bas':
-            number_of_case = number_of_case + 1 if number_of_case + 1 <= len(s) - 1 else len(s) - 1
-        elif direction == 'haut':
-            number_of_case = number_of_case - 1 if number_of_case - 1 >= 0 else 0
-        obj_courant = s[number_of_case]
-
-        return obj_courant, number_of_case
 
 
     def fps_stp(temps_avant_fps, root, rcenter, font):
@@ -780,140 +608,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
             surface.blit(rendu, (surface.get_size()[0] - 420, i * rendu.get_size()[1] + (surface.get_size()[1] - surf.get_size()[1] - 10)))
 
 
-    pygame.joystick.init()
-    joystick_player = pygame.joystick.get_count()
-    if joystick_player:
-        print("Un joystick est connecté !")
-        mon_joystick = pygame.joystick.Joystick(0)
-        mon_joystick.init()  #Initialisation
-        print("Axes :", mon_joystick.get_numaxes())
-        print("Boutons :", mon_joystick.get_numbuttons())
-        print("Trackballs :", mon_joystick.get_numballs())
-        print("Hats :", mon_joystick.get_numhats())
-
-    if os.path.exists("Parties" + os.sep + "equipement_en_cours.sav") \
-            and os.path.exists("Parties" + os.sep + "niveau.sav") and os.path.exists(
-                            "Parties" + os.sep + "bloc.sav") \
-            and os.path.exists("Parties" + os.sep + "pos.sav") and os.path.exists(
-                            'Parties' + os.sep + "fov.sav") \
-            and os.path.exists('Parties' + os.sep + 'mana.sav') and os.path.exists(
-                            'Parties' + os.sep + 'couleur.sav') \
-            and os.path.exists('Parties' + os.sep + 'ombres.sav') and os.path.exists(
-                            'Parties' + os.sep + 'teleporteurs.sav') \
-            and os.path.exists('Parties' + os.sep + "gamemode.sav") and os.path.exists(
-                            'Parties' + os.sep + 'shader.sav') \
-            and os.path.exists('Parties' + os.sep + 'pancartes.sav'):
-        load_texte = "Chargement des fichiers . . .\n"
-        with open('Parties' + os.sep + 'equipement_en_cours.sav', 'rb') as lire_equipement:
-            obj_courant = pickle.Unpickler(lire_equipement).load()
-            number_of_case = {v: k for k, v in enumerate([elt for line in lst_inventaire for elt in line])}[obj_courant]
-            load_texte = "\nequipement_en_cours.sav >>> Chargé !\n"
-            print(load_texte)
-        with open("Parties" + os.sep + "bloc.sav", "rb") as bloc_lire:
-            blocs = pickle.Unpickler(bloc_lire).load()
-            load_texte = "bloc.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'niveau.sav', 'rb') as niv_lire:
-            numero_niv = pickle.Unpickler(niv_lire).load()
-            load_texte = "niveau.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'pos.sav', 'rb') as pos_lire:
-            personnage.set_pos(pickle.Unpickler(pos_lire).load())
-            load_texte = "pos.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'fov.sav', 'rb') as fov_lire:
-            temp = pickle.Unpickler(fov_lire).load()
-            carte.set_fov(temp[0], temp[1])
-            load_texte = "fov.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'mana.sav', 'rb') as mana_lire:
-            personnage.set_mana(pickle.Unpickler(mana_lire).load())
-            load_texte = "mana.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'ombres.sav', 'rb') as ombres_lire:
-            ombrage = pickle.Unpickler(ombres_lire).load()
-            load_texte = "ombres.sav >>> Chargé !\n"
-            print(load_texte)
-        with open('Parties' + os.sep + 'teleporteurs.sav', 'rb') as telep_lire:
-            liste_teleporteurs = pickle.Unpickler(telep_lire).load()
-            load_texte = "teleporteurs.sav >>> Chargé !\n"
-            print(load_texte)
-        with open("Parties" + os.sep + "gamemode.sav", "rb") as creatifmode_lire:
-            creatif = pickle.Unpickler(creatifmode_lire).load()
-            load_texte = "gamemode.sav >>> Chargé !\n"
-            print(load_texte)
-        with open("Parties" + os.sep + "shader.sav", "rb") as shader_lire:
-            carte.set_current_shader(pickle.Unpickler(shader_lire).load())
-            load_texte = "shader.sav >>> Chargé !\n"
-            print(load_texte)
-        with open("Parties" + os.sep + "pancartes.sav", "rb") as lire_pancartes:
-            pancartes_lst = pickle.Unpickler(lire_pancartes).load()
-            load_texte = "pancartes.sav >>> Chargé !\n"
-            print(load_texte)
-        with open("Parties" + os.sep + "couleur.sav", "r") as clr:
-            carte.set_background_color(eval(clr.read()))
-            load_texte = "couleur.sav >>> Chargé !\n"
-            print(load_texte)
-    if os.path.exists('Parties' + os.sep + 'texture_pack.sav'):
-        with open('Parties' + os.sep + 'texture_pack.sav', 'r') as txtpr:
-            texture_pack_path = txtpr.read()
-    if os.path.exists('Parties' + os.sep + 'jheight.sav'):
-        with open('Parties' + os.sep + 'jheight.sav', 'r') as jhr:
-            jump_height = int(jhr.read())
-        liste_hauteur_saut = [-1 for _ in range(jump_height + 1)] + [+1 for _ in range(jump_height + 2)]
-    if os.path.exists('Parties' + os.sep + 'jtime.sav'):
-        with open('Parties' + os.sep + 'jtime.sav', 'r') as tjr:
-            temps_saut_attendre = int(tjr.read()) / 1000
-
-    if not os.path.exists('Parties' + os.sep + 'pos.sav'):
-        #création de nouveau fichiers
-        message_affiche_large(grd_msg_bjr, fenetre, rcenter)
-
-    #on charge les sprites
-    carte.load_image()
-
-    #actualisation de l'écran
-    pygame.display.flip()
-    #activation de la répétition des touches
-    pygame.key.set_repeat(200, personnage.get_speed())
-    #on n'affiche pas le curseur de la souris !
-    pygame.mouse.set_visible(False)
-
-    #si on est en créatif, on a tout les blocs en *9999 !
-    if not creatif or vip_bool:
-        #on est encore et quand même en créatif :D
-        for index in blocs.list():
-            if blocs.get(index) < 900 and index not in ('bn', 'n?', '?.', '/§', '§%'):
-                quant = 5000 if not creatif else blocs.get(index) + 150
-                blocs.set(index, nbr=quant)
-
-    #vie
-    personnage.afficher_vie()
-    #affichage de la mana
-    personnage.afficher_mana()
-
-    last_music_time = time.time() + 30  #secondes
-
-    FPS = cst.IAFPS(75)
-    cpt_tour = 0
-    tps_tour = time.time() + 1
-
-    if en_reseau:
-        socket_client_serv.sendto(pickle.dumps("get->configuration"), params_co)
-        data_serv = []
-        with open("Parties" + os.sep + "serveur.sav", "rb+") as data_serv_wrb:
-            data_serv = pickle.Unpickler(data_serv_wrb).load()
-            temp = socket_client_serv.recv(4096)
-            temp = pickle.loads(temp)
-            for i in range(len(data_serv)):
-                if data_serv[i][0] == str(hote) + ':' + str(port):
-                    data_serv[i][1] = temp[0]
-                    data_serv[i][2] = temp[1]
-                    break
-            pickle.Pickler(data_serv_wrb).dump(data_serv)
-        with open("Parties" + os.sep + "serveur.sav", "wb") as f:
-            pickle.Pickler(f).dump(data_serv)
-
     while continuer:
         temps_avant_fps = time.time()
 
@@ -968,22 +662,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
 
         #gestion des évenements
         for evennements_fenetre in [pygame.event.poll()]:
-            #gestion des évenements
-            #controle pour quitter
-            if evennements_fenetre.type == KEYDOWN and (
-                            evennements_fenetre.key == K_ESCAPE or evennements_fenetre.key == K_F4):
-                carte.save()
-                with open('s.sav', 'wb') as save_idd:
-                    pickler_10 = pickle.Pickler(save_idd)
-                    pickler_10.dump(lst_inventaire)
-                sauvegarder(False, personnage, obj_courant, ombrage, liste_teleporteurs, creatif, pancartes_lst, carte)
-                continuer = 0
-            elif evennements_fenetre.type == QUIT and windowed_is:
-                carte.save()
-                with open('s.sav', 'wb') as save_idd:
-                    pickler_10 = pickle.Pickler(save_idd)
-                    pickler_10.dump(lst_inventaire)
-                sauvegarder(True, personnage, obj_courant, ombrage, liste_teleporteurs, creatif, pancartes_lst, carte)
             #controles autour de la souris
             elif evennements_fenetre.type == MOUSEBUTTONDOWN:
                 if evennements_fenetre.button == 5:  #la molette descend
@@ -1225,24 +903,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                         marteau.render()
             #controles au clavier
             elif evennements_fenetre.type == KEYDOWN:
-                #controles de déplacement au clavier
-                if   evennements_fenetre.key == K_UP:
-                    #on monte
-                    personnage.move("haut")
-                elif evennements_fenetre.key == K_DOWN:
-                    #on descend mais uniquement si il y a une echelle en dessous de nous
-                    if carte.get_tile(personnage.get_pos()[0] // 30 + carte.get_fov()[0], personnage.get_pos()[1] // 30 + 1) == './':
-                        personnage.set_y(personnage.get_pos()[1] + 30)
-                elif evennements_fenetre.key == K_LEFT:
-                    #on va à gauche
-                    situation_actuelle = "gauche"
-                    personnage.move("gauche")
-                    personnage.change_direction(situation_actuelle)
-                elif evennements_fenetre.key == K_RIGHT:
-                    #on va à droite
-                    situation_actuelle = "droite"
-                    personnage.move("droite")
-                    personnage.change_direction(situation_actuelle)
                 #passage fullscreen -> windowed / windowed -> fullscreen
                 elif evennements_fenetre.key == K_u:
                     if windowed_is:
@@ -1264,17 +924,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                         custom(root, rcenter, font, creatif, volume_son_j)
                         pygame.display.set_caption("UrWorld")
                         windowed_is = True
-                #changement de la taille du FOV
-                elif evennements_fenetre.key == K_e:
-                    new_size_fov = dlb.DialogBox(fenetre, ["Entrez la nouvelle taille du", "FOV (entre 0 et " + str(nb_blocs_large) + " ) :"],
-                                  "Réglage du FOV", rcenter, grd_font, y_ecart, type_btn=3, carte=carte).render()
-                    if new_size_fov.isdigit():
-                        carte.set_fov(carte.get_fov()[0], carte.get_fov()[0] + abs(int(new_size_fov)))
-                #controles discuter et inventaire
-                elif evennements_fenetre.key == K_d:
-                    #on parle à la personne la plus proche de soi
-                    passant_parle(fenetre, situation_actuelle, personnage, carte.get_list(), blocs.get('/§'), rcenter,
-                                  carte.get_img_dict(), carte.get_fov())
                 #controle de l'affichage de l'inventaire Drag&Drop
                 elif evennements_fenetre.key == K_LSHIFT or evennements_fenetre.key == K_RSHIFT:
                     monstres_ou_pas = [
@@ -1300,12 +949,6 @@ def jeu(fenetre, choix, dossier_personnage, peacefull, fps, volume_son_j, creati
                         pygame.draw.rect(root, (180, 20, 20), (rcenter[0] + 120 + 22, 10, 20, 15))
                         last_vie = personnage.get_vie()
                         personnage.set_vie(100)
-                elif evennements_fenetre.key == K_i:
-                    #la musique en pause ou pas !
-                    if pygame.music.get_busy():
-                        pygame.mixer.music.set_volume(0)
-                    elif not pygame.music.get_busy():
-                        pygame.mixer.music.set_volume(volume_son_j)
                 #on affiche les autres ou pas :D
                 elif evennements_fenetre.key == K_p:
                     affiche_oth = not affiche_oth
