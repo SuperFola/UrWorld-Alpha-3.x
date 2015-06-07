@@ -175,6 +175,11 @@ class Blocks:
             return self.blocs[item]['destruction_time']
         return 0
 
+    def get_name(self, item):
+        if item in self.blocs.keys():
+            return self.blocs[item]['name']
+        return 'None'
+
     def list_solid(self):
         solid_lst = []
         for i in self.blocs:
@@ -255,10 +260,10 @@ class Carte:
 
     def load(self, adresse):
         self.adresse = adresse
-        with open(adresse, 'r') as map_reading:
+        with open(adresse, 'rb') as map_reading:
             #self.carte = rle.RLEUncompress(map_reading).load()
-            #self.carte = pickle.Unpickler(map_reading).load()
-            self.carte = rle.load(map_reading)
+            self.carte = pickle.Unpickler(map_reading).load()
+            #self.carte = rle.load(map_reading)
 
     def load_image(self):
         # Chargement des images (seule celle d'arrivée contient de la transparence)
@@ -493,8 +498,8 @@ class Carte:
         if self.adresse != "":
             with open(self.adresse, 'rb') as map_reading:
                 #self.carte = rle.RLEUncompress(map_reading).load()
-                #self.carte = pickle.Unpickler(map_reading).load()
-                self.carte = rle.load(map_reading)
+                self.carte = pickle.Unpickler(map_reading).load()
+                #self.carte = rle.load(map_reading)
 
     def render(self):
         debut_generation = time.time()
@@ -568,7 +573,9 @@ class Carte:
         return self.texture_pack
 
     def get_tile(self, x, y):
-        return self.carte[y][x]
+        if 0 <= x <= self.get_x_len() and 0 <= y <= self.get_y_len():
+            return self.carte[y][x]
+        return '0'
 
     def get_y_len(self):
         return len(self.carte)
@@ -624,16 +631,16 @@ class Carte:
     def save(self):
         with open(self.adresse, "wb") as map_writing:
             #rle.RLECompress(map_writing).dump(self.carte)
-            #pickle.Pickler(map_writing).dump(self.carte)
-            rle.dump(map_writing, self.carte)
+            pickle.Pickler(map_writing).dump(self.carte)
+            #rle.dump(map_writing, self.carte)
         if self.new_bloc:
             numero_carte = str(len(glob.glob('Niveaux' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)
             if int(numero_carte) <= 9999:
                 numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
-                with open('Niveaux' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'w') as old_map_write:
+                with open('Niveaux' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'wb') as old_map_write:
                     #rle.RLECompress(old_map_write).dump(self.carte)
-                    #pickle.Pickler(old_map_write).dump(self.carte)
-                    rle.dump(old_map_write, self.carte)
+                    pickle.Pickler(old_map_write).dump(self.carte)
+                    #rle.dump(old_map_write, self.carte)
 
 
 class LANMap(Carte):

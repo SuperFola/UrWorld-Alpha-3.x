@@ -7,7 +7,7 @@ import pickle
 from gentest import *
 import pygame
 import time
-from jeu import *
+from suite_jeu import *
 import sys
 import traceback
 import pdb
@@ -26,7 +26,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 sys.excepthook = pdb_post_mortem
 """
 
-VERSION = "Alpha 3.0.3"
+VERSION = "Alpha 3.0.4"
 
 import glob
 from PIL import Image as PILImage
@@ -91,7 +91,7 @@ root_ = None
 fullscreen = True
 
 if os.path.exists('test.test'):
-    with open("s.sav", "wb") as i:
+    with open("Parties" + os.sep + "inventaire.sav", "wb") as i:
         pickle.Pickler(i).dump(s)
     root_ = pygame.display.set_mode((0, 0))  # definition de l'ecran principal
     fullscreen = False
@@ -116,10 +116,10 @@ def map_generator():
         for y, ligne in enumerate(my_noise_):
             for x, elem in enumerate(ligne):
                 my_noise_[y][x] = str(my_noise_[y][x])
-        with open("Niveaux" + os.sep + "map.lvl", "w") as file:
+        with open("Niveaux" + os.sep + "map.lvl", "wb") as file:
             #rle.RLECompress(file).dump(my_noise_)
-            #pickle.Pickler(file).dump(my_noise_)
-            rle.dump(file, my_noise_)
+            pickle.Pickler(file).dump(my_noise_)
+            #rle.dump(file, my_noise_)
     print('>> %2i minutes %2i secondes.' % (int((time.time() - start) // 60),
                                             int((time.time() - start) % 60)))
     print('Fin de la génération !')
@@ -860,9 +860,8 @@ while continuer2:
                             thread_gen.start()
                         #on lance le jeu
                         run_demos(largeur_dispo, cote_fenetre, 60)
-                        jeu(fenetre, "Guerrier", dossier_personnage, True, 500, 75, creatif_choisi,
-                                        root_, r.center, r, largeur_dispo // 30 + 30, True, hote,
-                                        port, realistic)
+                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center)
+                        #jeu(fenetre, "Guerrier", dossier_personnage, True, 500, 75, creatif_choisi, root_, r.center, r, largeur_dispo // 30 + 30, True, hote, port, realistic)
                         pygame.mouse.set_visible(True)
                 #bouton jouer
                 elif bouton_jouer[0] <= e.pos[0] <= bouton_jouer[0] + largeur * 2 \
@@ -877,9 +876,8 @@ while continuer2:
                             thread_gen.start()
                         #on lance le jeu
                         run_demos(largeur_dispo, cote_fenetre, 60)
-                        jeu(fenetre, "Guerrier", dossier_personnage, True, 500, 75, creatif_choisi,
-                                        root_, r.center, r, largeur_dispo // 30 + 30, en_reseau, hote,
-                                        port, realistic)
+                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center)
+                        #jeu(fenetre, "Guerrier", dossier_personnage, True, 500, 75, creatif_choisi, root_, r.center, r, largeur_dispo // 30 + 30, en_reseau, hote, port, realistic)
                         pygame.mouse.set_visible(True)
                 #bouton paramètres
                 elif bouton_param[0] <= e.pos[0] <= bouton_param[0] + largeur * 4 \

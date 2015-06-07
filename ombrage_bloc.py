@@ -58,8 +58,8 @@ def ombrage_bloc(fenetre, structure_niv, fov, blocs):
     surf.set_alpha(80)
     surf.convert_alpha()
 
-    for y in range(fov[1] - fov[0]):
-        for x in range(20):
+    for x in range(fov[1] - fov[0]):
+        for y in range(20):
             case = structure_niv[y][x]
             if case in blocs.list_solid():
                 fenetre.blit(surf, (x * TILE_TAILLE, y * TILE_TAILLE))
