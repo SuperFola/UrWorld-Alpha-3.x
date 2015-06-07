@@ -145,6 +145,5 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     #on ajoute la météo à la carte
     carte.set_meteo('')
 
-    print(root is fenetre)
     game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte, rcenter)
     game.start()

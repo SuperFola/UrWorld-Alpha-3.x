@@ -341,11 +341,13 @@ class Game:
             (x+1, y+1)
         ]
         for i in explode_list:
-            if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= 19:
+            if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= self.carte.get_y_len():
                 if self.carte.get_tile(i[0], i[1]) != 'cv':
                     self.carte.remove_bloc(i[0], i[1], '0')
-                else:
-                    self.boum_atomique(i[0], i[1])
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y):
+                    self.boumList.append([time.time(), (i[0], i[1])])
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y:
+                    self.carte.remove_bloc(x, y, '0')
 
     def save(self):
         """

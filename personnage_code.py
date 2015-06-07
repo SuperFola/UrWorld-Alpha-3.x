@@ -284,7 +284,6 @@ class Personnage:
         if not lan:
             self.vie = Vie(self.ecran, self.center)
         else:
-            print('in')
             self.vie = LANVie(self.ecran, self.center, self.socket_serv, self.addr)
         self.mana = Mana(self.ecran, self.carte, self.blocs)
         self.speed = 60
