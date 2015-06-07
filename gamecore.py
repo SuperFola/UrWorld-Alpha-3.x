@@ -119,7 +119,7 @@ class Game:
             +1,
         ]
         self.hauteur_saut = 0
-        self.show_cursor = True
+        self.show_cursor = False
         self.annee = len(glob("Niveaux" + os.sep + "Olds Maps" + os.sep + "*.lvl")) + 1
         self.music_liste = [
             "Sons" + os.sep + "urworld1.wav",
@@ -239,7 +239,7 @@ class Game:
             with open("Parties" + os.sep + "shader.sav", "rb") as shader_lire:
                 self.carte.set_current_shader(pickle.Unpickler(shader_lire).load())
         else:
-            self.carte.set_current_shader("standart")
+            self.carte.set_current_shader("nul")
         if os.path.exists("Parties" + os.sep + "pancartes.sav"):
             with open("Parties" + os.sep + "pancartes.sav", "rb") as lire_pancartes:
                 self.pancartes_lst = pickle.Unpickler(lire_pancartes).load()
@@ -1005,12 +1005,6 @@ class Game:
                                 self.marteau.render()
                             if self.obj_courant == 'e':
                                 self.mettre_eau(x_blit, y_blit)
-                else:
-                    self.carte.render()
-                    if self.show_stats:
-                        self.personnage.afficher_vie()
-                        self.personnage.afficher_mana()
-                        self.marteau.render()
             #controles au clavier
             elif ev.type == KEYDOWN:
                 #controles de déplacement au clavier
@@ -1133,6 +1127,9 @@ class Game:
         nb_cases_chut = 0
         pseudo_aff = self.font.render(self.personnage.get_pseudo(), 1, (0, 0, 0))
 
+        #le "tour" de l'ecran de jeu
+        self.custom()
+
         while self.continuer:
             #pour les FPS
             self.temps_avant_fps = time.time()
@@ -1166,9 +1163,6 @@ class Game:
                 iBreakList += 1
             #rendu de la carte et de la meteo
             self.carte.render()
-
-            #le "tour" de l'ecran de jeu
-            self.custom()
 
             #vie & mana
             if self.show_stats:

@@ -252,8 +252,6 @@ class Carte:
         self.wind = wind
         self.start_fireing = -1
         self.bloc_fired = -1, -1
-        self.map_surf = None
-        self.last_map_lst = []
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -506,42 +504,37 @@ class Carte:
         self.show_fire()
         #fov[1] = fov[0] + self.nb_blocs_large
         structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
-        if structure != self.last_map_lst:
-            self.last_map_lst = structure
-            self.map_surf = pygame.Surface(self.ecran.get_size())
-            #On blit le fond
-            if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
-                self.map_surf.fill((76, 76, 76))
-            else:
-                self.map_surf.fill(self.couleur_fond)
-            #On parcourt la liste du niveau
-            for num_ligne in range(20):
-                #On parcourt les listes de lignes
-                for num_case in range(self.fov[1] - self.fov[0]):
-                    #On calcule la position réelle en pixels
-                    bloc_actuel = structure[num_ligne][num_case]
-                    x = num_case * taille_sprite
-                    y = num_ligne * taille_sprite
-                    if bloc_actuel != '0':
-                        if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                            self.map_surf.blit(self.img_tous_blocs[bloc_actuel], (x, y))
-                        else:
-                            self.map_surf.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
-                            self.map_surf.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
-            if self.current_shader == "standart":
-                #standart
-                ombrage_bloc(self.map_surf, structure, self.fov, self.blocs)
-            elif self.current_shader == "progressif":
-                #progressif
-                ombrage_bloc2(self.map_surf, structure, self.fov, self.blocs)
-            elif self.current_shader == "raycasté":
-                #raycasté
-                ombrage_bloc3(self.map_surf, structure, self.fov, self.blocs)
-            elif self.current_shader == "gaussien":
-                #ombres gaussiennes
-                ombrage_bloc4(self.map_surf, structure, self.fov, self.blocs)
+        #On blit le fond
+        if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
+            self.ecran.fill((76, 76, 76))
         else:
-            self.ecran.blit(self.map_surf, (0, 0))
+            self.ecran.fill(self.couleur_fond)
+        #On parcourt la liste du niveau
+        for num_ligne in range(20):
+            #On parcourt les listes de lignes
+            for num_case in range(self.fov[1] - self.fov[0]):
+                #On calcule la position réelle en pixels
+                bloc_actuel = structure[num_ligne][num_case]
+                x = num_case * taille_sprite
+                y = num_ligne * taille_sprite
+                if bloc_actuel != '0':
+                    if not self.marteau.has_been_2nd_planed(bloc_actuel):
+                        self.ecran.blit(self.img_tous_blocs[bloc_actuel], (x, y))
+                    else:
+                        self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
+                        self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+        if self.current_shader == "standart":
+            #standart
+            ombrage_bloc(self.ecran, structure, self.fov, self.blocs)
+        elif self.current_shader == "progressif":
+            #progressif
+            ombrage_bloc2(self.ecran, structure, self.fov, self.blocs)
+        elif self.current_shader == "raycasté":
+            #raycasté
+            ombrage_bloc3(self.ecran, structure, self.fov, self.blocs)
+        elif self.current_shader == "gaussien":
+            #ombres gaussiennes
+            ombrage_bloc4(self.ecran, structure, self.fov, self.blocs)
 
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
@@ -550,12 +543,6 @@ class Carte:
         pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
         pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
         self.root.blit(rendu_shader, (111, 10))
-        if self.rain.get_action():
-            self.rain.update()
-        if self.wind.get_action():
-            self.wind.update()
-        if self.storm.get_action():
-            self.storm.update()
 
     def collide(self, x, y):
         collision = False
