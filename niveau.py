@@ -525,7 +525,7 @@ class Carte:
                     else:
                         self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
-                self.shaders.update(x=num_case, y=num_ligne, cur_shader=self.current_shader)
+                self.shaders.update(x=num_case, y=num_ligne)
 
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
