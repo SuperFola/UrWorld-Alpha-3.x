@@ -7,6 +7,7 @@ import glob
 from weather import Weather
 import pickle
 import compressor as rle
+import ombrage_bloc as omb
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -221,7 +222,7 @@ class Blocks:
         return dico_name
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, rain=Weather(), storm=Weather(), wind=Weather(), shader=Shaders()):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, rain=Weather(), storm=Weather(), wind=Weather(), shader=omb.Shaders()):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
