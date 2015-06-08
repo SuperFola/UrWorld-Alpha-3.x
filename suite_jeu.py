@@ -114,7 +114,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
 
     #variables
     pseudo = ""
-    shader = omb.Shader(fenetre)
+    shader = omb.Shader(fenetre, blocs)
     with open("Parties" + os.sep + "pseudo.sav", "r") as pseudo_lire:
         pseudo = pseudo_lire.read()
     if not en_reseau:
@@ -130,7 +130,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
         except OSError:
             en_reseau = False
             message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)
-            carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs)
+            carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
             carte.load("Niveaux" + os.sep + "map.lvl")
 
     #personnage in game

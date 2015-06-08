@@ -14,7 +14,7 @@ width = taille_fenetre_largeur_win // 30 + 30
 
 
 class Shader:
-    def __init__(self, ecran, base_type='nul'):
+    def __init__(self, ecran, blocs, base_type='nul'):
         self.ecran = ecran
         self.indice_shader = 0
         self.liste_shader = [
@@ -24,14 +24,18 @@ class Shader:
             'gaussien',
             'nul'
         ]
+        self.blocs = blocs
         self.current_shader = base_type
         self.carte = []
-        self.passe_a_travers = []
+        self.blocs_passe_pas = self.blocs.list_solid()
         self.surf = pygame.Surface((30, 30))
         self.surf.fill((0, 0, 0))
         self.surf.set_alpha(90)
         self.surf.convert_alpha()
-        self.surf2 = self.surf
+        self.surf2 = pygame.Surface((30, 30))
+        self.surf2.fill((0, 0, 0))
+        self.surf2.set_alpha(90)
+        self.surf2.convert_alpha()
         self.ombre = False
         self.progressif = 0x000000
     
@@ -52,20 +56,43 @@ class Shader:
     
     def update(self, x=0, y=0):
         bloc = self.carte[y][x]
+        if not y:
+            self.ombre = False
+            self.progressif = 0x000000
         if self.current_shader == 'standart':
-            if bloc not in self.passe_a_travers:
+            if bloc in self.blocs_passe_pas:
                 self.ecran.blit(self.surf, (x*30, y*30))
         if self.current_shader == 'raycasté':
-            if bloc not in self.passe_a_travers:
+            if bloc in self.blocs_passe_pas:
                 self.ombre = True
             if self.ombre:
                 self.ecran.blit(self.surf, (x*30, y*30))
         if self.current_shader == 'progressif':
-            if bloc not in self.passe_a_travers:
-                self.progressif += 0x10
+            cur_case_ombre = 0
+            if bloc in self.blocs_passe_pas:
+                if x - 1 >= 0 and x + 1 <= len(self.carte[0]) - 1:
+                    if self.carte[y][x-1] in self.blocs_passe_pas and self.carte[y][x+1] not in self.blocs_passe_pas:
+                        cur_case_ombre += 32
+                    if self.carte[y][x-1] not in self.blocs_passe_pas and self.carte[y][x+1] not in self.blocs_passe_pas:
+                        cur_case_ombre += 16
+                    if self.carte[y][x-1] not in self.blocs_passe_pas and self.carte[y][x+1] in self.blocs_passe_pas:
+                        cur_case_ombre += 32
+                    if self.carte[y][x-1] in self.blocs_passe_pas and self.carte[y][x+1] in self.blocs_passe_pas:
+                        cur_case_ombre += 64
+                if x - 1 < 0:
+                    if self.carte[y][x+1] not in self.blocs_passe_pas:
+                        cur_case_ombre += 16
+                    else:
+                        cur_case_ombre += 32
+                if x + 1 > len(self.carte[0]) - 1:
+                    if self.carte[y][x-1] not in self.blocs_passe_pas:
+                        cur_case_ombre += 16
+                    else:
+                        cur_case_ombre += 32
+                self.progressif += 8
             else:
                 self.progressif = 0x000000
-            self.surf2.set_alpha(self.progressif)
+            self.surf2.set_alpha(self.progressif + cur_case_ombre)
             self.ecran.blit(self.surf2, (x*30, y*30))
         if self.current_shader == 'gaussien':
             pass

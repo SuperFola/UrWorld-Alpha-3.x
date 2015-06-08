@@ -475,9 +475,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1842" max-vertical-offset="16116">
               <caret line="118" column="53" selection-start-line="118" selection-start-column="53" selection-end-line="118" selection-end-column="53" />
-              <folding>
-                <element signature="e#21#41#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -485,8 +483,18 @@
       <file leaf-file-name="suite_jeu.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/suite_jeu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1943" max-vertical-offset="2465">
-              <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1515" max-vertical-offset="2499">
+              <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ombrage_bloc.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ombrage_bloc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8152174" vertical-offset="1179" max-vertical-offset="3519">
+              <caret line="91" column="36" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -495,21 +503,11 @@
       <file leaf-file-name="niveau.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/niveau.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5861" max-vertical-offset="9282">
-              <caret line="562" column="0" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2880" max-vertical-offset="8823">
+              <caret line="701" column="78" selection-start-line="701" selection-start-column="78" selection-end-line="701" selection-end-column="78" />
               <folding>
-                <element signature="e#13350#26439#0" expanded="false" />
+                <element signature="e#13190#26279#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ombrage_bloc.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ombrage_bloc.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="846" max-vertical-offset="2057">
-              <caret line="61" column="27" selection-start-line="61" selection-start-column="27" selection-end-line="61" selection-end-column="27" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -517,7 +515,7 @@
       <file leaf-file-name="dialog_box.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dialog_box.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3196">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3264">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -534,10 +532,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="gamecore.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gamecore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.69295776" vertical-offset="2933" max-vertical-offset="6834">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6834">
               <caret line="346" column="77" selection-start-line="346" selection-start-column="77" selection-end-line="346" selection-end-column="77" />
               <folding>
                 <element signature="e#21#30#0" expanded="true" />
@@ -565,7 +563,7 @@
       <file leaf-file-name="constantes.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/constantes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="3196">
+            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="3213">
               <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
               <folding />
             </state>
@@ -575,7 +573,7 @@
       <file leaf-file-name="personnage_code.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/personnage_code.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4647" max-vertical-offset="7497">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4845" max-vertical-offset="7599">
               <caret line="285" column="13" selection-start-line="285" selection-start-column="13" selection-end-line="285" selection-end-column="13" />
               <folding />
             </state>
@@ -585,7 +583,7 @@
       <file leaf-file-name="jeu.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jeu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4029" max-vertical-offset="24650">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4947" max-vertical-offset="25160">
               <caret line="291" column="54" selection-start-line="291" selection-start-column="54" selection-end-line="291" selection-end-column="54" />
               <folding />
             </state>
@@ -600,8 +598,8 @@
     </FindUsagesManager>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/jeu.py" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/PycharmProjects/PyOpenGL_test/background_color_intensity_pygame.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/jeu.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
@@ -646,11 +644,11 @@
         <option value="$PROJECT_DIR$/commerces_p.py" />
         <option value="$PROJECT_DIR$/suite jeu.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/ombrage_bloc.py" />
-        <option value="$PROJECT_DIR$/niveau.py" />
         <option value="$PROJECT_DIR$/personnage_code.py" />
-        <option value="$PROJECT_DIR$/suite_jeu.py" />
         <option value="$PROJECT_DIR$/gamecore.py" />
+        <option value="$PROJECT_DIR$/niveau.py" />
+        <option value="$PROJECT_DIR$/suite_jeu.py" />
+        <option value="$PROJECT_DIR$/ombrage_bloc.py" />
       </list>
     </option>
   </component>
@@ -702,6 +700,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -722,7 +721,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -989,7 +987,6 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2662116" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23809524" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39590445" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -999,10 +996,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1019,9 +1017,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23660715" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1053,9 +1051,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1122,7 +1118,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="8713" max-vertical-offset="9248">
           <caret line="740" column="24" selection-start-line="740" selection-start-column="24" selection-end-line="740" selection-end-column="24" />
           <folding>
-            <element signature="e#13350#26439#0" expanded="false" />
+            <element signature="e#13190#26279#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1131,9 +1127,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1207,7 +1201,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12835">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#13350#26439#0" expanded="false" />
+            <element signature="e#13190#26279#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1216,9 +1210,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1340,7 +1332,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1672" max-vertical-offset="2414">
           <caret line="107" column="51" selection-start-line="107" selection-start-column="51" selection-end-line="107" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1355,9 +1346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2859813" vertical-offset="0" max-vertical-offset="3179">
           <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-          <folding>
-            <element signature="e#21#55#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1393,31 +1381,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ombrage_bloc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="846" max-vertical-offset="2057">
-          <caret line="61" column="27" selection-start-line="61" selection-start-column="27" selection-end-line="61" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="16116">
           <caret line="118" column="53" selection-start-line="118" selection-start-column="53" selection-end-line="118" selection-end-column="53" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/niveau.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5861" max-vertical-offset="9282">
-          <caret line="562" column="0" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
-          <folding>
-            <element signature="e#13350#26439#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1429,17 +1397,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/suite_jeu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1943" max-vertical-offset="2465">
-          <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gamecore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.69295776" vertical-offset="2933" max-vertical-offset="6834">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6834">
           <caret line="346" column="77" selection-start-line="346" selection-start-column="77" selection-end-line="346" selection-end-column="77" />
           <folding>
             <element signature="e#21#30#0" expanded="true" />
@@ -1460,6 +1420,32 @@
             <element signature="e#36921#42242#0" expanded="false" />
             <element signature="e#42278#62087#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/niveau.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10175" max-vertical-offset="12291">
+          <caret line="701" column="78" selection-start-line="701" selection-start-column="78" selection-end-line="701" selection-end-column="78" />
+          <folding>
+            <element signature="e#13190#26279#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/suite_jeu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1515" max-vertical-offset="2499">
+          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ombrage_bloc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8152174" vertical-offset="1179" max-vertical-offset="3519">
+          <caret line="91" column="36" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>

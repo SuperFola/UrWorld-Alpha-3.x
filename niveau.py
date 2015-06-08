@@ -222,7 +222,7 @@ class Blocks:
         return dico_name
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, rain=Weather(), storm=Weather(), wind=Weather(), shader=omb.Shaders()):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, rain=Weather(), storm=Weather(), wind=Weather()):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
@@ -504,9 +504,9 @@ class Carte:
         else:
             self.ecran.fill(self.couleur_fond)
         #On parcourt la liste du niveau
-        for num_ligne in range(20):
+        for num_case in range(self.fov[1] - self.fov[0]):
             #On parcourt les listes de lignes
-            for num_case in range(self.fov[1] - self.fov[0]):
+            for num_ligne in range(20):
                 #On calcule la position réelle en pixels
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite
@@ -613,8 +613,8 @@ class Carte:
 
 
 class LANMap(Carte):
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, rain=None, wind=None, storm=None):
-        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, rain=rain, wind=wind, storm=storm)
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader, rain=None, wind=None, storm=None):
+        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader, rain=rain, wind=wind, storm=storm)
         self.blocs = blocs
         self.ecran = surface
         self.root = surface_mere
@@ -645,17 +645,19 @@ class LANMap(Carte):
 
     def render(self):
         debut_generation = time.time()
+        self.show_fire()
         #fov[1] = fov[0] + self.nb_blocs_large
         structure = self.carte
+        self.shaders.create(structure)
         #On blit le fond
-        if self.rain != None or self.wind != None or self.storm != None:
-            pygame.draw.rect(self.ecran, (76, 76, 76), (0, 0, (self.fov[1] - self.fov[0]) * 30, 600))
+        if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
+            self.ecran.fill((76, 76, 76))
         else:
-            pygame.draw.rect(self.ecran, self.couleur_fond, (0, 0, (self.fov[1] - self.fov[0]) * 30, 600))
+            self.ecran.fill(self.couleur_fond)
         #On parcourt la liste du niveau
-        for num_ligne in range(20):
+        for num_case in range(self.fov[1] - self.fov[0]):
             #On parcourt les listes de lignes
-            for num_case in range(self.fov[1] - self.fov[0]):
+            for num_ligne in range(20):
                 #On calcule la position réelle en pixels
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite
@@ -666,18 +668,7 @@ class LANMap(Carte):
                     else:
                         self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
-        if self.current_shader == "standart":
-            #standart
-            ombrage_bloc(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "progressif":
-            #progressif
-            ombrage_bloc2(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "raycasté":
-            #raycasté
-            ombrage_bloc3(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "gaussien":
-            #ombres gaussiennes
-            ombrage_bloc3(self.ecran, structure, self.fov, self.blocs)
+                self.shaders.update(x=num_case, y=num_ligne)
 
         if self.print_oth:
             self.socket.sendto(pickle.dumps("get->others"), self.params)
@@ -708,7 +699,7 @@ class LANMap(Carte):
         #pygame.draw.rect(self.root, (150, 150, 150), (6, 5, 265, 19))
         #self.root.blit(font.render(generation, 1, (10, 10, 10)), (12, 6))
         #affichage du shader en cours d'utilisation
-        rendu_shader = font.render("Shader :: " + self.current_shader, 1, (10, 10, 10))
+        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
         pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
         pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
         self.root.blit(rendu_shader, (111, 10))
