@@ -1,4 +1,3 @@
-import ctypes
 import pygame
 from tkinter import *
 import os
@@ -12,6 +11,64 @@ TILE_TAILLE = 30
 height = 20
 taille_fenetre_largeur_win = cst.taille_fenetre_largeur_win
 width = taille_fenetre_largeur_win // 30 + 30
+
+
+class Shader:
+    def __init__(self, ecran, base_type='nul'):
+        self.ecran = ecran
+        self.indice_shader = 0
+        self.liste_shader = [
+            'standart',
+            'raycasté',
+            'progressif',
+            'gaussien',
+            'nul'
+        ]
+        self.current_shader = base_type
+        self.carte = []
+        self.passe_a_travers = []
+        self.surf = pygame.Surface((30, 30))
+        self.surf.fill((0, 0, 0))
+        self.surf.set_alpha(90)
+        self.surf.convert_alpha()
+        self.surf2 = self.surf
+        self.ombre = False
+        self.progressif = 0x000000
+    
+    def change_shader(self):
+        self.indice_shader += 1
+        self.current_shader = self.liste_shader[self.indice_shader % len(self.liste_shader)]
+    
+    def create(self, carte):
+        self.carte = carte
+        self.progressif = 0x000000
+        self.ombre = False
+    
+    def get_cur_shader(self):
+        return self.current_shader
+    
+    def set_shader(self, new):
+        self.current_shader = new
+    
+    def update(self, x=0, y=0):
+        bloc = self.carte[y][x]
+        if self.current_shader == 'standart':
+            if bloc not in self.passe_a_travers:
+                self.ecran.blit(self.surf, (x*30, y*30))
+        if self.current_shader == 'raycasté':
+            if bloc not in self.passe_a_travers:
+                self.ombre = True
+            if self.ombre:
+                self.ecran.blit(self.surf, (x*30, y*30))
+        if self.current_shader == 'progressif':
+            if bloc not in self.passe_a_travers:
+                self.progressif += 0x10
+            else:
+                self.progressif = 0x000000
+            self.surf2.set_alpha(self.progressif)
+            self.ecran.blit(self.surf2, (x*30, y*30))
+        if self.current_shader == 'gaussien':
+            pass
 
 
 def distance_right(x, y, carte, fov):
