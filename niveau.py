@@ -221,7 +221,7 @@ class Blocks:
         return dico_name
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, rain=Weather(), storm=Weather(), wind=Weather()):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, rain=Weather(), storm=Weather(), wind=Weather(), shader=Shaders()):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
@@ -252,6 +252,7 @@ class Carte:
         self.wind = wind
         self.start_fireing = -1
         self.bloc_fired = -1, -1
+        self.shaders = shader
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -504,6 +505,7 @@ class Carte:
         self.show_fire()
         #fov[1] = fov[0] + self.nb_blocs_large
         structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
+        self.shaders.create(structure)
         #On blit le fond
         if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
             self.ecran.fill((76, 76, 76))
@@ -523,18 +525,7 @@ class Carte:
                     else:
                         self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
-        if self.current_shader == "standart":
-            #standart
-            ombrage_bloc(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "progressif":
-            #progressif
-            ombrage_bloc2(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "raycasté":
-            #raycasté
-            ombrage_bloc3(self.ecran, structure, self.fov, self.blocs)
-        elif self.current_shader == "gaussien":
-            #ombres gaussiennes
-            ombrage_bloc4(self.ecran, structure, self.fov, self.blocs)
+                self.shaders.update(x=num_case, y=num_ligne, cur_shader=self.current_shader)
 
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
