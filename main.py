@@ -59,8 +59,6 @@ if miniaturisation is True:
     for fichier in glob.glob("Fond" + os.sep + "*.png"):
         if fichier != "Fond" + os.sep + "URWORLD.png":
             img_resize(fichier, 10)
-    for fichier2 in glob.glob("Fond" + os.sep + "Nouveau" + os.sep + "*.png"):
-        img_resize(fichier2, 10)
 
 largeur_dispo = cst.taille_fenetre_largeur_win
 
