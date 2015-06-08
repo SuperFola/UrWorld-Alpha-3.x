@@ -229,15 +229,6 @@ class Carte:
         self.marteau = marteau
         self.adresse = ""
         self.couleur_fond = (0, 184, 169)
-        self.current_shader = "nul"
-        self.compteur_shader = 0
-        self.liste_shader = [
-            'standart',
-            'raycasté',
-            'progressif',
-            'gaussien',
-            'nul'
-        ]
         self.collision_bloc = self.blocs.list_solid()
         self.texture_pack = "Fond/"
         self.bloc_name = self.blocs.dict_name()
@@ -530,7 +521,7 @@ class Carte:
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
         #affichage du shader en cours d'utilisation
-        rendu_shader = font.render("Shader :: " + self.current_shader, 1, (10, 10, 10))
+        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
         pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
         pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
         self.root.blit(rendu_shader, (111, 10))
@@ -581,14 +572,13 @@ class Carte:
         return self.fov[1] - self.fov[0]
 
     def switch_shader(self):
-        self.compteur_shader += 1
-        self.current_shader = self.liste_shader[self.compteur_shader % len(self.liste_shader)]
+        self.shaders.change_shader()
 
     def set_current_shader(self, shader):
-        self.current_shader = shader
+        self.shaders.set_shader(shader)
 
     def get_curent_shader(self):
-        return self.current_shader
+        return self.shaders.get_cur_shader()
 
     def set_background_color(self, color):
         self.couleur_fond = color
