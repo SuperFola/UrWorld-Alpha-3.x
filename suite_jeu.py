@@ -144,8 +144,18 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     vent = weather.Wind(carte, fenetre, personnage)
     pluie = weather.Rain(carte, fenetre, personnage, blocs)
     orage = weather.Storm(carte, fenetre, personnage)
-    #on ajoute la météo à la carte
-    carte.set_meteo('')
+    if os.path.exists('Parties' + os.sep + 'vent.sav'):
+        with open('Parties' + os.sep + 'vent.sav', 'rb') as f:
+            if pickle.Unpickler(f).load():
+                carte.add_meteo(vent)
+    if os.path.exists('Parties' + os.sep + 'pluie.sav'):
+        with open('Parties' + os.sep + 'pluie.sav', 'rb') as f:
+            if pickle.Unpickler(f).load():
+                carte.add_meteo(vent)
+    if os.path.exists('Parties' + os.sep + 'orage.sav'):
+        with open('Parties' + os.sep + 'orage.sav', 'rb') as f:
+            if pickle.Unpickler(f).load():
+                carte.add_meteo(vent)
 
     game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte, rcenter)
     game.start()

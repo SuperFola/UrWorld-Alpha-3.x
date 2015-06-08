@@ -222,7 +222,7 @@ class Blocks:
         return dico_name
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, rain=Weather(), storm=Weather(), wind=Weather()):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
@@ -239,9 +239,7 @@ class Carte:
         self.fov = [0, self.nb_blocs_large]
         self.new_bloc = False
         self.gravity_entity = self.blocs.list_gravity()
-        self.rain = rain
-        self.storm = storm
-        self.wind = wind
+        self.meteos = []
         self.start_fireing = -1
         self.bloc_fired = -1, -1
         self.shaders = shader
@@ -476,14 +474,18 @@ class Carte:
             self.start_fireing = -1
             self.bloc_fired = -1, -1
 
-    def set_meteo(self, command, rain=Weather(), wind=Weather(), storm=Weather()):
-        if command == 'toggledownfalled':
-            self.rain.do(command)
-        if command == 'invert':
-            self.wind.do(command)
-        self.rain = rain
-        self.wind = wind
-        self.storm = storm
+    def add_meteo(self, meteo):
+        self.meteos.append(meteo)
+
+    def cmd_meteo(self, command):
+        for i in self.meteos:
+            i.send(command)
+
+    def get_action_meteo(self):
+        for j in self.meteos:
+            if not j.get_action():
+                return False
+        return True
 
     def reload_map(self):
         if self.adresse != "":
@@ -492,6 +494,20 @@ class Carte:
                 self.carte = pickle.Unpickler(map_reading).load()
                 #self.carte = rle.load(map_reading)
 
+    def update(self):
+        self.gravity_for_entity()
+        self.render()
+
+    def gravity_for_entity(self):
+        structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
+        for y in range(len(structure)):
+            for x in range(len(structure[0])):
+                bloc = structure[y][x]
+                if bloc in self.gravity_entity and y + 1 <= len(structure) - 1:
+                    if structure[y+1][x] == '0':
+                        self.carte[y+1][x + self.fov[0]], self.carte[y][x + self.fov[0]] = \
+                            self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
+
     def render(self):
         debut_generation = time.time()
         self.show_fire()
@@ -499,7 +515,7 @@ class Carte:
         structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
         self.shaders.create(structure)
         #On blit le fond
-        if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
+        if not self.get_action_meteo():
             self.ecran.fill((76, 76, 76))
         else:
             self.ecran.fill(self.couleur_fond)
@@ -587,16 +603,6 @@ class Carte:
     def get_background_color(self):
         return self.couleur_fond
 
-    def gravity_for_entity(self):
-        structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
-        for y in range(len(structure)):
-            for x in range(len(structure[0])):
-                bloc = structure[y][x]
-                if bloc in self.gravity_entity and y + 1 <= len(structure) - 1:
-                    if structure[y+1][x] == '0':
-                        self.carte[y+1][x + self.fov[0]], self.carte[y][x + self.fov[0]] = \
-                            self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
-
     def save(self):
         with open(self.adresse, "wb") as map_writing:
             #rle.RLECompress(map_writing).dump(self.carte)
@@ -613,8 +619,8 @@ class Carte:
 
 
 class LANMap(Carte):
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader, rain=None, wind=None, storm=None):
-        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader, rain=rain, wind=wind, storm=storm)
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader):
+        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader)
         self.blocs = blocs
         self.ecran = surface
         self.root = surface_mere
@@ -643,6 +649,16 @@ class LANMap(Carte):
     def make_choice_oth(self, print_oth):
         self.print_oth = print_oth
 
+    def change_oth_visibility(self):
+        self.print_oth = not self.print_oth
+
+    def get_oth_visibility(self):
+        return self.print_oth
+
+    def update_(self, position_player):
+        self.receive_map()
+        self.socket.sendto(pickle.dumps("set->pos" + str(position_player[0]) + ":" + str(position_player[1]) + ":" + position_player[2]), self.params)
+
     def render(self):
         debut_generation = time.time()
         self.show_fire()
@@ -650,7 +666,7 @@ class LANMap(Carte):
         structure = self.carte
         self.shaders.create(structure)
         #On blit le fond
-        if not self.rain.get_action() or not self.wind.get_action() or not self.storm.get_action():
+        if not self.get_action_meteo():
             self.ecran.fill((76, 76, 76))
         else:
             self.ecran.fill(self.couleur_fond)

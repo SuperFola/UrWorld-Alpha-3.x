@@ -46,7 +46,7 @@ class Wind:
                     self.taskdone = True
             self.__render()
 
-    def do(self, action):
+    def send(self, action):
         if action == 'invert':
             self.can = not self.can
             self.taskdone = False
@@ -111,7 +111,7 @@ class Rain:
             self.personnage.set_speed(self.personnage.get_speed() - 20)
             self.waterflow = True
 
-    def do(self, action):
+    def send(self, action):
         if action == 'toggledownfalled':
             self.toggle_downfalled()
 
@@ -154,7 +154,7 @@ class Storm:
                     self.__render()
                 self.lightning = False
 
-    def do(self, action):
+    def send(self, action):
         pass
 
     def get_action(self):

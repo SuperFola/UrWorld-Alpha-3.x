@@ -318,7 +318,7 @@ def gamemode_def(fenetre, grd_font, hauteur_fen, fullscreen):
     return fullscreen
 
 
-def bg_color(fenetr, grd_font, hauteur_fen, fullscreen):
+def bg_color(fenetre, grd_font, hauteur_fen, fullscreen):
     couleur = dlb.DialogBox(fenetre, ["Code couleur (sous la forme :", "(Red, Green, Blue))"], "Couleur de fond",
                                 (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                                 type_btn=2, mouse=False).render()
@@ -344,6 +344,66 @@ def windows_property(fenetre, grd_font, hauteur_fen, fullscreen):
     fenetre.fill((60, 60, 60))  #coloriage de la fenetre de jeu en gris
     pygame.display.update(r)  #mise a jour de la fenetre seulement
     return not fullscreen
+
+
+def vent_property(fenetre, grd_font, hauteur_fen, fullscreen):
+    last_wind = ""
+    if os.path.exists('Parties' + os.sep + 'vent.sav'):
+        with open('Parties' + os.sep + 'vent.sav', 'rb') as vprb:
+            last_wind = pickle.Unpickler(vprb).load()
+        with open('Parties' + os.sep + 'vent.sav', 'wb') as vpwb:
+            pickle.Pickler(vpwb).dump(not last_wind)
+        dlb.DialogBox(fenetre, ["Le vent est désormais ", "actif" if not last_wind else "nul"], "Vent",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+    else:
+        dlb.DialogBox(fenetre, ["Le fichier permettant la manipulation", "n'existe pas et va être créé."], "Erreur",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+        with open('Parties' + os.sep + 'vent.sav', 'wb') as vpwbt:
+            pickle.Pickler(vpwbt).dump(False)
+
+    return fullscreen
+
+
+def pluie_property(fenetre, grd_font, hauteur_fen, fullscreen):
+    last_rain = ""
+    if os.path.exists('Parties' + os.sep + 'pluie.sav'):
+        with open('Parties' + os.sep + 'pluie.sav', 'rb') as pprb:
+            last_rain = pickle.Unpickler(pprb).load()
+        with open('Parties' + os.sep + 'pluie.sav', 'wb') as ppwb:
+            pickle.Pickler(ppwb).dump(not last_rain)
+        dlb.DialogBox(fenetre, ["La pluie est désormais ", "active" if not last_rain else "nulle"], "Pluie",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+    else:
+        dlb.DialogBox(fenetre, ["Le fichier permettant la manipulation", "n'existe pas et va être créé."], "Erreur",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+        with open('Parties' + os.sep + 'pluie.sav', 'wb') as ppwbt:
+            pickle.Pickler(ppwbt).dump(False)
+
+    return fullscreen
+
+
+def orage_property(fenetre, grd_font, hauteur_fen, fullscreen):
+    last_orage = ""
+    if os.path.exists('Parties' + os.sep + 'orage.sav'):
+        with open('Parties' + os.sep + 'orage.sav', 'rb') as oprb:
+            last_orage = pickle.Unpickler(oprb).load()
+        with open('Parties' + os.sep + 'orage.sav', 'wb') as opwb:
+            pickle.Pickler(opwb).dump(not last_orage)
+        dlb.DialogBox(fenetre, ["L'orage est désormais ", "actif" if not last_orage else "nul"], "Orage",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+    else:
+        dlb.DialogBox(fenetre, ["Le fichier permettant la manipulation", "n'existe pas et va être créé."], "Erreur",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+        with open('Parties' + os.sep + 'orage.sav', 'wb') as opwbt:
+            pickle.Pickler(opwbt).dump(False)
+
+    return fullscreen
 
 
 def pass_(fenetre, grd_font, hauteur_fen, fullscreen):
@@ -384,9 +444,9 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
         [166, 'Mode de jeu', gamemode_def],
         [185, 'Couleur de fond', bg_color],
         [204, 'Etat de la fenetre', windows_property],
-        [223, '', pass_],
-        [242, '', pass_],
-        [261, '', pass_],
+        [223, 'Vent', vent_property],
+        [242, 'Pluie', pluie_property],
+        [261, 'Orage', orage_property],
         [280, '', pass_],
         [299, '', pass_],
         [318, '', pass_],

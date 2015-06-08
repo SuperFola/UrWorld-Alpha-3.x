@@ -27,10 +27,6 @@ def padding_0(liste):
     return intermediaire
 
 
-def reseau_define_mypos(socket, mypos, params):
-    socket.sendto(pickle.dumps("set->pos" + str(mypos[0]) + ":" + str(mypos[1]) + ":" + mypos[2]), params)
-
-
 def reseau_speaking(socket, message, params, personnage, carte, blocs_):
     if message[:4] != 'tp->' and message[:6] != "give->" and message[:5] != "ban->" \
             and message[:9] != "upgrade->" and message[:8] != "season->":
@@ -125,7 +121,6 @@ class Game:
             "Sons" + os.sep + "urworld1.wav",
             "Sons" + os.sep + "urworld2.wav"
         ]
-        self.affiche_oth = True
         self.number_of_case = 0
         self.boumList = []
         self.breakListe = []
@@ -1045,9 +1040,10 @@ class Game:
                         pygame.mixer.music.set_volume(self.volume_son_j)
                 #on affiche les autres ou pas :D
                 elif ev.key == K_p:
-                    self.affiche_oth = not self.affiche_oth
-                    dlb.DialogBox(self.fenetre, "Les autres joueurs ne sont plus visibles" if not self.affiche_oth else "Les autres joueurs sont visibles",
-                                  "Visiblité des joueurs", self.rcenter, self.grd_font, self.y_ecart, type_btn=0, carte=self.carte).render()
+                    if self.en_reseau:
+                        self.carte.change_oth_visibility()
+                        dlb.DialogBox(self.fenetre, "Les autres joueurs ne sont plus visibles" if not self.carte.get_oth_visibility() else "Les autres joueurs sont visibles",
+                                    "Visiblité des joueurs", self.rcenter, self.grd_font, self.y_ecart, type_btn=0, carte=self.carte).render()
                 elif ev.key == K_y:
                     self.carte.switch_shader()
                 elif ev.key == K_t:
@@ -1136,16 +1132,11 @@ class Game:
             #pour les FPS
             self.temps_avant_fps = time.time()
 
-            #la carte réseau
-            if self.en_reseau:
-                self.carte.receive_map()
-                self.carte.make_choice_oth(self.affiche_oth)
-                reseau_define_mypos(self.network,
-                                    [self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
-                                     self.personnage.get_pos()[1] // 30, self.personnage.get_direction()],
-                                    self.params_co)
-            #la gravité pour les entités
-            self.carte.gravity_for_entity()
+            if not self.en_reseau:
+                self.carte.update()
+            else:
+                self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
+                                     self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
             #destruction des bombes atomiques non bloquantes
             iBList = 0
             while iBList <= len(self.boumList) - 1:
@@ -1163,8 +1154,6 @@ class Game:
                     self.breakListe.pop(iBreakList)
                     self.breaking_bloc.play()
                 iBreakList += 1
-            #rendu de la carte et de la meteo
-            self.carte.render()
 
             #vie & mana
             if self.show_stats:
