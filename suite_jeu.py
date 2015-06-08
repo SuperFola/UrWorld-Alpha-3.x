@@ -10,6 +10,7 @@ import items as itm
 import niveau as niveau_pkg
 import weather
 import pygame
+import ombrage_bloc as omb
 
 
 def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcenter):
@@ -113,17 +114,18 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
 
     #variables
     pseudo = ""
+    shader = omb.Shader(fenetre)
     with open("Parties" + os.sep + "pseudo.sav", "r") as pseudo_lire:
         pseudo = pseudo_lire.read()
     if not en_reseau:
-        carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs)
+        carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
         carte.load("Niveaux" + os.sep + "map.lvl")
     else:
         try:
             socket_client_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             params_co = (hote, port)
             socket_client_serv.sendto(pickle.dumps([pseudo, 0, 0, dossier_personnage]), params_co)
-            carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs)
+            carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
             carte.receive_map()
         except OSError:
             en_reseau = False
