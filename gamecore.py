@@ -319,21 +319,30 @@ class Game:
         :return: nothing
         """
         explode_list = [
-            (x, y),
-            (x-1, y),
+            (x-3, y),
             (x-2, y),
+            (x-1, y),
             (x+1, y),
             (x+2, y),
+            (x+3, y),
+            (x-1, y-1),
+            (x-2, y-1),
             (x, y-1),
+            (x+1, y-1),
+            (x+2, y-1),
             (x, y-2),
-            (x, y-3),
-            (x-1, y-3),
-            (x-2, y-3),
-            (x+1, y-3),
-            (x+2, y-3),
+            (x-1, y-2),
+            (x+1, y-2),
             (x, y+1),
             (x-1, y+1),
-            (x+1, y+1)
+            (x-2, y+1),
+            (x-3, y+1),
+            (x+1, y+1),
+            (x+2, y+1),
+            (x+3, y+1),
+            (x, y+2),
+            (x-1, y+2),
+            (x+1, y+2)
         ]
         for i in explode_list:
             if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= self.carte.get_y_len():
