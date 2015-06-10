@@ -78,12 +78,15 @@ def valid(obj):
 
 def dump(file, obj):
     group_count = lambda g: len(list(group))
+    cpt = 0
     if valid(obj):
         dumped = ''
         for row in obj:
             for tile, group in groupby(row):
                 dumped += "'" + tile + "'" + str(group_count(group))
+                cpt += int(group_count(group))
             dumped += '\n'
+        print(cpt)
         file.write(dumped)
     else:
         raise ValueError("Invalid object format")
@@ -91,14 +94,12 @@ def dump(file, obj):
 
 def load(file):
     loaded = []
-    for line in file:
+    cpt = 0
+    for line in file.readlines():
         row = []
         for tile, count in re.findall(RLE_BLOCK_FORMAT, line):
-            row.extend([tile[1:-1:]] * int(count))
+            row += [tile] * int(count)
+            cpt += int(count)
         loaded.append(row)
-    with open("f.txt", "w") as f:
-        for i in loaded:
-            for j in i:
-                f.write(j)
-            f.write("\n")
+    print(cpt)
     return loaded

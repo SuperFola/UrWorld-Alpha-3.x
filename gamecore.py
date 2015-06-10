@@ -1232,10 +1232,9 @@ class Game:
                 self.falling.stop()
                 self.prise_de_degats = 0
 
-            if self.show_cursor:
-                #affichage du bloc en cours d'utilisation
-                self.aff_bloc()
+            self.aff_bloc()
 
+            if self.show_cursor:
                 #on affiche les caractéristiques du bloc survolé :)
                 if self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) != 'p':
                     bloc_actuel = self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) if not self.marteau.has_been_2nd_planed(self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)) else self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)[2::]

@@ -16,7 +16,6 @@ import tkinter.messagebox
 import tkinter.filedialog
 from tkinter import *
 from tkinter.colorchooser import *
-import BModules.GIFImage as GIFImage
 from random import *
 from niveau import *
 from math import *

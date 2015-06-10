@@ -127,16 +127,16 @@ thread_gen = Thread(target=map_generator)
 thread_gen.start()
 
 colors = [
-    (255, 255, 255),  #blanc
-    (255, 247, 30),  #jaune
-    (255, 33, 255),  #rose
-    (251, 148, 42),  #orange
-    (253, 22, 76),  #rouge
-    (205, 90, 173),  #violet
-    (50, 205, 250),  #bleu
-    (20, 255, 15),  #vert
-    (160, 110, 44),  #marron
-    (0, 0, 0)  #noir
+    (255, 255, 255),  # blanc
+    (255, 247, 30),  # jaune
+    (255, 33, 255),  # rose
+    (251, 148, 42),  # orange
+    (253, 22, 76),  # rouge
+    (205, 90, 173),  # violet
+    (50, 205, 250),  # bleu
+    (20, 255, 15),  # vert
+    (160, 110, 44),  # marron
+    (0, 0, 0)  # noir
 ]
 
 

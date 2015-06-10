@@ -332,7 +332,7 @@ class Personnage:
         self.immobile = True
 
     def __deplacements(self, direction):
-        case_x = self.x_pos // 30 + self.carte.get_fov()[0]
+        case_x = self.x_pos // 30 + self.carte.get_fov()[0] + self.carte.get_offset()
         case_y = self.y_pos // 30
         last_fov = self.carte.get_fov()[0]
 

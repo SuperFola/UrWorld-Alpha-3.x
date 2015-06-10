@@ -243,6 +243,18 @@ class Carte:
         self.start_fireing = -1
         self.bloc_fired = -1, -1
         self.shaders = shader
+        self.pixel_offset = 0
+
+    def change_pixel_offset(self, direction=+1):
+        self.pixel_offset += direction
+        self.pixel_offset %= 30
+        self.pixel_offset = abs(self.pixel_offset)
+        if not self.pixel_offset:
+            return True
+        return False
+
+    def get_offset(self):
+        return self.pixel_offset
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -525,7 +537,7 @@ class Carte:
             for num_ligne in range(20):
                 #On calcule la position réelle en pixels
                 bloc_actuel = structure[num_ligne][num_case]
-                x = num_case * taille_sprite
+                x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
                 if bloc_actuel != '0':
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):

@@ -473,14 +473,9 @@
       <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="703" max-vertical-offset="16184">
-              <caret line="60" column="35" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
-              <folding>
-                <element signature="e#10986#11404#0" expanded="false" />
-                <element signature="e#11473#12437#0" expanded="false" />
-                <element signature="e#12502#13286#0" expanded="false" />
-                <element signature="e#13359#13994#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="1706" max-vertical-offset="16932">
+              <caret line="118" column="12" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -508,9 +503,11 @@
       <file leaf-file-name="niveau.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/niveau.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5899" max-vertical-offset="12682">
-              <caret line="347" column="62" selection-start-line="347" selection-start-column="62" selection-end-line="347" selection-end-column="62" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3887" max-vertical-offset="9299">
+              <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
+              <folding>
+                <element signature="e#13430#25846#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -525,21 +522,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dialog_box.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dialog_box.py">
+      <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gamecore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3264">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.6732394" vertical-offset="2957" max-vertical-offset="4182">
+              <caret line="1236" column="32" selection-start-line="1236" selection-start-column="32" selection-end-line="1236" selection-end-column="32" />
+              <folding>
+                <element signature="e#1600#5217#0" expanded="false" />
+                <element signature="e#5257#13013#0" expanded="false" />
+                <element signature="e#13053#13867#0" expanded="false" />
+                <element signature="e#13912#15220#0" expanded="false" />
+                <element signature="e#15250#17260#0" expanded="false" />
+                <element signature="e#17305#17854#0" expanded="false" />
+                <element signature="e#17889#18352#0" expanded="false" />
+                <element signature="e#18420#21354#0" expanded="false" />
+                <element signature="e#21400#21667#0" expanded="false" />
+                <element signature="e#21713#28855#0" expanded="false" />
+                <element signature="e#28895#29203#0" expanded="false" />
+                <element signature="e#29237#30703#0" expanded="false" />
+                <element signature="e#30734#31030#0" expanded="false" />
+                <element signature="e#31067#34948#0" expanded="false" />
+                <element signature="e#35000#35891#0" expanded="false" />
+                <element signature="e#35923#36897#0" expanded="false" />
+                <element signature="e#36948#42269#0" expanded="false" />
+                <element signature="e#42305#62173#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gamecore.py">
+      <file leaf-file-name="compressor.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compressor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4789272" vertical-offset="5394" max-vertical-offset="21811">
-              <caret line="344" column="22" selection-start-line="344" selection-start-column="22" selection-end-line="344" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1301" max-vertical-offset="1836">
+              <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -558,8 +574,8 @@
       <file leaf-file-name="personnage_code.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/personnage_code.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4845" max-vertical-offset="7599">
-              <caret line="285" column="13" selection-start-line="285" selection-start-column="13" selection-end-line="285" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="5877" max-vertical-offset="7497">
+              <caret line="371" column="24" selection-start-line="371" selection-start-column="24" selection-end-line="371" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -568,8 +584,8 @@
       <file leaf-file-name="jeu.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jeu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="11492" max-vertical-offset="25160">
-              <caret line="676" column="24" selection-start-line="676" selection-start-column="24" selection-end-line="676" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="174" max-vertical-offset="25143">
+              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -622,17 +638,17 @@
         <option value="$PROJECT_DIR$/serveur/serveur.py" />
         <option value="$PROJECT_DIR$/LaunchMe-Windows.bat" />
         <option value="$PROJECT_DIR$/text_entry.py" />
-        <option value="$PROJECT_DIR$/compressor.py" />
-        <option value="$PROJECT_DIR$/jeu.py" />
         <option value="$PROJECT_DIR$/suite jeu" />
         <option value="$PROJECT_DIR$/commerces_p.py" />
         <option value="$PROJECT_DIR$/suite jeu.py" />
-        <option value="$PROJECT_DIR$/personnage_code.py" />
         <option value="$PROJECT_DIR$/ombrage_bloc.py" />
         <option value="$PROJECT_DIR$/suite_jeu.py" />
         <option value="$PROJECT_DIR$/weather.py" />
-        <option value="$PROJECT_DIR$/niveau.py" />
+        <option value="$PROJECT_DIR$/compressor.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/jeu.py" />
+        <option value="$PROJECT_DIR$/personnage_code.py" />
+        <option value="$PROJECT_DIR$/niveau.py" />
         <option value="$PROJECT_DIR$/gamecore.py" />
       </list>
     </option>
@@ -709,7 +725,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Janöswi/CUMLWG2A2TS" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
@@ -966,23 +982,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2662116" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23809524" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39590445" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23363096" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2662116" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28498295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28498295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1036,12 +1052,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#10986#11404#0" expanded="false" />
-            <element signature="e#11473#12437#0" expanded="false" />
-            <element signature="e#12502#13286#0" expanded="false" />
-            <element signature="e#13359#13994#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1106,7 +1117,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8713" max-vertical-offset="9248">
           <caret line="740" column="24" selection-start-line="740" selection-start-column="24" selection-end-line="740" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="e#13430#25846#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1114,12 +1127,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#10986#11404#0" expanded="false" />
-            <element signature="e#11473#12437#0" expanded="false" />
-            <element signature="e#12502#13286#0" expanded="false" />
-            <element signature="e#13359#13994#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1191,7 +1199,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12835">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#13430#25846#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1199,12 +1209,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16201">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#10986#11404#0" expanded="false" />
-            <element signature="e#11473#12437#0" expanded="false" />
-            <element signature="e#12502#13286#0" expanded="false" />
-            <element signature="e#13359#13994#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1321,13 +1326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compressor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
-          <caret line="69" column="36" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commerces_p.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2859813" vertical-offset="0" max-vertical-offset="3179">
@@ -1358,14 +1356,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/personnage_code.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4647" max-vertical-offset="7497">
-          <caret line="285" column="13" selection-start-line="285" selection-start-column="13" selection-end-line="285" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/weather.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2737">
@@ -1390,40 +1380,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/niveau.py">
+    <entry file="file://$PROJECT_DIR$/compressor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="12563">
-          <caret line="347" column="62" selection-start-line="347" selection-start-column="62" selection-end-line="347" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jeu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="10790" max-vertical-offset="24650">
-          <caret line="676" column="24" selection-start-line="676" selection-start-column="24" selection-end-line="676" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1301" max-vertical-offset="1836">
+          <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="703" max-vertical-offset="16184">
-          <caret line="60" column="35" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1706" max-vertical-offset="16932">
+          <caret line="118" column="12" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jeu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="174" max-vertical-offset="25143">
+          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/niveau.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3887" max-vertical-offset="9299">
+          <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
           <folding>
-            <element signature="e#10986#11404#0" expanded="false" />
-            <element signature="e#11473#12437#0" expanded="false" />
-            <element signature="e#12502#13286#0" expanded="false" />
-            <element signature="e#13359#13994#0" expanded="false" />
+            <element signature="e#13430#25846#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/personnage_code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5877" max-vertical-offset="7497">
+          <caret line="371" column="24" selection-start-line="371" selection-start-column="24" selection-end-line="371" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gamecore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4789272" vertical-offset="5394" max-vertical-offset="21811">
-          <caret line="344" column="22" selection-start-line="344" selection-start-column="22" selection-end-line="344" selection-end-column="22" />
-          <folding />
+        <state vertical-scroll-proportion="0.6732394" vertical-offset="2957" max-vertical-offset="4182">
+          <caret line="1236" column="32" selection-start-line="1236" selection-start-column="32" selection-end-line="1236" selection-end-column="32" />
+          <folding>
+            <element signature="e#1600#5217#0" expanded="false" />
+            <element signature="e#5257#13013#0" expanded="false" />
+            <element signature="e#13053#13867#0" expanded="false" />
+            <element signature="e#13912#15220#0" expanded="false" />
+            <element signature="e#15250#17260#0" expanded="false" />
+            <element signature="e#17305#17854#0" expanded="false" />
+            <element signature="e#17889#18352#0" expanded="false" />
+            <element signature="e#18420#21354#0" expanded="false" />
+            <element signature="e#21400#21667#0" expanded="false" />
+            <element signature="e#21713#28855#0" expanded="false" />
+            <element signature="e#28895#29203#0" expanded="false" />
+            <element signature="e#29237#30703#0" expanded="false" />
+            <element signature="e#30734#31030#0" expanded="false" />
+            <element signature="e#31067#34948#0" expanded="false" />
+            <element signature="e#35000#35891#0" expanded="false" />
+            <element signature="e#35923#36897#0" expanded="false" />
+            <element signature="e#36948#42269#0" expanded="false" />
+            <element signature="e#42305#62173#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
