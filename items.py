@@ -4,6 +4,72 @@ import commerces_p as cmp
 import pygame as pg
 import os
 
+
+class DustElectricityDriven:
+    def __init__(self, carte, font, surface):
+        self.stop_conduct_after = 12  # blocks
+        self.carte = carte
+        self.font = font
+        self.ecran = surface
+        self.cable = ''
+        self.interrup_off = ''
+        self.interrup_on = ''
+        self.light_off = ''
+        self.light_on = ''
+        self.all = [
+            self.cable,
+            self.interrup_off,
+            self.interrup_on,
+            self.light_off,
+            self.light_on
+        ]
+        self.road_map = []
+        for i in self.carte.get_list():
+            line = []
+            for j in i:
+                if j != '0' and j not in self.all:
+                    line.append('1')
+                else:
+                    line.append(j)
+            self.road_map.append(line)
+
+    def put_cable(self, x, y):
+        self.carte.remove_bloc(x, y, self.cable)
+        self.road_map[y][x] = self.cable
+
+    def put_interrupt(self, x, y, reverse=False):
+        if not reverse:
+            tile = self.interrup_off
+        else:
+            tile = self.interrup_on
+        self.carte.remove_bloc(x, y, tile)
+        self.road_map[y][x] = tile
+
+    def put_light(self, x, y, reverse=False):
+        if not reverse:
+            tile = self.light_off
+        else:
+            tile = self.light_on
+        self.carte.remove_bloc(x, y, tile)
+        self.road_map[y][x] = tile
+
+    def check_all(self):
+        pass
+
+    def right_click(self, x, y):
+        tile = self.carte.get_tile(x, y)
+        if tile in self.all:
+            if tile == self.interrup_off:
+                self.put_interrupt(x, y, reverse=True)
+            if tile == self.interrup_on:
+                self.put_interrupt(x, y)
+            if tile == self.light_off:
+                self.put_light(x, y, reverse=True)
+            if tile == self.light_on:
+                self.put_light(x, y)
+            self.check_all()
+
+
 class Marteau:
     def __init__(self, rcenter, surface, font):
         self.life = 100

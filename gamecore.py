@@ -46,12 +46,12 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 
 class Game:
-    def __init__(self, surface, personnage, en_reseau, blocs, creatif, marteau, params_co_network, root_surface, carte, rcenter):
+    def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network, root_surface, carte, rcenter):
         """
         :param surface: a pygame sub-surface
         :param personnage: an instance of the class Personnage
         :param en_reseau: a boolean who say if you are connect to a network or not
-        :param blocs: an instance of the class Blocks
+        :param inventory: an instance of the class Inventory
         :param creatif: a boolean who say if you are in infinite creation mode or not
         :param marteau: an instance of the class Marteau
         :param params_co_network: the parameters to connect the socket to the network

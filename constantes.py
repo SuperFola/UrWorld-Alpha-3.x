@@ -3,6 +3,12 @@
 import time
 from tkinter import *
 
+
+def truncature(x, precision=2):
+    new_x = str(x)[:precision+2]
+    return float(new_x)
+
+
 t = Tk()
 taille_fenetre_largeur_win = t.winfo_screenwidth()
 taille_fenetre_hauteur = t.winfo_screenheight()

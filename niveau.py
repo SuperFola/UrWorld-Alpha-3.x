@@ -3,11 +3,13 @@
 from commerces_p import *
 from math import *
 from ombrage_bloc import *
+import constantes as cst
 import glob
 from weather import Weather
 import pickle
 import compressor as rle
 import ombrage_bloc as omb
+import random as r
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -110,7 +112,7 @@ def fps_stp(temps_avant_fps, root, rcenter, font):
     pygame.display.flip()
 
 
-class Blocks:
+class Inventory:
     def __init__(self):
         self.blocs = {}
 
@@ -221,8 +223,18 @@ class Blocks:
             dico_name[n] = self.blocs[n]['name']
         return dico_name
 
+
+class Block:
+    position = [0, 0]
+    image = ''
+
+    def __init__(self, pos, image):
+        Block.position = pos
+        Block.image = image
+
+
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
@@ -244,6 +256,8 @@ class Carte:
         self.bloc_fired = -1, -1
         self.shaders = shader
         self.pixel_offset = 0
+        self.clouds = []
+        self.draw_clouds = draw_clouds
 
     def change_pixel_offset(self, direction=+1):
         self.pixel_offset += direction
@@ -258,6 +272,30 @@ class Carte:
 
     def blocs_action(self, methode):
         self.blocs.methode()
+
+    def add_clouds(self):
+        for i in range(0, r.randint(2, 7)):
+            direction = cst.truncature(r.random())
+            if direction < 0.25:
+                direction += 0.2
+            self.clouds.append([
+                [
+                    r.randint(0, 250),
+                    r.randint(10, 90)
+                ],
+                direction if r.randint(0, 1) else -direction
+            ])
+
+    def move_clouds(self):
+        if not self.clouds:
+            self.add_clouds()
+        for cloud in self.clouds:
+            cloud[0][0] += cloud[1]
+            if cloud[0][0] > self.ecran.get_size()[0]:
+                cloud[0][0] = -self.cloud.get_size()[0]
+            if cloud[0][0] < -self.cloud.get_size()[0]:
+                cloud[0][0] = self.ecran.get_size()[0]
+            self.ecran.blit(self.cloud, cloud[0])
 
     def load(self, adresse):
         self.adresse = adresse
@@ -274,6 +312,7 @@ class Carte:
         self.bleu_nuit_1.set_alpha(65)
         self.bleu_nuit_1.convert_alpha()
         self.bleu_nuit_2 = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert()
+        self.cloud = pygame.image.load(self.texture_pack + "cloud.png").convert_alpha()
         #blocs -----------------------------------------------------------------------------------------------
         #minerai
         self.mine_or = pygame.image.load(self.texture_pack + "mine_or.png").convert()
@@ -508,6 +547,13 @@ class Carte:
 
     def update(self):
         self.gravity_for_entity()
+        #On blit le fond
+        if not self.get_action_meteo():
+            self.ecran.fill((76, 76, 76))
+        else:
+            self.ecran.fill(self.couleur_fond)
+        if self.draw_clouds:
+            self.move_clouds()
         self.render()
 
     def gravity_for_entity(self):
@@ -526,11 +572,6 @@ class Carte:
         #fov[1] = fov[0] + self.nb_blocs_large
         structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
         self.shaders.create(structure)
-        #On blit le fond
-        if not self.get_action_meteo():
-            self.ecran.fill((76, 76, 76))
-        else:
-            self.ecran.fill(self.couleur_fond)
         #On parcourt la liste du niveau
         for num_case in range(self.fov[1] - self.fov[0]):
             #On parcourt les listes de lignes
@@ -631,8 +672,8 @@ class Carte:
 
 
 class LANMap(Carte):
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader):
-        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader)
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader, draw_clouds=False):
+        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=draw_clouds)
         self.blocs = blocs
         self.ecran = surface
         self.root = surface_mere
@@ -670,6 +711,13 @@ class LANMap(Carte):
     def update_(self, position_player):
         self.receive_map()
         self.socket.sendto(pickle.dumps("set->pos" + str(position_player[0]) + ":" + str(position_player[1]) + ":" + position_player[2]), self.params)
+        #On blit le fond
+        if not self.get_action_meteo():
+            self.ecran.fill((76, 76, 76))
+        else:
+            self.ecran.fill(self.couleur_fond)
+        self.move_clouds()
+        self.render()
 
     def render(self):
         debut_generation = time.time()

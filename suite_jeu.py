@@ -19,7 +19,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     params_co = (hote, port)
 
     #les blocks
-    blocs = niveau_pkg.Blocks()
+    blocs = niveau_pkg.Inventory()
     blocs.add('p', solid=True, shadow=0, gravity=False, quantity=0, innafichable=True, name='Bloc indestructible', tps_explode=0, take_fire=False)
     blocs.add('1', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
     blocs.add('2', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)

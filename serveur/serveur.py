@@ -13,7 +13,7 @@ import os
 import glob
 from math import ceil
 
-class Blocks:
+class Inventory:
     def __init__(self):
         self.blocs = {}
 
@@ -121,7 +121,7 @@ class Blocks:
 
 
 #les blocks
-blocs = Blocks()
+blocs = Inventory()
 blocs.add('p', solid=True, shadow=0, gravity=False, quantity=0, innafichable=True, name='Bloc indestructible', tps_explode=0, take_fire=False)
 blocs.add('1', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
 blocs.add('2', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)

@@ -404,6 +404,26 @@ def orage_property(fenetre, grd_font, hauteur_fen, fullscreen):
     return fullscreen
 
 
+def clouds_property(fenetre, grd_font, hauteur_fen, fullscreen):
+    last_cloud = ""
+    if os.path.exists('Parties' + os.sep + 'clouds.sav'):
+        with open('Parties' + os.sep + 'clouds.sav', 'rb') as cprb:
+            last_cloud = pickle.Unpickler(cprb).load()
+        with open('Parties' + os.sep + 'clouds.sav', 'wb') as cpwb:
+            pickle.Pickler(cpwb).dump(not last_cloud)
+        dlb.DialogBox(fenetre, ["Les nuages sont désormais ", "visibles" if not last_cloud else "invisibles"], "Nuages",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+    else:
+        dlb.DialogBox(fenetre, ["Le fichier permettant la manipulation", "n'existe pas et va être créé."], "Erreur",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=0, mouse=False).render()
+        with open('Parties' + os.sep + 'clouds.sav', 'wb') as cpwbt:
+            pickle.Pickler(cpwbt).dump(False)
+
+    return fullscreen
+
+
 def pass_(fenetre, grd_font, hauteur_fen, fullscreen):
     return fullscreen
 
@@ -445,7 +465,7 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
         [223, 'Vent', vent_property],
         [242, 'Pluie', pluie_property],
         [261, 'Orage', orage_property],
-        [280, '', pass_],
+        [280, 'Nuages', clouds_property],
         [299, '', pass_],
         [318, '', pass_],
         [337, '', pass_],
