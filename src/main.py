@@ -19,9 +19,9 @@ sys.excepthook = pdb_post_mortem
 """
 
 VERSION = "Alpha 3.0.9"
+not_finished = True
 
 import glob
-from PIL import Image as PILImage
 import os
 import sys
 import text_entry
@@ -29,30 +29,9 @@ import restart
 import compressor as rle
 import dialog_box as dlb
 
-
-miniaturisation = True
-
-
-def img_resize(filename, taille):
-    """
-    fonction pour changer la taille d'une image et l'enregistrer
-    filename : nom du l'image a changer de taille
-    taille : nouvelle taille
-    """
-    file, ext = os.path.splitext(filename)
-    im = PILImage.open(filename)
-    w, h = im.size
-    im.thumbnail((taille, int(taille*h/w)), PILImage.ANTIALIAS)
-    im.save(str(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + os.path.split(file)[1] + "_thumbnail" + ext), 'PNG')
-
-#miniatures
-if miniaturisation is True:
-    print('Création des miniatures ...')
-    for fichier in glob.glob(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "*.png"):
-        img_resize(fichier, 10)
-    img_resize(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "C" + os.sep + "perso.png", 10)
-    for fichier in glob.glob(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "Electricity" + os.sep + "*.png"):
-        img_resize(fichier, 10)
+if not_finished:
+    import resize_with_pillow
+    resize_with_pillow.start()
 
 from niveau import *
 from tkinter import *

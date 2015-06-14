@@ -1022,7 +1022,7 @@ class Game:
                     x_clic = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_clic = ev.pos[1] // 30
                     self.right_click(x_clic, y_clic)
-             elif ev.type == MOUSEBUTTONUP:
+            elif ev.type == MOUSEBUTTONUP:
                 if ev.button == 1:
                     #clic gauche, on relache la souris donc on met à false le 'booleen' qui dit que l'on peut
                     self.clique_gauche = 0
