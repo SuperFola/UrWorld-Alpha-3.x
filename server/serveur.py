@@ -213,6 +213,16 @@ blocs.add('./', solid=False, shadow=0, gravity=False, quantity=10, innafichable=
 blocs.add('e', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Eau', tps_explode=0, take_fire=False)
 blocs.add('%a', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Pancarte', tps_explode=0, take_fire=True)
 blocs.add('feu', solid=False, shadow=0, gravity=False, quantity=0, innafichable=True, name='Feu', tps_explode=0, take_fire=True)
+blocs.add('aaa', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Interrupteur on', tps_explode=0, take_fire=False)
+blocs.add('bbb', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Interrupteur off', tps_explode=0, take_fire=False)
+blocs.add('ccc', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Cable', tps_explode=0, take_fire=False)
+blocs.add('ddd', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Lampe on', tps_explode=0, take_fire=False)
+blocs.add('eee', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Lampe off', tps_explode=0, take_fire=False)
+blocs.add('fff', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Répéteur de courant', tps_explode=0, take_fire=False)
+blocs.add('ggg', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Bloc de commande', tps_explode=0, take_fire=False)
+blocs.add('hhh', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston', tps_explode=0, take_fire=False)
+blocs.add('iii', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston collant', tps_explode=0, take_fire=False)
+blocs.add('jjj', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Conteneur', tps_explode=0, take_fire=False)
 
 
 try:

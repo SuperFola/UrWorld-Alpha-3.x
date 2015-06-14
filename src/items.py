@@ -2,6 +2,7 @@
 
 import commerces_p as cmp
 import pygame as pg
+import pickle
 import os
 
 
@@ -11,17 +12,21 @@ class DustElectricityDriven:
         self.carte = carte
         self.font = font
         self.ecran = surface
-        self.cable = ''
-        self.interrup_off = ''
-        self.interrup_on = ''
-        self.light_off = ''
-        self.light_on = ''
+        self.cable = 'ccc'
+        self.interrup_off = 'bbb'
+        self.interrup_on = 'aaa'
+        self.light_off = 'eee'
+        self.light_on = 'ddd'
+        self.repeteur = 'fff'
+        self.piston = 'hhh'
+        self.piston_collant = 'iii'
         self.all = [
             self.cable,
             self.interrup_off,
             self.interrup_on,
             self.light_off,
-            self.light_on
+            self.light_on,
+            self.repeteur
         ]
         self.road_map = []
         for i in self.carte.get_list():
@@ -32,6 +37,9 @@ class DustElectricityDriven:
                 else:
                     line.append(j)
             self.road_map.append(line)
+    
+    def get_built_tiles(self):
+        return self.all
 
     def put_cable(self, x, y):
         self.carte.remove_bloc(x, y, self.cable)
@@ -54,7 +62,19 @@ class DustElectricityDriven:
         self.road_map[y][x] = tile
 
     def check_all(self):
-        pass
+        interruptors = []
+        cables = []
+        lights = []
+        for i in range(0, 19):
+            for j in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
+                tile = self.carte.get_tile(j, i)
+                if tile == self.interrup_on or tile == self.interrup_off:
+                    state = 0 if tile == self.interrup_off else 1
+                    interruptors.append([(j, i), state])
+        for k in range(0, 19):
+            for l in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
+                for m in interruptors:
+                    pass
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)
@@ -68,6 +88,66 @@ class DustElectricityDriven:
             if tile == self.light_on:
                 self.put_light(x, y)
             self.check_all()
+
+
+class Conteneur:
+    def __init__(self):
+        self.conteneurs = []
+        self.code_tile = 'jjj'
+    
+    def load(self):
+        if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "conteneurs.sav"):
+            with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "conteneurs.sav", "rb") as file:
+                self.conteneurs = pickle.Unpickler(file).load()
+    
+    def save(self):
+        with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "conteneurs.sav", "wb") as cwriteb:
+            pickle.Pickler(cwriteb).dump(self.conteneurs)
+    
+    def test(self, x, y):
+        for h in self.conteneurs:
+            if h[0] == (x, y):
+                return True
+        return False
+    
+    def add_on_existing(self, x, y, bloc):
+        for i in self.conteneurs:
+            if i[0] == (x, y):
+                i[1].append(bloc)
+                break
+    
+    def add_new(self, x, y):
+        self.conteneurs.append([(x, y), ['jjj']])
+    
+    def destroy_last_bloc(self, x, y):
+        bloc = ''
+        cout = 0
+        while cout < len(self.conteneurs):
+            if self.conteneurs[cout][0] == (x, y):
+                bloc = self.conteneurs[cout][1].pop(-1)
+                break
+            cout += 1
+        if bloc == '':
+            if self.destroy_conteneur(x, y):
+                bloc = 'jjj'
+        print(bloc)
+        return bloc
+    
+    def destroy_conteneur(self, x, y):
+        for j in range(len(self.conteneurs)):
+            if self.conteneurs[j][0] == (x, y):
+                self.conteneurs.pop(j)
+                return True
+        return False
+    
+    def list_conteners_pos_and_tile(self):
+        liste = []
+        for k in self.conteneurs:
+            if k[1] != []:
+                liste.append([k[0], k[1][-1]])
+            else:
+                self.destroy_conteneur(k[0][0], k[0][1])
+        return liste
 
 
 class Marteau:

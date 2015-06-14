@@ -13,6 +13,7 @@ from commerces_p import message_affiche, message_affiche_large, passant_parle, m
 import pygame
 import pickle
 from pygame.locals import *
+from items import Conteneur
 
 
 testeur = os.path.exists("test.test")
@@ -46,7 +47,8 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 
 class Game:
-    def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network, root_surface, carte, rcenter):
+    def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network,
+                root_surface, carte, rcenter, dust_electricty_driven_manager):
         """
         :param surface: a pygame sub-surface
         :param personnage: an instance of the class Personnage
@@ -56,11 +58,13 @@ class Game:
         :param marteau: an instance of the class Marteau
         :param params_co_network: the parameters to connect the socket to the network
         :param root_surface: a pygame surface (the window)
+        :param dust_electricty_driven_manager: a instance of the class DustElectricityDriven
         :return: nothing
         """
         self.fenetre = surface
         self.root = root_surface
         self.personnage = personnage
+        self.dust_electricty_driven_manager = dust_electricty_driven_manager
         self.en_reseau = en_reseau
         self.network = None
         self.blocs = inventory
@@ -147,6 +151,7 @@ class Game:
             if tmp.read() != self.personnage.get_pseudo() + "::VIP":
                 self.vip_bool = False
             tmp.close()
+        self.conteneur = Conteneur()
 
     def load_coponents(self):
         """
@@ -196,9 +201,6 @@ class Game:
                 self.numero_niv = pickle.Unpickler(niv_lire).load()
         else:
             self.numero_niv = "map"
-        if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "bloc.sav"):
-            with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "bloc.sav", "rb") as bloc_lire:
-                self.blocs = pickle.Unpickler(bloc_lire).load()
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pos.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pos.sav", "rb") as pos_lire:
                 self.personnage.set_pos(pickle.Unpickler(pos_lire).load())
@@ -288,6 +290,8 @@ class Game:
                 pickle.Pickler(data_serv_wrb).dump(data_serv)
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "serveur.sav", "wb") as f:
                 pickle.Pickler(f).dump(data_serv)
+        self.carte.create_conteneur(self.conteneur)
+        self.carte.conteneur_load()
 
         # A lancer apres avoir chargé || initialisé une Carte | LANMap
         self.img_tous_blocs = self.carte.get_img_dict()
@@ -385,6 +389,7 @@ class Game:
             pickle.Pickler(shader_ecrire).dump(self.carte.get_curent_shader())
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pancartes.sav", "wb") as ecrire_pancartes:
             pickle.Pickler(ecrire_pancartes).dump(self.pancartes_lst)
+        self.carte.conteneur_save()
         print('Sauvegarde réussie !\n\n')
 
     def molette_(self, direction):
@@ -422,13 +427,13 @@ class Game:
         for y_, ligne in enumerate(self.inventaire):
             for x_, x_s in enumerate(ligne):
                 nom_entite = x_s
-                if self.marteau.has_been_2nd_planed(x_s):
-                    x_s = x_s[2::]
-                if x_s in self.blocs.list():
-                    self.fenetre.blit(self.img_tous_blocs[x_s], (x_ * 31 + 52, y_ * 31 + 52))
-                    if x_s == bloc_choisi and bloc_choisi != '0':
+                if self.marteau.has_been_2nd_planed(nom_entite):
+                    nom_entite = nom_entite[2::]
+                if nom_entite in self.blocs.list():
+                    self.fenetre.blit(self.img_tous_blocs[nom_entite], (x_ * 31 + 52, y_ * 31 + 52))
+                    if nom_entite == bloc_choisi and bloc_choisi != '0':
                         self.fenetre.blit(self.check, (x_ * 31 + 52, y_ * 31 + 52))
-                    elif x_s == '0' and bloc_choisi == '0' and not vide_choisi:
+                    elif nom_entite == '0' and bloc_choisi == '0' and not vide_choisi:
                         self.fenetre.blit(self.check, (x_ * 31 + 52, y_ * 31 + 52))
                         vide_choisi = True
                 if tout:
@@ -441,20 +446,24 @@ class Game:
                     elif self.blocs.get(nom_entite) > 999 and nom_entite != "0" and nom_entite in self.blocs.list():
                         nb = self.font.render("N/A", 1, (240, 240, 240))
                         self.fenetre.blit(nb, (52 + x_ * 31, 52 + y_ * 31))
-                else:
-                    breaking = False
+        if not tout:
+            breaking = False
+            for y_, ligne in enumerate(self.inventaire):
+                for x_, x_s in enumerate(ligne):
                     entite = self.inventaire[y_][x_]
-                    if entite == obj_survol and not breaking:
+                    if entite == obj_survol:
                         if self.blocs.get(entite) <= 999:
-                            nb = self.font.render(self.blocs.dict_name()[entite] + " : %3i" % self.blocs.get(entite), 1, (240, 240, 240))
+                            nb = self.font.render(self.blocs.get_name(entite) + " : %3i" % self.blocs.get(entite), 1, (240, 240, 240))
                             pygame.draw.rect(self.fenetre, (150, 150, 150), (50 + x_ * 31 + 30, 50 + y_ * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
                             self.fenetre.blit(nb, (52 + x_ * 31 + 30, 52 + y_ * 31 + 30))
-                            breaking = True
                         elif self.blocs.get(entite) > 999:
-                            nb = self.font.render(self.blocs.dict_name()[entite] + " : N/A", 1, (240, 240, 240))
+                            nb = self.font.render(self.blocs.get_name(entite) + " : N/A", 1, (240, 240, 240))
                             pygame.draw.rect(self.fenetre, (150, 150, 150), (50 + x_ * 31 + 30, 50 + y_ * 31 + 30, nb.get_size()[0] + 2, nb.get_size()[1] + 2))
                             self.fenetre.blit(nb, (52 + x_ * 31 + 30, 52 + y_ * 31 + 30))
-                            breaking = True
+                        breaking = True
+                        break
+                if breaking:
+                    break
 
     def afficher_degats_pris(self):
         """
@@ -764,6 +773,88 @@ class Game:
         #actualisation de l'écran pour afficher les changements
         pygame.display.flip()
 
+    def casser_teleporteur(self, x, y):
+        """
+        a function who put a teleporteur
+        :param x: the position of the block
+        :param y: the second position of the block
+        :return: nothing
+        """
+        #téléporteur
+        if not self.en_reseau:
+            self.teleporteurs.append([len(self.teleporteurs), (x, y)])
+        else:
+            self.network.sendto(pickle.dumps('set->telep' + str(x) + ',' + str(y)), self.params_co)
+    
+    def poser_pancarte(self, x_blit, y_blit):
+        """
+        a function who put a panneau
+        :param x_blit: the position of the block
+        :param y_blit: the second position of the block
+        :return: nothing
+        """
+        #pancartes
+        if not self.en_reseau:
+            self.pancartes_lst.append([(x_blit, y_blit), ''])
+        else:
+            self.network.sendto(pickle.dumps("set->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
+    
+    def break_pancarte(self, x_blit, y_blit):
+        """
+        a function who destroy a panneau
+        :param x_blit the position of the block
+        :param y_blit: the second position of the block
+        :return: nothing
+        """
+        #on casse une pancarte
+        if not self.en_reseau:
+            #on doit donc liberer la place pour ne pas perdre en espace disque
+            for i in range(len(self.pancartes_lst)):
+                if self.pancartes_lst[i][0] == (x_blit, y_blit):
+                    self.pancartes_lst.pop(i)
+                    break
+        else:
+            self.network.sendto(pickle.dumps("break->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
+    
+    def break_telep(self, x_blit, y_blit):
+        """
+        a function who put a teleporteur
+        :param x_blit: the position of the block
+        :param y_blit: the second position of the block
+        :return: nothing
+        """
+        #on casse un téléporteur
+        if not self.en_reseau:
+            for i in range(len(self.teleporteurs)):
+                if self.teleporteurs[i][1] == (x_blit, y_blit):
+                    if self.teleporteurs[i][0] % 2:
+                        #impair
+                        self.carte.remove_bloc(self.teleporteurs[i][1][0], self.teleporteurs[i][1][1], '0')
+                        self.carte.remove_bloc(self.teleporteurs[i - 1][1][0], self.teleporteurs[i - 1][1][1], '0')
+                        self.teleporteurs.pop(i)
+                        self.teleporteurs.pop(i - 1)
+                    elif not self.teleporteurs[i][0] % 2:
+                        #pair
+                        if not len(self.teleporteurs) % 2:
+                            #la longueur est paire, alors un autre téléporteur est associé a celui ci
+                            #et on doit donc aussi le casser
+                            self.carte.remove_bloc(self.teleporteurs[i + 1][1][0], self.teleporteurs[i + 1][1][1], '0')
+                            self.carte.remove_bloc(self.teleporteurs[i][1][0], self.teleporteurs[i][1][1], '0')
+                            self.teleporteurs.pop(i + 1)
+                            self.teleporteurs.pop(i)
+    
+    def put_water(self, x, y):
+        """
+        a function who put some water
+        :param x: the position of the block
+        :param y: the second position of the block
+        :return: nothing
+        """
+        #eau
+        self.carte.remove_bloc(x, y, "e")
+        if self.carte.get_tile(x, y) == "e":
+            self.mettre_eau(x, y)
+    
     def put_blocs(self, x_blit, y_blit):
         """
         a function who do all the test and check if we can put a bloc or not
@@ -772,78 +863,133 @@ class Game:
         :return: nothing
         """
         if self.carte.get_tile(x_blit, y_blit) not in self.blocs.list_unprintable():
-            if not self.creatif:
-                #on est quand meme en créatif x)
-                self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
+            self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
             if self.creatif:
-                #"temps" de destruction d'un bloc
-                if self.marteau.has_been_2nd_planed(self.carte.get_tile(x_blit, y_blit)):
-                    #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
-                    self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
-                else:
-                    #le bloc n'est pas un bloc de second plan
-                    #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
-                    self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
-            if self.carte.get_tile(x_blit, y_blit) in list(self.blocs.list()) and self.creatif: #si on est pas en creatif
-                #le bloc existe, on met 1 bloc en plus dans l'inventaire
-                if self.marteau.has_been_2nd_planed(self.carte.get_tile(x_blit, y_blit)):
-                    self.blocs.set(self.carte.get_tile(x_blit, y_blit)[2::], nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit)[2::])+1)
-                else:
-                    self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
-            elif self.carte.get_tile(x_blit, y_blit) in self.blocs.list() and self.creatif:
-                #le bloc n'existe pas dans l'inventaire, on l'ajoute donc
-                self.blocs.add(self.carte.get_tile(x_blit, y_blit), solid=True, shadow=0, gravity=False, quantity=1, innafichable=False, name='No name', tps_explode=0, take_fire=False)
-            #on enlève 1 pour le bloc POSé:
-            if self.blocs.get(self.obj_courant) - 1 >= 0 and self.creatif:
-                self.blocs.use(self.obj_courant)
+                #on enlève 1 pour le bloc POSé:
+                if self.blocs.use(self.obj_courant):
+                    #on vient d'enlever un bloc, et cela a fonctionner (renvoit de True)
+                    #"temps" de destruction d'un bloc
+                    if self.marteau.has_been_2nd_planed(self.carte.get_tile(x_blit, y_blit)):
+                        #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
+                        self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
+                        self.blocs.set(self.carte.get_tile(x_blit, y_blit)[2::], nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit)[2::])+1)
+                    else:
+                        #le bloc n'est pas un bloc de second plan
+                        #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
+                        self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
+                        self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
             if self.obj_courant == 'vb':
-                #téléporteur
-                if not self.en_reseau:
-                    self.teleporteurs.append([len(self.teleporteurs), (x_blit, y_blit)])
-                else:
-                    self.network.sendto(pickle.dumps('set->telep' + str(x_blit) + ',' + str(y_blit)), self.params_co)
+                self.casser_teleporteur(x_blit, y_blit)
             if self.obj_courant == '%a':
-                #pancartes
-                if not self.en_reseau:
-                    self.pancartes_lst.append([(x_blit, y_blit), ''])
-                else:
-                    self.network.sendto(pickle.dumps("set->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
+                self.poser_pancarte(x_blit, y_blit)
             if self.carte.get_tile(x_blit, y_blit) == '%a' and self.obj_courant != '%a':
-                #on casse une pancarte
-                if not self.en_reseau:
-                    #on doit donc liberer la place pour ne pas perdre en espace disque
-                    for i in range(len(self.pancartes_lst)):
-                        if self.pancartes_lst[i][0] == (x_blit, y_blit):
-                            self.pancartes_lst.pop(i)
-                            break
-                else:
-                    self.network.sendto(pickle.dumps("break->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
+                self.break_pancarte(x_blit, y_blit)
             if self.carte.get_tile(x_blit, y_blit) == 'vb' and self.obj_courant != 'vb':
-                #on casse un téléporteur
-                if not self.en_reseau:
-                    for i in range(len(self.teleporteurs)):
-                        if self.teleporteurs[i][1] == (x_blit, y_blit):
-                            if self.teleporteurs[i][0] % 2:
-                                #impair
-                                self.carte.remove_bloc(self.teleporteurs[i][1][0], self.teleporteurs[i][1][1], '0')
-                                self.carte.remove_bloc(self.teleporteurs[i - 1][1][0], self.teleporteurs[i - 1][1][1], '0')
-                                self.teleporteurs.pop(i)
-                                self.teleporteurs.pop(i - 1)
-                            elif not self.teleporteurs[i][0] % 2:
-                                #pair
-                                if not len(self.teleporteurs) % 2:
-                                    #la longueur est paire, alors un autre téléporteur est associé a celui ci
-                                    #et on doit donc aussi le casser
-                                    self.carte.remove_bloc(self.teleporteurs[i + 1][1][0], self.teleporteurs[i + 1][1][1], '0')
-                                    self.carte.remove_bloc(self.teleporteurs[i][1][0], self.teleporteurs[i][1][1], '0')
-                                    self.teleporteurs.pop(i + 1)
-                                    self.teleporteurs.pop(i)
+                self.break_telep(x_blit, y_blit)
             if self.obj_courant == 'e':
-                #eau
-                self.carte.remove_bloc(x_blit, y_blit, "e")
-                if self.carte.get_tile(x_blit, y_blit) == "e":
-                    self.mettre_eau(x_blit, y_blit)
+                self.put_water(x_blit, y_blit)
 
+    def rc_telep(self, x_clic, y_clic):
+        #on veut se téléporter
+        if not self.en_reseau:
+            for i in range(len(self.teleporteurs)):
+                if self.teleporteurs[i][1] == (x_clic, y_clic):
+                    if self.teleporteurs[i][0] % 2:
+                        #impair
+                        #passage en cases
+                        z = self.teleporteurs[i - 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
+                        if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+                            self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
+                        else:
+                            self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+                        self.personnage.set_y((self.teleporteurs[i - 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i - 1][1][1] + 1) * 30)
+                        #pour etre au dessus et pas dedans
+                    elif not self.teleporteurs[i][0] % 2:
+                        #pair
+                        if not len(self.teleporteurs) % 2:
+                            #passage en cases
+                            z = self.teleporteurs[i + 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
+                            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+                                self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
+                            else:
+                                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+                            self.personnage.set_y((self.teleporteurs[i + 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i + 1][1][1] + 1) * 30)
+                        elif len(self.teleporteurs) % 2 and i == len(self.teleporteurs) - 1:
+                            message_affiche("Aucune cible n'a été définie pour ce téléporteur !", self.rcenter)
+        else:
+            self.network.sendto(pickle.dumps('get->telep' + str(x_clic) + ',' + str(y_clic)), self.params_co)
+            temp = self.network.recv(4096)
+            temp = pickle.loads(temp)
+            #passage en cases
+            z = temp[0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
+            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+                self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
+            else:
+                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+            self.personnage.set_y((temp[1] - 1 if y_clic - 1 >= 0 else temp[1] + 1) * 30)
+            #pour etre au dessus et pas dedans
+    
+    def rc_jukebox(self, x_clic, y_clic):
+        #jukebox
+        self.indice_son = 0 if self.obj_courant == 'qs' else 1
+        self.indice_son = 1 if self.obj_courant == 'sd' else 2
+        self.indice_son = 2 if self.obj_courant == 'df' else 3
+        if not pygame.mixer.music.get_busy():
+            self.last_cd_used = self.obj_courant
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.stop()
+            self.blocs.set(self.last_cd_used, nbr=self.blocs.get(self.last_cd_used)+1)
+        pygame.mixer.music.load(self.music_liste[self.indice_son])
+        pygame.mixer.music.play()
+    
+    def rc_pancarte(self, x_clic, y_clic):
+        if not self.en_reseau:
+            for i in self.pancartes_lst:
+                if i[0] == (x_clic, y_clic):
+                    if i[1] != '':
+                        message_affiche(i[1], self.rcenter)
+                    else:
+                        i[1] = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
+                                             self.rcenter, self.grd_font, self.y_ecart, type_btn=2, mouse=True,
+                                             carte=self.carte).render()
+                    break
+        else:
+            self.network.sendto(pickle.dumps("get->pan" + str(x_clic) + "," + str(y_clic)), self.params_co)
+            temp = self.network.recv(4096)
+            temp = pickle.loads(temp)
+            if not temp:
+                texte_pan_to_send = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
+                                                  self.rcenter, self.grd_font, self.y_ecart, type_btn=2,
+                                                  mouse=True, carte=self.carte).render()
+                self.network.sendto(pickle.dumps("set->pan" + str(x_clic) + "," + str(y_clic) + "," + texte_pan_to_send), self.params_co)
+            else:
+                message_affiche(temp, self.rcenter)
+    
+    def rc_time_telep(self, x_clic, y_clic):
+        if not self.en_reseau:
+            self.annee = self.time_cruise()
+        else:
+            message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
+    
+    def right_click(self, x_clic, y_clic):
+        self.dust_electricty_driven_manager.right_click(x_clic, y_clic)
+        tile = self.carte.conteneur_right_click(x_clic, y_clic)
+        if tile != '':
+            self.blocs.set(tile, nbr=self.blocs.get(tile)+1)
+        if self.carte.get_tile(x_clic, y_clic) == 'cv':
+            #bombe atomique
+            self.boumList.append([time.time(), (x_clic, y_clic)])
+        elif self.carte.get_tile(x_clic, y_clic) == 'vb':
+            self.rc_telep(x_clic, y_clic)
+        elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':
+            self.rc_jukebox(x_clic, y_clic)
+        elif self.obj_courant == '§%' and self.carte.get_tile(x_clic, y_clic) != '0':
+            self.marteau.utiliser(self.carte, y_clic, x_clic)
+        elif self.carte.get_tile(x_clic, y_clic) == '%a':
+            self.rc_pancarte(x_clic, y_clic)
+        elif self.carte.get_tile(x_clic, y_clic) == '%b':
+            self.rc_time_telep(x_clic, y_clic)
+    
     def get_events(self):
         """
         a function who get the pygame events and run the associate action
@@ -875,90 +1021,8 @@ class Game:
                                                  or self.obj_courant in self.dico_cd.keys()):
                     x_clic = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_clic = ev.pos[1] // 30
-                    if self.carte.get_tile(x_clic, y_clic) == 'cv':
-                        #bombe atomique
-                        self.boumList.append([time.time(), (x_clic, y_clic)])
-                    elif self.carte.get_tile(x_clic, y_clic) == 'vb':
-                        #on veut se téléporter
-                        if not self.en_reseau:
-                            for i in range(len(self.teleporteurs)):
-                                if self.teleporteurs[i][1] == (x_clic, y_clic):
-                                    if self.teleporteurs[i][0] % 2:
-                                        #impair
-                                        #passage en cases
-                                        z = self.teleporteurs[i - 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-                                        if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
-                                            self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
-                                        else:
-                                            self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
-                                        self.personnage.set_y((self.teleporteurs[i - 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i - 1][1][1] + 1) * 30)
-                                        #pour etre au dessus et pas dedans
-                                    elif not self.teleporteurs[i][0] % 2:
-                                        #pair
-                                        if not len(self.teleporteurs) % 2:
-                                            #passage en cases
-                                            z = self.teleporteurs[i + 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-                                            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
-                                                self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
-                                            else:
-                                                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
-                                            self.personnage.set_y((self.teleporteurs[i + 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i + 1][1][1] + 1) * 30)
-                                        elif len(self.teleporteurs) % 2 and i == len(self.teleporteurs) - 1:
-                                            message_affiche("Aucune cible n'a été définie pour ce téléporteur !", self.rcenter)
-                        else:
-                            self.network.sendto(pickle.dumps('get->telep' + str(x_clic) + ',' + str(y_clic)), self.params_co)
-                            temp = self.network.recv(4096)
-                            temp = pickle.loads(temp)
-                            #passage en cases
-                            z = temp[0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-                            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
-                                self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
-                            else:
-                                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
-                            self.personnage.set_y((temp[1] - 1 if y_clic - 1 >= 0 else temp[1] + 1) * 30)
-                            #pour etre au dessus et pas dedans
-                    elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':
-                        #jukebox
-                        self.indice_son = 0 if self.obj_courant == 'qs' else 1
-                        self.indice_son = 1 if self.obj_courant == 'sd' else 2
-                        self.indice_son = 2 if self.obj_courant == 'df' else 3
-                        if not pygame.mixer.music.get_busy():
-                            last_cd_used = self.obj_courant
-                        if pygame.mixer.music.get_busy():
-                            pygame.mixer.music.stop()
-                            self.blocs.set(self.last_cd_used, nbr=self.blocs.get(self.last_cd_used)+1)
-                        pygame.mixer.music.load(self.music_liste[self.indice_son])
-                        pygame.mixer.music.play()
-                    elif self.obj_courant == '§%' and self.carte.get_tile(x_clic, y_clic) != '0':
-                        self.marteau.utiliser(self.carte, y_clic, x_clic)
-                    elif self.carte.get_tile(x_clic, y_clic) == '%a':
-                        if not self.en_reseau:
-                            for i in self.pancartes_lst:
-                                if i[0] == (x_clic, y_clic):
-                                    if i[1] != '':
-                                        message_affiche(i[1], self.rcenter)
-                                    else:
-                                        i[1] = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
-                                                             self.rcenter, self.grd_font, self.y_ecart, type_btn=2, mouse=True,
-                                                             carte=self.carte).render()
-                                    break
-                        else:
-                            self.network.sendto(pickle.dumps("get->pan" + str(x_clic) + "," + str(y_clic)), self.params_co)
-                            temp = self.network.recv(4096)
-                            temp = pickle.loads(temp)
-                            if not temp:
-                                texte_pan_to_send = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
-                                                                  self.rcenter, self.grd_font, self.y_ecart, type_btn=2,
-                                                                  mouse=True, carte=self.carte).render()
-                                self.network.sendto(pickle.dumps("set->pan" + str(x_clic) + "," + str(y_clic) + "," + texte_pan_to_send), self.params_co)
-                            else:
-                                message_affiche(temp, self.rcenter)
-                    elif self.carte.get_tile(x_clic, y_clic) == '%b':
-                        if not self.en_reseau:
-                            self.annee = self.time_cruise()
-                        else:
-                            message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
-            elif ev.type == MOUSEBUTTONUP:
+                    self.right_click(x_clic, y_clic)
+             elif ev.type == MOUSEBUTTONUP:
                 if ev.button == 1:
                     #clic gauche, on relache la souris donc on met à false le 'booleen' qui dit que l'on peut
                     self.clique_gauche = 0
@@ -1118,6 +1182,59 @@ class Game:
                         pygame.display.set_caption("UrWorld")
                         self.windowed_is = True
 
+    def thread_bombs(self):
+        """
+        a function who destroy asynchronicously the bombs
+        :return: nothing
+        """
+        iBList = 0
+        while iBList <= len(self.boumList) - 1:
+            item = self.boumList[iBList]
+            if time.time() - item[0] > 2:
+                self.boum_atomique(item[1][0], item[1][1])
+                self.boumList.pop(iBList)
+            iBList += 1
+
+    def thread_destroy_bloc(self):
+        """
+        a function who destroy asynchronicously the blocs
+        :return: nothing
+        """
+        iBreakList = 0
+        while iBreakList <= len(self.breakListe) - 1:
+            item = self.breakListe[iBreakList]
+            if time.time() - item[4] > item[3]:
+                self.carte.remove_bloc(item[0], item[1], item[2])
+                self.breakListe.pop(iBreakList)
+                self.breaking_bloc.play()
+            iBreakList += 1
+
+    def auto_update(self):
+        """
+        a function who call all the updater of the dependencies of the game
+        :return! nothing
+        """
+        #pour les FPS
+        self.temps_avant_fps = time.time()
+
+        if not self.en_reseau:
+            self.carte.update()
+        else:
+            self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
+                                 self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
+        #destruction des bombes atomiques non bloquantes
+        self.thread_bombs()
+        #destruction des blocs non bloquant
+        self.thread_destroy_bloc()
+
+        #vie & mana
+        if self.show_stats:
+            self.personnage.afficher_vie()
+            self.personnage.afficher_mana()
+            self.marteau.render()
+        #régénration de la mana
+        self.personnage.regen_mana()
+
     def start(self):
         """
         the main function of this class. run the main thread and load the different coponents
@@ -1138,39 +1255,7 @@ class Game:
         self.custom()
 
         while self.continuer:
-            #pour les FPS
-            self.temps_avant_fps = time.time()
-
-            if not self.en_reseau:
-                self.carte.update()
-            else:
-                self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
-                                     self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
-            #destruction des bombes atomiques non bloquantes
-            iBList = 0
-            while iBList <= len(self.boumList) - 1:
-                item = self.boumList[iBList]
-                if time.time() - item[0] > 2:
-                    self.boum_atomique(item[1][0], item[1][1])
-                    self.boumList.pop(iBList)
-                iBList += 1
-            #destruction des blocs non bloquant
-            iBreakList = 0
-            while iBreakList <= len(self.breakListe) - 1:
-                item = self.breakListe[iBreakList]
-                if time.time() - item[4] > item[3]:
-                    self.carte.remove_bloc(item[0], item[1], item[2])
-                    self.breakListe.pop(iBreakList)
-                    self.breaking_bloc.play()
-                iBreakList += 1
-
-            #vie & mana
-            if self.show_stats:
-                self.personnage.afficher_vie()
-                self.personnage.afficher_mana()
-                self.marteau.render()
-            #régénration de la mana
-            self.personnage.regen_mana()
+            self.auto_update()
 
             #pour la souris
             x_souris, y_souris = self.souris_ou_t_es()

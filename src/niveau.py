@@ -10,6 +10,9 @@ import pickle
 import compressor as rle
 import ombrage_bloc as omb
 import random as r
+import pygame
+from pygame.locals import *
+import os
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -85,7 +88,17 @@ img_ = {
     '?.': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "pierre_terre_thumbnail.png").convert_alpha(),
     './': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "echelle_thumbnail.png").convert_alpha(),
     '%a': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "pancarte_thumbnail.png").convert_alpha(),
-    '%b': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "time_telep_thumbnail.png").convert_alpha()
+    '%b': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "time_telep_thumbnail.png").convert_alpha(),
+    'aaa': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "interrupt_on_thumbnail.png").convert_alpha(),
+    'bbb': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "interrupt_off_thumbnail.png").convert_alpha(),
+    'ccc': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "cable_right_thumbnail.png").convert_alpha(),
+    'ddd': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "light_on_thumbnail.png").convert_alpha(),
+    'eee': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "light_off_thumbnail.png").convert_alpha(),
+    'fff': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "repeteur_thumbnail.png").convert_alpha(),
+    'ggg': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "command_block_thumbnail.png").convert_alpha(),
+    'hhh': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_thumbnail.png").convert_alpha(),
+    'iii': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
+    'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha()
 }
 
 def souris_ou_t_es(fenetre, arme_h_g):
@@ -117,6 +130,7 @@ class Inventory:
         self.blocs = {}
 
     def get(self, item):
+        print(item)
         if item in self.blocs.keys():
             return self.blocs[item]['quantity']
         return 0
@@ -210,10 +224,16 @@ class Inventory:
             if self.blocs[l]['fireable']:
                 fire_lst.append(l)
         return fire_lst
+    
+    def list_name(self):
+        name_lst = []
+        for o in self.blocs:
+            name_lst.append(self.blocs[o]['name'])
+        return name_lst
 
     def list(self):
         lst = []
-        for m in self.blocs:
+        for m in self.blocs.keys():
             lst.append(m)
         return lst
 
@@ -258,6 +278,21 @@ class Carte:
         self.pixel_offset = 0
         self.clouds = []
         self.draw_clouds = draw_clouds
+        self.conteneur = None
+    
+    def conteneur_load(self):
+        if self.conteneur:
+            self.conteneur.load()
+    
+    def create_conteneur(self, conteneur):
+        self.conteneur = conteneur
+    
+    def conteneur_save(self):
+        if self.conteneur:
+            self.conteneur.save()
+    
+    def conteneur_right_click(self, x, y):
+        return self.conteneur.destroy_last_bloc(x, y)
 
     def change_pixel_offset(self, direction=+1):
         self.pixel_offset += direction
@@ -266,6 +301,14 @@ class Carte:
         if not self.pixel_offset:
             return True
         return False
+
+    def get_first_fov(self, extend=0):
+        retour = self.fov[0] + extend if 0 <= self.fov[0] + extend <= self.get_x_len() - self.get_space() else self.fov[0]
+        return retour
+
+    def get_last_fov(self, extend=0):
+        retour = self.fov[1] + extend if self.fov[1] + extend <= self.get_y_len() else self.fov[1]
+        return retour
 
     def get_offset(self):
         return self.pixel_offset
@@ -416,6 +459,17 @@ class Carte:
         self.pancarte = pygame.image.load(self.texture_pack + "pancarte.png").convert_alpha()
         self.time_telep = pygame.image.load(self.texture_pack + "time_telep.png").convert_alpha()
         self.feu = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "feu.png").convert_alpha()
+        self.interrupt_on = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "interrupt_on.png").convert_alpha()
+        self.interrupt_off = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "interrupt_off.png").convert_alpha()
+        self.cable = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "cable_right.png").convert_alpha()
+        self.light_on = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "light_on.png").convert_alpha()
+        self.light_off = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "light_off.png").convert_alpha()
+        self.repeteur_crt = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "repeteur.png").convert_alpha()
+        self.cmd_bloc = pygame.image.load(self.texture_pack + "command_block.png").convert_alpha()
+        self.piston = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "piston.png").convert_alpha()
+        self.piston_collant = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "piston_collant.png").convert_alpha()
+        self.conteneur = pygame.image.load(self.texture_pack + "conteneur.png").convert_alpha()
+
         #dico
         self.img_tous_blocs = {
             "q": self.bibli,
@@ -508,7 +562,17 @@ class Carte:
             '§%': self.marteau_img,
             '%a': self.pancarte,
             '%b': self.time_telep,
-            'feu': self.feu
+            'feu': self.feu,
+            'aaa': self.interrupt_on,
+            'bbb': self.interrupt_off,
+            'ccc': self.cable,
+            'ddd': self.light_on,
+            'eee': self.light_off,
+            'fff': self.repeteur_crt,
+            'ggg': self.cmd_bloc,
+            'hhh': self.piston,
+            'iii': self.piston_collant,
+            'jjj': self.conteneur
         }
 
     def get_img_dict(self):
@@ -587,6 +651,10 @@ class Carte:
                         self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 self.shaders.update(x=num_case, y=num_ligne)
+        for i in self.conteneur.list_conteners_pos_and_tile():
+            x = (i[0][0] - self.fov[0]) * taille_sprite
+            y = i[0][1] * taille_sprite
+            self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
 
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
@@ -617,16 +685,21 @@ class Carte:
         return '0'
 
     def get_y_len(self):
-        return len(self.carte)
+        return len(self.carte) - 1
 
     def get_x_len(self):
-        return len(self.carte[0])
+        return len(self.carte[0]) - 1
 
     def get_list(self):
         return self.carte
 
     def remove_bloc(self, x, y, new):
-        self.carte[y][x] = new
+        if new == 'jjj':
+            self.conteneur.add_new(x, y)
+        if not self.conteneur.test(x, y):
+            self.carte[y][x] = new
+        else:
+            self.conteneur.add_on_existing(x, y, new)
         self.new_bloc = True
 
     def get_fov(self):

@@ -18,7 +18,7 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 sys.excepthook = pdb_post_mortem
 """
 
-VERSION = "Alpha 3.0.7"
+VERSION = "Alpha 3.0.9"
 
 import glob
 from PIL import Image as PILImage
@@ -51,6 +51,8 @@ if miniaturisation is True:
     for fichier in glob.glob(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "*.png"):
         img_resize(fichier, 10)
     img_resize(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "C" + os.sep + "perso.png", 10)
+    for fichier in glob.glob(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "Electricity" + os.sep + "*.png"):
+        img_resize(fichier, 10)
 
 from niveau import *
 from tkinter import *
@@ -77,8 +79,8 @@ s = [
     ['/',  '.',  '?',  'n',  'b',  'x',  'f',  'g',  'A',  'Z',  'E',  'R',  'T',  'Y',  'U',  'I'],
     ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
     ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
-    ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', '0', '0', '0'],
-    ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+    ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
+    ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
     ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]
