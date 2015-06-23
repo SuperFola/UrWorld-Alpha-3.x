@@ -11,10 +11,15 @@
         'folaefolc': 64,
         'test': 16
     },
+    'authentification':
+    {
+        'folaefolc': 'pokemon/159'
+    },
     'bannis':
     [
     ],
     'serveur_name': '',
     'serveur_description': '',
-    'pvp': True
+    'pvp': True,
+    'secure': True
 }

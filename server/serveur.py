@@ -302,7 +302,8 @@ wl = {
     ],
     'serveur_name': '',
     'serveur_description': '',
-    'pvp': True
+    'pvp': True,
+    'secure': True
 }
 
 if os.path.exists("wl.txt"):
@@ -401,15 +402,24 @@ while serveur_lance:
             #la vie du personnage
             'vie': 100
         }
-        if datas['pseudo'] != 'g':
-            connectes[addr] = datas
-            if connectes[addr]['pseudo'] in white_list['users'].keys():
-                grade = white_list['users'][connectes[addr]['pseudo']]
-                couleur = white_list['colors'][grade]
-                connectes[addr]['color'] = couleur
-                print("In[0]: Nouveau client : '%s' #%i" % (connectes[addr]['pseudo'], grade))
+        connectes[addr] = datas
+        #on dit au client si le serveur est sécurisé ou non
+        connexion_principale.sendto(pickle.dumps(white_list['secure']), addr)
+        if white_list['secure']:
+            #il faut un mot de passe pour se connecter au serveur !
+            mot_de_passe_client = connexion_principale.recvfrom(BUFFER_SIZE)
+            mot_de_passe_client = pickle.loads(mot_de_passe_client)
+            if white_list['authentification'][connectes[addr]['pseudo']] == mot_de_passe_client:
+                connexion_principale.sendto(pickle.dumps(True), addr)
             else:
-                print("In[0]: Nouveau client : '%s'" % connectes[addr]['pseudo'])
+                connexion_principale.sendto(pickle.dumps(False), addr)
+        if connectes[addr]['pseudo'] in white_list['users'].keys():
+            grade = white_list['users'][connectes[addr]['pseudo']]
+            couleur = white_list['colors'][grade]
+            connectes[addr]['color'] = couleur
+            print("In[0]: Nouveau client : '%s' #%i" % (connectes[addr]['pseudo'], grade))
+        else:
+            print("In[0]: Nouveau client : '%s'" % connectes[addr]['pseudo'])
 
     if data:
         data = pickle.loads(data)
@@ -745,4 +755,4 @@ if not to_print:
     with open('log_' + str(len(glob.glob("*.log")) + 1) + ".log", "w") as f:
         f.write(to_save_into_file)
 
-wait = input("Fermeture des connexions. Appuyez sur 'Entrée' pour quitter . . .")
+input("Fermeture des connexions. Appuyez sur 'Entrée' pour quitter . . .")

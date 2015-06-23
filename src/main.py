@@ -71,7 +71,6 @@ root_ = None
 fullscreen = True
 
 if os.path.exists('test.test'):
-    print('in test.test')
     with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav", "wb") as i:
         pickle.Pickler(i).dump(s)
     root_ = pygame.display.set_mode((0, 0))  # definition de l'ecran principal

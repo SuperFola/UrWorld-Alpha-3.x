@@ -1218,7 +1218,7 @@ class Game:
         self.temps_avant_fps = time.time()
 
         if not self.en_reseau:
-            self.carte.update()
+            self.carte.update(self.personnage.get_case_pos())
         else:
             self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
                                  self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])

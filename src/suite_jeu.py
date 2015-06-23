@@ -1,6 +1,7 @@
 # -*-coding: utf8-*
 
 import gamecore
+import dialog_box as dlb
 import os
 from commerces_p import message_affiche
 import pickle
@@ -130,6 +131,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     shader = omb.Shader(fenetre, blocs)
     with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pseudo.sav", "r") as pseudo_lire:
         pseudo = pseudo_lire.read()
+    #réseau
     if not en_reseau:
         carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
         carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
@@ -138,8 +140,29 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
             socket_client_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             params_co = (hote, port)
             socket_client_serv.sendto(pickle.dumps([pseudo, 0, 0, dossier_personnage]), params_co)
-            carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
-            carte.receive_map()
+            tmp = socket_client_serv.recv(4096)
+            if pickle.loads(tmp):
+                #on recoit un booleen indiquant si le serveur veut un mot de passe ou non
+                #on demande un mot de passe
+                mdp_to_send = dlb.DialogBox(self.fenetre, "Le serveur demande un mot de passe : ", "Authentification réseau", rcenter, grd_font, y_ecart, type_btn=2).render()
+                socket_client_serv.sendto(pickle.dumps(mdp_to_send), params_co)
+                #on a envoyé le mot de passe et on recoit la reponse du serveur :
+                #True si on est accepté, False si on l'est pas
+                tmp2 = socket_client_serv.recv(4096)
+                if not pickle.loads(tmp2):
+                    #on est pas accepté, on quitte le mode réseau
+                    en_reseau = False
+                    message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)
+                    carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
+                    carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
+                else:
+                    #tout est correct !
+                    carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
+                    carte.receive_map()
+            else:
+                #il n'y avait pas besoin de mot de passe, on se connecte normalement et on demande la map :)
+                carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
+                carte.receive_map()
         except OSError:
             en_reseau = False
             message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)

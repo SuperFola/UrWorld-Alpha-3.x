@@ -4,7 +4,6 @@
 import random
 from structs import *
 
-
 BLOCK, VOID = True, False
 
 foret = {
@@ -191,19 +190,20 @@ def print_array(array):
     rep = ''
     for line in array:
         for elt in line:
-            rep += elt.rep
+            rep += elt.__repr__()[1:-1]
         rep += '\n'
     print(rep)
 
 
 if __name__ == '__main__':
     import sys
-    length, flatness, height = map(int, sys.argv[1:4])
-    headstart, deniv = height//2, 1
     try:
+        length, flatness, height = sys.argv[1:4]
+        length, flatness, height = map(int, [length, flatness, height])
+        headstart, deniv = height//2, 1
         headstart = int(sys.argv[4])
         deniv = int(sys.argv[5])
-    except IndexError:
-        pass
+    except ValueError:
+        length, flatness, height, headstart, deniv = 77, 4, 32, 16, 2
     noise = Map(length, flatness, range(1, height), headstart, deniv)
     print_array(noise)

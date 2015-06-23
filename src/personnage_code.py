@@ -293,6 +293,9 @@ class Personnage:
 
     def get_dossier(self):
         return self.location
+    
+    def get_case_pos(self):
+        return self.x_pos // 30, self.y_pos // 30
 
     def get_pseudo(self):
         return self.pseudo

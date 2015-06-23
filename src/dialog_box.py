@@ -51,6 +51,8 @@ class DialogBox:
             #le fond
             if self.carte != None:
                 self.carte.render()
+            else:
+                pg.draw.rect(self.ecran, (0, 0, 0), (0, 0, self.ecran.get_size()[0], self.ecran.get_size()[1]))
 
             #actualisation des couleurs des boutons
             btn_ok_couleur = (20, 20, 180) if not btn_ok_focus else (25, 25, 215)

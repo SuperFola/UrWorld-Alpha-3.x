@@ -130,7 +130,6 @@ class Inventory:
         self.blocs = {}
 
     def get(self, item):
-        print(item)
         if item in self.blocs.keys():
             return self.blocs[item]['quantity']
         return 0
@@ -254,7 +253,7 @@ class Block:
 
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True):
+    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
         self.ecran = surface
         self.root = surface_mere
         self.carte = None
@@ -279,6 +278,7 @@ class Carte:
         self.clouds = []
         self.draw_clouds = draw_clouds
         self.conteneur = None
+        self.all_ = all_
     
     def conteneur_load(self):
         if self.conteneur:
@@ -609,7 +609,7 @@ class Carte:
                 self.carte = pickle.Unpickler(map_reading).load()
                 #self.carte = rle.load(map_reading)
 
-    def update(self):
+    def update(self, pos):
         self.gravity_for_entity()
         #On blit le fond
         if not self.get_action_meteo():
@@ -618,7 +618,12 @@ class Carte:
             self.ecran.fill(self.couleur_fond)
         if self.draw_clouds:
             self.move_clouds()
-        self.render()
+        if self.all_ == 2:
+            self.render_all()
+        elif self.all_ == 1:
+            self.render_circle(pos)
+        elif self.all_ == 0:
+            self.render_none()
 
     def gravity_for_entity(self):
         structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
@@ -630,7 +635,7 @@ class Carte:
                         self.carte[y+1][x + self.fov[0]], self.carte[y][x + self.fov[0]] = \
                             self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
 
-    def render(self):
+    def render_all(self):
         debut_generation = time.time()
         self.show_fire()
         #fov[1] = fov[0] + self.nb_blocs_large
@@ -659,6 +664,48 @@ class Carte:
         #calcul et affichage du temps de génération du terrain
         #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
         #affichage du shader en cours d'utilisation
+        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
+        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
+        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
+        self.root.blit(rendu_shader, (111, 10))
+    
+    def render_none(self):
+        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
+        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
+        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
+        self.root.blit(rendu_shader, (111, 10))
+    
+    def render_circle(self, pos):
+        debut_generation = time.time()
+        self.show_fire()
+        y1 = pos[1] - 2 if pos[1] - 2 >= 0 else 0
+        y2 = pos[1] + 2 if pos[1] + 2 <= self.get_y_len() else 0
+        x1 = 2 if self.fov[0] - 2 >= 0 else 1
+        x1 = x1 if self.fov[0] - x1 >= 0 else 0
+        x2 = 2 if self.fov[0] + 2 <= self.get_x_len() else 1
+        x2 = x2 if self.fov[0] + x2 <= self.get_x_len() else 0
+        structure = [line[self.fov[0]-x1:self.fov[1]+x2:] for line in self.carte][y1:y2:]
+        self.shaders.create(structure)
+        #On parcourt la liste du niveau
+        for num_case in range(len(structure[0])):
+            #On parcourt les listes de lignes
+            for num_ligne in range(len(structure)):
+                #On calcule la position réelle en pixels
+                bloc_actuel = structure[num_ligne][num_case]
+                x = num_case * taille_sprite + self.pixel_offset
+                y = num_ligne * taille_sprite
+                if bloc_actuel != '0':
+                    if not self.marteau.has_been_2nd_planed(bloc_actuel):
+                        self.ecran.blit(self.img_tous_blocs[bloc_actuel], (x, y))
+                    else:
+                        self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
+                        self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                self.shaders.update(x=num_case, y=num_ligne)
+        for i in self.conteneur.list_conteners_pos_and_tile():
+            x = (i[0][0] - self.fov[0]) * taille_sprite
+            y = i[0][1] * taille_sprite
+            self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
+
         rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
         pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
         pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))

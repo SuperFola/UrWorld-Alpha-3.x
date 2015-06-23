@@ -130,7 +130,6 @@ class Conteneur:
         if bloc == '':
             if self.destroy_conteneur(x, y):
                 bloc = 'jjj'
-        print(bloc)
         return bloc
     
     def destroy_conteneur(self, x, y):
