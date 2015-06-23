@@ -13,13 +13,13 @@
     },
     'authentification':
     {
-        'folaefolc': 'pokemon/159'
+        'Folaefolc': 'mot de passe'
     },
     'bannis':
     [
     ],
-    'serveur_name': '',
-    'serveur_description': '',
+    'serveur_name': 'Test',
+    'serveur_description': 'Chalut toi ! Bienvenue chez moi :)',
     'pvp': True,
     'secure': True
 }

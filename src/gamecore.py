@@ -66,7 +66,7 @@ class Game:
         self.personnage = personnage
         self.dust_electricty_driven_manager = dust_electricty_driven_manager
         self.en_reseau = en_reseau
-        self.network = None
+        self.network = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.blocs = inventory
         self.equipement_courant = '0'
         self.numero_niv = 'map'
@@ -277,11 +277,16 @@ class Game:
         # Personnal elements
         if self.en_reseau:
             self.network.sendto(pickle.dumps("get->configuration"), self.params_co)
+            temp = self.network.recv(4096)
+            temp = pickle.loads(temp)
+            if type(temp) != list and type(temp) != tuple:
+                temp = [
+                        "Erreur",
+                        "Aucune description n'a été fournie"
+                ]
             data_serv = []
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "serveur.sav", "rb+") as data_serv_wrb:
                 data_serv = pickle.Unpickler(data_serv_wrb).load()
-                temp = self.network.recv(4096)
-                temp = pickle.loads(temp)
                 for i in range(len(data_serv)):
                     if data_serv[i][0] == str(self.params_co[0]) + ':' + str(self.params_co[1]):
                         data_serv[i][1] = temp[0]

@@ -407,10 +407,13 @@ while serveur_lance:
         connexion_principale.sendto(pickle.dumps(white_list['secure']), addr)
         if white_list['secure']:
             #il faut un mot de passe pour se connecter au serveur !
-            mot_de_passe_client = connexion_principale.recvfrom(BUFFER_SIZE)
+            mot_de_passe_client, addr2 = connexion_principale.recvfrom(BUFFER_SIZE)
             mot_de_passe_client = pickle.loads(mot_de_passe_client)
-            if white_list['authentification'][connectes[addr]['pseudo']] == mot_de_passe_client:
-                connexion_principale.sendto(pickle.dumps(True), addr)
+            if connectes[addr]['pseudo'] in white_list['authentification']:
+                if white_list['authentification'][connectes[addr]['pseudo']] == mot_de_passe_client:
+                    connexion_principale.sendto(pickle.dumps(True), addr)
+                else:
+                    connexion_principale.sendto(pickle.dumps(False), addr)
             else:
                 connexion_principale.sendto(pickle.dumps(False), addr)
         if connectes[addr]['pseudo'] in white_list['users'].keys():
@@ -567,6 +570,7 @@ while serveur_lance:
                     to_save_into_file += 'in : %s demande les details du serveur' % connectes[addr]['pseudo']
                     to_save_into_file += "\n"
                 connexion_principale.sendto(pickle.dumps([white_list['serveur_name'], white_list['serveur_description']]), addr)
+                print('sending datas ...')
                 if to_print:
                     print("Out[1]: envoie du nom et de la description du serveur à %s" % connectes[addr]['pseudo'])
                 else:
