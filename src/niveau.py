@@ -802,6 +802,7 @@ class LANMap(Carte):
         self.socket = socket
         self.params = params
         self.buffer_size = 4096
+        self.print_oth = True
 
     def receive_map(self):
         self.socket.sendto(pickle.dumps("map->" + str(self.fov[0]) + ":" + str(self.fov[1])), self.params)

@@ -198,7 +198,8 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
             if pickle.Unpickler(f).load():
                 carte.add_meteo(vent)
     
-    dust_electricty_driven_manager = itm.DustElectricityDriven(carte, font, fenetre)
+    dust_electricty_driven_manager = itm.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
 
-    game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte, rcenter, dust_electricty_driven_manager)
+    game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte,
+                         rcenter, dust_electricty_driven_manager, socket_client_serv)
     game.start()

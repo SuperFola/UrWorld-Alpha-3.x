@@ -48,7 +48,7 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 class Game:
     def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network,
-                root_surface, carte, rcenter, dust_electricty_driven_manager):
+                root_surface, carte, rcenter, dust_electricty_driven_manager, network):
         """
         :param surface: a pygame sub-surface
         :param personnage: an instance of the class Personnage
@@ -66,7 +66,7 @@ class Game:
         self.personnage = personnage
         self.dust_electricty_driven_manager = dust_electricty_driven_manager
         self.en_reseau = en_reseau
-        self.network = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.network = network
         self.blocs = inventory
         self.equipement_courant = '0'
         self.numero_niv = 'map'

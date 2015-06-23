@@ -570,7 +570,6 @@ while serveur_lance:
                     to_save_into_file += 'in : %s demande les details du serveur' % connectes[addr]['pseudo']
                     to_save_into_file += "\n"
                 connexion_principale.sendto(pickle.dumps([white_list['serveur_name'], white_list['serveur_description']]), addr)
-                print('sending datas ...')
                 if to_print:
                     print("Out[1]: envoie du nom et de la description du serveur à %s" % connectes[addr]['pseudo'])
                 else:

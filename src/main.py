@@ -19,7 +19,7 @@ sys.excepthook = pdb_post_mortem
 """
 
 VERSION = "Alpha 3.0.9"
-not_finished = True
+not_finished = False
 
 import glob
 import os

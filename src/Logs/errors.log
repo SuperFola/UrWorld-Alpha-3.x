@@ -1,1 +1,21 @@
-^C
+Lancement du programme ...
+Début de la génération ...
+>>  0 minutes  0 secondes.
+Fin de la génération !
+
+
+********************************** SAUVEGARDE **********************************
+
+Sauvegarde réussie !
+
+
+Traceback (most recent call last):
+  File "main.py", line 924, in <module>
+    jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center)
+  File "C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\src\suite_jeu.py", line 205, in jeu
+    game.start()
+  File "C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\src\gamecore.py", line 1276, in start
+    self.actualise_chat()
+  File "C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\src\gamecore.py", line 317, in actualise_chat
+    for i in range(len(temp)):
+TypeError: object of type 'bool' has no len()

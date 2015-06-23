@@ -7,8 +7,9 @@ import os
 
 
 class DustElectricityDriven:
-    def __init__(self, carte, font, surface):
+    def __init__(self, carte, font, surface, en_reseau=False):
         self.stop_conduct_after = 12  # blocks
+        self.en_reseau = en_reseau
         self.carte = carte
         self.font = font
         self.ecran = surface
@@ -41,9 +42,15 @@ class DustElectricityDriven:
     def get_built_tiles(self):
         return self.all
 
+    def put(self, objet, x, y):
+        if not self.en_reseau:
+            self.road_map[y][x] = objet
+        else:
+            self.road_map[y][x - self.carte.get_first_fov()] = objet
+
     def put_cable(self, x, y):
         self.carte.remove_bloc(x, y, self.cable)
-        self.road_map[y][x] = self.cable
+        self.put(self.cable, x, y)
 
     def put_interrupt(self, x, y, reverse=False):
         if not reverse:
@@ -51,7 +58,7 @@ class DustElectricityDriven:
         else:
             tile = self.interrup_on
         self.carte.remove_bloc(x, y, tile)
-        self.road_map[y][x] = tile
+        self.put(tile, x, y)
 
     def put_light(self, x, y, reverse=False):
         if not reverse:
@@ -59,7 +66,7 @@ class DustElectricityDriven:
         else:
             tile = self.light_on
         self.carte.remove_bloc(x, y, tile)
-        self.road_map[y][x] = tile
+        self.put(tile, x, y)
 
     def check_all(self):
         interruptors = []
