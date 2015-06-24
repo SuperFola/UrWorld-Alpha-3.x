@@ -276,6 +276,7 @@ def map_generator():
     print('Out[1]: %2i minutes %2i secondes.' % (int((time.time() - start) // 60), int((time.time() - start) % 60)))
     print('In[0]: Fin de la génération !\n')
 
+
 white_list = {}
 
 #8 : banni
