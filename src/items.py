@@ -46,7 +46,8 @@ class DustElectricityDriven:
         if not self.en_reseau:
             self.road_map[y][x] = objet
         else:
-            self.road_map[y][x - self.carte.get_first_fov()] = objet
+            #en mode réseau, la DED ne fonctionnera pas
+            pass
 
     def put_cable(self, x, y):
         self.carte.remove_bloc(x, y, self.cable)
@@ -69,19 +70,20 @@ class DustElectricityDriven:
         self.put(tile, x, y)
 
     def check_all(self):
-        interruptors = []
-        cables = []
-        lights = []
-        for i in range(0, 19):
-            for j in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
-                tile = self.carte.get_tile(j, i)
-                if tile == self.interrup_on or tile == self.interrup_off:
-                    state = 0 if tile == self.interrup_off else 1
-                    interruptors.append([(j, i), state])
-        for k in range(0, 19):
-            for l in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
-                for m in interruptors:
-                    pass
+        if not self.en_reseau:
+            interruptors = []
+            cables = []
+            lights = []
+            for i in range(0, 19):
+                for j in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
+                    tile = self.carte.get_tile(j, i)
+                    if tile == self.interrup_on or tile == self.interrup_off:
+                        state = 0 if tile == self.interrup_off else 1
+                        interruptors.append([(j, i), state])
+            for k in range(0, 19):
+                for l in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
+                    for m in interruptors:
+                        pass
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)

@@ -432,7 +432,7 @@ while serveur_lance:
             to_save_into_file += "in : %s envoit %s" % (str(connectes[addr]['pseudo']), str(data))
             to_save_into_file += "\n"
         if type(data) == str:
-            if data[:5] == 'get->' and data[5:] != 'chat' and data[5:] != "configuration" and data[5:] != 'others' \
+            if data[:5] == 'get->' and data[5:9] != 'chat' and data[5:] != "configuration" and data[5:] != 'others' \
                     and data[5:10] != 'telep' and data[5:8] != 'pan'and data[5:] != 'life':
                 #demande d'un bloc en particulier
                 coor = data[5::]
@@ -498,6 +498,11 @@ while serveur_lance:
                     to_save_into_file += 'in : %s veut connaitre sa vie' % connectes[addr]['pseudo']
                     to_save_into_file += "\n"
                 connexion_principale.sendto(pickle.dumps(connectes[addr]['vie']), addr)
+                if to_print:
+                    print('Out[1]: %s recoit la valeur de sa vie %i' % (connectes[addr]['pseudo'], connectes[addr]['vie']))
+                else:
+                    to_save_into_file += 'out : %s recoit la valeur de sa vie %i' % (connectes[addr]['pseudo'], connectes[addr]['vie'])
+                    to_save_into_file += "\n"
             elif data[:9] == 'set->life':
                 #on veut changer la valeur de notre vie
                 quantity = ceil(float(data[9:]))
@@ -707,7 +712,7 @@ while serveur_lance:
                         to_save_into_file += "\n"
                 with open("teleporteurs.sav", "wb") as telep_w:
                     pickle.Pickler(telep_w).dump(teleporteurs_addr)
-                del connectes[addr] #on enleve le joueur du dico des connectes :D
+                #del connectes[addr]  # on enleve le joueur du dico des connectes :D
             elif data[:5] == "ban->":
                 #demande de ban d'un utilisateur
                 a_bannir = data[5::]

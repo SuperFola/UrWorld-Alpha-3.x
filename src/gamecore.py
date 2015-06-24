@@ -1006,6 +1006,7 @@ class Game:
                 self.continuer = 0
             elif ev.type == QUIT and self.windowed_is:
                 self.save()
+                self.continuer = 0
             #controles a la souris
             elif ev.type == MOUSEBUTTONDOWN:
                 if ev.button == 5:
