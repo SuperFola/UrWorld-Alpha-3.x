@@ -354,19 +354,17 @@ class Game:
             (x+1, y+2)
         ]
         is_there_water = lambda x, y: return [i for i in [(x-1, y), (x+1, y), (x, y-1), (x, y+1)] if self.carte.get_tile(i[0], i[1]) == "e"] if (x-1 >= 0 and x+1 <= 4096 and y-1 >= 0 and y+1 <= 19) else []
+        
         for i in explode_list:
             if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= self.carte.get_y_len():
-                if self.carte.get_tile(i[0], i[1]) != 'cv':
+                if self.carte.get_tile(i[0], i[1]) != 'cv' and not is_there_water(i[0], i[1]):
                     self.carte.remove_bloc(i[0], i[1], '0')
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y) and self.carte.get_tile(i[0], i[1]) != "e":
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y) and self.carte.get_tile(i[0], i[1]) != "e" and not is_there_water(i[0], i[1]):
                     self.boumList.append([time.time(), (i[0], i[1])])
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y:
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y and not is_there_water(i[0], i[1]):
                     self.carte.remove_bloc(x, y, '0')
-                elif self.carte.get_tile(i[0], i[1]) == "e": #marchera pas !!!
-                    if is_there_water(i[0], i[1]):
-                        pass
-                    else:
-                        self.boumList.append([time.time(), (i[0], i[1])])
+                elif is_there_water(i[0], i[1]):
+                    self.carte.remove_bloc(x, y 'e')
 
     def save(self):
         """
