@@ -22,7 +22,7 @@ class Vie:
         self.center = center
         self.mort_bruit = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "died.wav")
         self.msg_mort = ""
-        with open("message_mort.txt", "r") as lire_mort:
+        with open(".." + os.sep + "assets" + os.sep + "Textes" + os.sep + "message_mort.txt", "r") as lire_mort:
             self.msg_mort = lire_mort.read()
         self.img_vie = pygame.image.load(".." + os.sep + "assets" + os.sep + ".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Bar" + os.sep + "imgo2.png").convert_alpha()
 

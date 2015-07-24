@@ -246,7 +246,7 @@ class Game:
         # Files
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pseudo.sav", "r") as nom_perso:  #pour le pseudo
             self.personnage.set_pseudo(nom_perso.read())
-        with open("bonjour.txt", "r") as msg_bjr_lire:
+        with open(".." + os.sep + "assets" + os.sep + "Textes" + os.sep + "bonjour.txt", "r") as msg_bjr_lire:
             self.grd_msg_bjr = str(msg_bjr_lire.read()).format(self.personnage.get_pseudo(), self.nom_mechant)
             self.grd_msg_bjr += "\n" * 4 + "Bonne aventure `{0}` !".format(self.personnage.get_pseudo())
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "0" + os.sep + "vip.file"):

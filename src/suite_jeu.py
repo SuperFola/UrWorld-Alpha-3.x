@@ -137,6 +137,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     if not en_reseau:
         carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
         carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
+        socket_client_serv = None
     else:
         try:
             socket_client_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
