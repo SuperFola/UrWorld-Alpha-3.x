@@ -196,6 +196,11 @@ class Inventory:
             return self.blocs[item]['name']
         return 'None'
 
+    def get_by_code(self, tilecode):
+        if tilecode in self.blocs.keys():
+            return tilecode
+        return "404"
+
     def list_solid(self):
         solid_lst = []
         for i in self.blocs:
@@ -244,19 +249,62 @@ class Inventory:
 
 
 class Block:
-    position = [0, 0]
-    image = ''
-
     def __init__(self, pos, image):
-        Block.position = pos
-        Block.image = image
+        self.position = pos
+        self.image = image
+
+
+class MapArray:
+    def __init__(self, defaut="0", size=(4096, 20), biom_size=64):
+        self.carte = []
+        self.defaut = defaut
+        self.size = size
+        self.biom_size = biom_size
+
+    def check(self, x, y):
+        return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
+
+    def get(self, x, y):
+        x %= self.size[0]
+        if self.check(x, y):
+            return self.carte[y][x]
+        return self.defaut
+
+    def set(self, x, y, new):
+        x %= self.size[0]
+        if self.check(x, y):
+            self.carte[y][x] = new
+
+    def get_all(self):
+        return self.carte
+
+    def set_all(self, array):
+        self.carte = array
+
+    def add_chunk(self, chunk):
+        for y in range(0, len(self.carte)):
+            self.carte[y].append(chunk[y])
+
+    def get_fov(self, fov):
+        first = fov[0] % self.size[0]
+        end = fov[1] % self.size[0]
+        if end > first:
+            return [l[first:end:] for l in self.carte]
+        elif first > end:
+            begin = [l[end::] for l in self.carte]
+            next = [l[:first:] for l in self.carte]
+
+            for y in range(0, self.size[1]):
+                begin[y].extend(next[y])
+
+            return begin
 
 
 class Carte:
     def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
         self.ecran = surface
         self.root = surface_mere
-        self.carte = None
+        self.carte = MapArray()
         self.blocs = blocs
         self.marteau = marteau
         self.adresse = ""
@@ -344,7 +392,7 @@ class Carte:
         self.adresse = adresse
         with open(adresse, 'rb') as map_reading:
             #self.carte = rle.RLEUncompress(map_reading).load()
-            self.carte = pickle.Unpickler(map_reading).load()
+            self.carte.set_all(pickle.Unpickler(map_reading).load())
             #self.carte = rle.load(map_reading)
 
     def load_image(self):
@@ -469,6 +517,7 @@ class Carte:
         self.piston = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "piston.png").convert_alpha()
         self.piston_collant = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "piston_collant.png").convert_alpha()
         self.conteneur = pygame.image.load(self.texture_pack + "conteneur.png").convert_alpha()
+        self.tilenotfound404 = pygame.image.load(self.texture_pack + "404.png").convert_alpha()
 
         #dico
         self.img_tous_blocs = {
@@ -572,7 +621,8 @@ class Carte:
             'ggg': self.cmd_bloc,
             'hhh': self.piston,
             'iii': self.piston_collant,
-            'jjj': self.conteneur
+            'jjj': self.conteneur,
+            '404': self.tilenotfound404
         }
 
     def get_img_dict(self):
@@ -606,10 +656,10 @@ class Carte:
         if self.adresse != "":
             with open(self.adresse, 'rb') as map_reading:
                 #self.carte = rle.RLEUncompress(map_reading).load()
-                self.carte = pickle.Unpickler(map_reading).load()
+                self.carte.set_all(pickle.Unpickler(map_reading).load())
                 #self.carte = rle.load(map_reading)
 
-    def update(self, pos):
+    def update(self, pos=(0, 0)):
         self.gravity_for_entity()
         #On blit le fond
         if not self.get_action_meteo():
@@ -626,20 +676,20 @@ class Carte:
             self.render_none()
 
     def gravity_for_entity(self):
-        structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
+        structure = self.carte.get_fov(self.fov)
         for y in range(len(structure)):
             for x in range(len(structure[0])):
                 bloc = structure[y][x]
                 if bloc in self.gravity_entity and y + 1 <= len(structure) - 1:
                     if structure[y+1][x] == '0':
-                        self.carte[y+1][x + self.fov[0]], self.carte[y][x + self.fov[0]] = \
-                            self.carte[y][x + self.fov[0]], self.carte[y+1][x + self.fov[0]]
+                        self.carte.set(x + self.fov[0], y, self.carte.get(x + self.fov[0], y+1))
+                        self.carte.set(x + self.fov[0], y+1, self.carte.get(x + self.fov[0], y))
 
     def render_all(self):
         debut_generation = time.time()
         self.show_fire()
-        #fov[1] = fov[0] + self.nb_blocs_large
-        structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte]
+        #structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte.get_all()]
+        structure = self.carte.get_fov(self.fov)
         self.shaders.create(structure)
         #On parcourt la liste du niveau
         for num_case in range(self.fov[1] - self.fov[0]):
@@ -651,9 +701,9 @@ class Carte:
                 y = num_ligne * taille_sprite
                 if bloc_actuel != '0':
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 self.shaders.update(x=num_case, y=num_ligne)
         for i in self.conteneur.list_conteners_pos_and_tile():
@@ -684,7 +734,7 @@ class Carte:
         x1 = x1 if self.fov[0] - x1 >= 0 else 0
         x2 = 2 if self.fov[0] + 2 <= self.get_x_len() else 1
         x2 = x2 if self.fov[0] + x2 <= self.get_x_len() else 0
-        structure = [line[self.fov[0]-x1:self.fov[1]+x2:] for line in self.carte][y1:y2:]
+        structure = self.carte.get_fov(self.fov)[y1:y2:]
         self.shaders.create(structure)
         #On parcourt la liste du niveau
         for num_case in range(len(structure[0])):
@@ -696,9 +746,9 @@ class Carte:
                 y = num_ligne * taille_sprite
                 if bloc_actuel != '0':
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 self.shaders.update(x=num_case, y=num_ligne)
         for i in self.conteneur.list_conteners_pos_and_tile():
@@ -714,7 +764,7 @@ class Carte:
     def collide(self, x, y):
         collision = False
         if 0 <= y <= self.y_max and 0 <= x <= self.x_max:
-            if self.carte[y][x] in self.collision_bloc and self.carte[y][x] != './':
+            if self.carte.get(x, y) in self.collision_bloc and self.carte.get(x, y) != './':
                 collision = True
             else:
                 collision = False
@@ -728,23 +778,23 @@ class Carte:
 
     def get_tile(self, x, y):
         if 0 <= x <= self.get_x_len() and 0 <= y <= self.get_y_len():
-            return self.carte[y][x]
+            return self.carte.get(x, y)
         return '0'
 
     def get_y_len(self):
-        return len(self.carte) - 1
+        return len(self.carte.get_all()) - 1
 
     def get_x_len(self):
-        return len(self.carte[0]) - 1
+        return len(self.carte.get_all()[0]) - 1
 
     def get_list(self):
-        return self.carte
+        return self.carte.get_all()
 
     def remove_bloc(self, x, y, new):
         if new == 'jjj':
             self.conteneur.add_new(x, y)
         if not self.conteneur.test(x, y):
-            self.carte[y][x] = new
+            self.carte.set(x, y, new)
         else:
             self.conteneur.add_on_existing(x, y, new)
         self.new_bloc = True
@@ -779,7 +829,7 @@ class Carte:
     def save(self):
         with open(self.adresse, "wb") as map_writing:
             #rle.RLECompress(map_writing).dump(self.carte)
-            pickle.Pickler(map_writing).dump(self.carte)
+            pickle.Pickler(map_writing).dump(self.carte.get_all())
             #rle.dump(map_writing, self.carte)
         if self.new_bloc:
             numero_carte = str(len(glob.glob(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)
@@ -787,7 +837,7 @@ class Carte:
                 numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
                 with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'wb') as old_map_write:
                     #rle.RLECompress(old_map_write).dump(self.carte)
-                    pickle.Pickler(old_map_write).dump(self.carte)
+                    pickle.Pickler(old_map_write).dump(self.carte.get_all())
                     #rle.dump(old_map_write, self.carte)
 
 
@@ -809,9 +859,9 @@ class LANMap(Carte):
         temp = self.socket.recv(self.buffer_size)
         temp = pickle.loads(temp)
         if type(temp) == list:
-            self.carte = temp
+            self.carte.set_all(temp)
         elif type(temp) == dict:
-            self.carte[temp.keys()[0][1]][temp.keys()[0][0]] = temp[temp.keys()[0]]
+            self.carte.set(temp.keys()[0][0], temp.keys()[0][1], temp[temp.keys()[0]])
 
     def remove_bloc(self, x, y, new):
         self.socket.sendto(pickle.dumps("set->" + str(x) + ":" + str(y) + ":" + str(new)), self.params)
@@ -844,7 +894,7 @@ class LANMap(Carte):
         debut_generation = time.time()
         self.show_fire()
         #fov[1] = fov[0] + self.nb_blocs_large
-        structure = self.carte
+        structure = self.carte.get_all()
         self.shaders.create(structure)
         #On blit le fond
         if not self.get_action_meteo():
@@ -861,9 +911,9 @@ class LANMap(Carte):
                 y = num_ligne * taille_sprite
                 if bloc_actuel != '0':
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:
-                        self.ecran.blit(self.img_tous_blocs[bloc_actuel[2::]], (x, y))
+                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 self.shaders.update(x=num_case, y=num_ligne)
 
@@ -905,7 +955,7 @@ class LANMap(Carte):
         collision = False
         x -= self.fov[0]
         if 0 <= y <= self.y_max and 0 <= x <= self.x_max:
-            if self.carte[y][x] in self.collision_bloc and self.carte[y][x] != './':
+            if self.carte.get(x, y) in self.collision_bloc and self.carte.get(x, y) != './':
                 collision = True
             else:
                 collision = False

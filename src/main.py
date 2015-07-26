@@ -21,6 +21,10 @@ sys.excepthook = pdb_post_mortem
 VERSION = "Alpha 3.0.9"
 not_finished = False
 
+if not_finished:
+    import resize_with_pillow
+    resize_with_pillow.start()
+
 import glob
 import os
 import sys
@@ -28,11 +32,6 @@ import text_entry
 import restart
 import compressor as rle
 import dialog_box as dlb
-
-if not_finished:
-    import resize_with_pillow
-    resize_with_pillow.start()
-
 from niveau import *
 from tkinter import *
 import math
@@ -41,6 +40,8 @@ from gentest import *
 import pygame
 import time
 from suite_jeu import *
+from threading import Thread
+import map_generator as map_gen
 
 largeur_dispo = cst.taille_fenetre_largeur_win
 
@@ -59,7 +60,7 @@ s = [
     ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
     ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
     ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
-    ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+    ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
     ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]
@@ -87,24 +88,9 @@ pygame.display.update(r)  # mise a jour de la fenetre seulement
 pygame.display.set_caption("UrWorld v." + VERSION)
 
 def map_generator():
-    print('Début de la génération ...')
-    start = time.time()
-    if not os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl"):
-        length, flatness, height = 4096, 4, 20
-        headstart, deniv = height // 2, 1
-        my_noise_ = list(Map(length, flatness, range(1, height), headstart, deniv))
-        for y, ligne in enumerate(my_noise_):
-            for x, elem in enumerate(ligne):
-                my_noise_[y][x] = str(my_noise_[y][x])
-        with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl", "wb") as file:
-            #rle.RLECompress(file).dump(my_noise_)
-            pickle.Pickler(file).dump(my_noise_)
-            #rle.dump(file, my_noise_)
-    print('>> %2i minutes %2i secondes.' % (int((time.time() - start) // 60),
-                                            int((time.time() - start) % 60)))
-    print('Fin de la génération !')
+    generateur = map_gen.LaunchMapGen()
+    generateur.generer()
 
-from threading import Thread
 thread_gen = Thread(target=map_generator)
 thread_gen.start()
 
@@ -407,6 +393,61 @@ def clouds_property(fenetre, grd_font, hauteur_fen, fullscreen):
     return fullscreen
 
 
+def height_map(fenetre, grd_font, hauteur_fen, fullscreen):
+    height = dlb.DialogBox(fenetre, ["Hauteur de la map (defaut:20)"], "Map",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=3, mouse=False).render()
+    if height.isdigit():
+        with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + 'height_map.sav', 'wb') as file:
+            pickle.Pickler(file).dump(height)
+
+    return fullscreen
+
+
+def flatness_map(fenetre, grd_font, hauteur_fen, fullscreen):
+    flat = dlb.DialogBox(fenetre, ["Planéité de la map (defaut:4)"], "Map",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=3, mouse=False).render()
+    if flat.isdigit():
+        with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + 'flatness_map.sav', 'wb') as file:
+            pickle.Pickler(file).dump(flat)
+
+    return fullscreen
+
+
+def deniv_map(fenetre, grd_font, hauteur_fen, fullscreen):
+    deniv = dlb.DialogBox(fenetre, ["Dénivelé de la map (defaut:1)"], "Map",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=3, mouse=False).render()
+    if deniv.isdigit():
+        with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + 'deniv_map.sav', 'wb') as file:
+            pickle.Pickler(file).dump(deniv)
+
+    return fullscreen
+
+
+def headstart_map(fenetre, grd_font, hauteur_fen, fullscreen):
+    headstart = dlb.DialogBox(fenetre, ["Hauteur de la 1ere colonne (defaut:10)", "Doit être inférieur", "à la hauteur de la carte"], "Map",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=3, mouse=False).render()
+    if headstart.isdigit():
+        with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + 'headstart_map.sav', 'wb') as file:
+            pickle.Pickler(file).dump(headstart)
+
+    return fullscreen
+
+
+def lenght_map(fenetre, grd_font, hauteur_fen, fullscreen):
+    lenght = dlb.DialogBox(fenetre, ["Taille de la map (defaut:4096)", "Doit être un multiple", "de 2 (1024, 2048 ...)"], "Map",
+                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                type_btn=3, mouse=False).render()
+    if lenght.isdigit():
+        with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + 'lenght_map.sav', 'wb') as file:
+            pickle.Pickler(file).dump(lenght)
+
+    return fullscreen
+
+
 def pass_(fenetre, grd_font, hauteur_fen, fullscreen):
     return fullscreen
 
@@ -438,29 +479,28 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
     surf_noire2.convert_alpha()
     continuer = 1
     clikable = [
-        [90,  'Pack de textures', texture_pack],
-        [109, 'Taille du FOV', fov_size],
-        [128, 'Hauteur du saut', jump_height],
-        [147, 'Temps de saut', jump_time],
-        [166, 'Mode de jeu', gamemode_def],
-        [185, 'Couleur de fond', bg_color],
-        [204, 'Etat de la fenetre', windows_property],
-        [223, 'Vent', vent_property],
-        [242, 'Pluie', pluie_property],
-        [261, 'Orage', orage_property],
-        [280, 'Nuages', clouds_property],
-        [299, '', pass_],
-        [318, '', pass_],
-        [337, '', pass_],
-        [356, '', pass_],
-        [375, '', pass_],
-        [394, '', pass_],
-        [413, '', pass_],
-        [432, '', pass_],
-        [451, '', pass_],
-        [470, '', pass_]
+        [90,  'Pack de textures', texture_pack, (10, 10, 10)],
+        [109, 'Taille du FOV', fov_size, (10, 10, 10)],
+        [128, 'Hauteur du saut', jump_height, (10, 10, 10)],
+        [147, 'Temps de saut', jump_time, (10, 10, 10)],
+        [166, 'Mode de jeu', gamemode_def, (10, 10, 10)],
+        [185, 'Couleur de fond', bg_color, (10, 10, 10)],
+        [204, 'Etat de la fenetre', windows_property, (10, 10, 10)],
+        [223, 'Vent', vent_property, (10, 10, 10)],
+        [242, 'Pluie', pluie_property, (10, 10, 10)],
+        [261, 'Orage', orage_property, (10, 10, 10)],
+        [280, 'Nuages', clouds_property, (10, 10, 10)],
+        [299, 'Hauteur de la map (defaut:20)', height_map, (200, 25, 10)],
+        [318, 'Planéité de la map (defaut:4)', flatness_map, (200, 25, 10)],
+        [337, 'Dénivelé (defaut:1)', deniv_map, (200, 25, 10)],
+        [356, 'Hauteur de la 1ere colonne (defaut:10)', headstart_map, (200, 25, 10)],
+        [375, 'Taille de la map (defaut:4096)', lenght_map, (200, 25, 10)],
+        [394, '', pass_, (10, 10, 10)],
+        [413, '', pass_, (10, 10, 10)],
+        [432, '', pass_, (10, 10, 10)],
+        [451, '', pass_, (10, 10, 10)],
+        [470, '', pass_, (10, 10, 10)]
     ]
-    btn_menu_color = (140, 140, 140)
     btn_menu_focus = False
     largeur = 70
     hauteur = 50
@@ -498,7 +538,7 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
             if k == 2:
                 fenetre.blit(grd_font.render('Réglages du jeu', 1, (10, 10, 10)), ((240 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, 60))
                 for n in range(len(clikable)):
-                    fenetre.blit(grd_font.render(clikable[n][1], 1, (10, 10, 10)), ((10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, clikable[n][0]))
+                    fenetre.blit(grd_font.render(clikable[n][1], 1, clikable[n][3]), ((10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, clikable[n][0]))
 
         pygame.draw.rect(fenetre, btn_menu_color, (btn_menu_pos[0], btn_menu_pos[1], largeur, hauteur))
         fenetre.blit(grd_font.render('Menu', 1, (10, 10, 10)), (btn_menu_pos[0] + 8, btn_menu_pos[1] + 11))

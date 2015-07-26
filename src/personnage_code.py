@@ -246,13 +246,13 @@ class Mana:
         for i in range(-pos_player[1], 0, vitesse):
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0], abs(i) // 30, '0')
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0] + 1, abs(i) // 30, '0')
-            self.carte.render()
+            self.carte.update()
             self.ecran.blit(self.dico_img['sphere'][0], (pos_player[0], abs(i)))
             pygame.display.flip()
         for i in range(0, 16 * 30, vitesse):
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0], abs(i) // 30, '0')
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0] + 1, abs(i) // 30, '0')
-            self.carte.render()
+            self.carte.update()
             self.ecran.blit(self.dico_img['sphere'][0], (pos_player[0], abs(i)))
             pygame.display.flip()
 
@@ -262,7 +262,7 @@ class Mana:
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0] - 1, abs(i) // 30, '0')
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0], abs(i) // 30, '0')
             self.carte.remove_bloc(pos_player[0] // 30 + self.carte.get_fov()[0] + 1, abs(i) // 30, '0')
-            self.carte.render()
+            self.carte.update()
             self.ecran.blit(self.dico_img['conic'][0], (pos_player[0] - 30, abs(i)))
             pygame.display.flip()
 

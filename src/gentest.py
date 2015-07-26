@@ -197,6 +197,7 @@ def print_array(array):
 
 if __name__ == '__main__':
     import sys
+    valueError = False
     try:
         length, flatness, height = sys.argv[1:4]
         length, flatness, height = map(int, [length, flatness, height])
@@ -205,5 +206,8 @@ if __name__ == '__main__':
         deniv = int(sys.argv[5])
     except ValueError:
         length, flatness, height, headstart, deniv = 77, 4, 32, 16, 2
+        valueError = True
     noise = Map(length, flatness, range(1, height), headstart, deniv)
-    print_array(noise)
+    if valueError:
+        print_array(noise)
+        input()

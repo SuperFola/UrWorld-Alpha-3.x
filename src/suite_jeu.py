@@ -127,7 +127,8 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     blocs.add('hhh', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston', tps_explode=0, take_fire=False)
     blocs.add('iii', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston collant', tps_explode=0, take_fire=False)
     blocs.add('jjj', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Conteneur', tps_explode=0, take_fire=False)
-    
+    blocs.add('404', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='404 Tile not found', tps_explode=0, take_fire=False)
+
     #variables
     pseudo = ""
     shader = omb.Shader(fenetre, blocs)

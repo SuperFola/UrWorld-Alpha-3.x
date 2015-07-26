@@ -29,9 +29,9 @@ class DialogBox:
         self.ok_type0_pos = (self.center_screen[0] - 35 // 2, self.center_screen[1] + self.size[1] // 2 - 38)
         self.oui_type0_pos = (self.center_screen[0] - 35 // 2 - 30, self.center_screen[1] + self.size[1] // 2 - 38)
         self.non_type0_pos = (self.center_screen[0] - 35 // 2 + 30, self.center_screen[1] + self.size[1] // 2 - 38)
-        self.text_entry = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] - 20),
+        self.text_entry = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] + 40),
                                          self.ecran, size=self.size[0] - 20)
-        self.text_entry_int = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] - 20),
+        self.text_entry_int = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] + 40),
                                          self.ecran, size=self.size[0] - 20, type_txt=0)
 
     def render(self):
@@ -50,7 +50,7 @@ class DialogBox:
         while continuer:
             #le fond
             if self.carte != None:
-                self.carte.render()
+                self.carte.update()
             else:
                 pg.draw.rect(self.ecran, (0, 0, 0), (0, 0, self.ecran.get_size()[0], self.ecran.get_size()[1]))
 
@@ -77,13 +77,20 @@ class DialogBox:
                                 self.center_screen[1] - self.size[1] // 2 + 50))
             elif type(self.message) == list:
                 message = self.font.render(self.message[0], 1, (10, 10, 10))
+                message2 = None
                 self.ecran.blit(message,
                                 (self.center_screen[0] + 10 - message.get_size()[0] // 2,
                                 self.center_screen[1] - self.size[1] // 2 + 50))
-                message2 = self.font.render(self.message[1], 1, (10, 10, 10))
-                self.ecran.blit(message2,
-                                (self.center_screen[0] + 10 - message.get_size()[0] // 2,
-                                self.center_screen[1] - self.size[1] // 2 + 50 + message.get_size()[1]))
+                if len(self.message) >= 2:
+                    message2 = self.font.render(self.message[1], 1, (10, 10, 10))
+                    self.ecran.blit(message2,
+                                    (self.center_screen[0] + 10 - message.get_size()[0] // 2,
+                                    self.center_screen[1] - self.size[1] // 2 + 50 + message.get_size()[1]))
+                if len(self.message) >= 3:
+                    message3 = self.font.render(self.message[2], 1, (10, 10, 10))
+                    self.ecran.blit(message3,
+                                    (self.center_screen[0] + 10 - message.get_size()[0] // 2,
+                                    self.center_screen[1] - self.size[1] // 2 + 50 + message.get_size()[1] + message2.get_size()[1] + 10))
             #titre
             titre = self.font.render(self.titre, 1, (10, 10, 10))
             self.ecran.blit(titre,

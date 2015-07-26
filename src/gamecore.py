@@ -14,6 +14,7 @@ import pygame
 import pickle
 from pygame.locals import *
 from items import Conteneur
+import FPS_regulator
 
 
 testeur = os.path.exists("test.test")
@@ -81,8 +82,7 @@ class Game:
         self.nb_blocs_large = self.fenetre.get_size()[0] // 30 + 1
         self.rcenter = self.fenetre.get_size()[0] // 2, rcenter[1]  # self.fenetre.get_size()[1] // 2
         self.last_music_time = time.time() + 30   # Secondes
-        self.FPS = cst.IAFPS(75)
-        self.cpt_tour = 0
+        self.FPS = FPS_regulator.IAFPS(100)
         self.tps_tour = time.time() + 1
         self.nom_mechant = "Gordavus"
         self.volume_son_j = 50
@@ -364,7 +364,7 @@ class Game:
                 elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y and not is_there_water(i[0], i[1]):
                     self.carte.remove_bloc(x, y, '0')
                 elif is_there_water(i[0], i[1]):
-                    self.carte.remove_bloc(x, y 'e')
+                    self.carte.remove_bloc(x, y, 'e')
 
     def save(self):
         """
@@ -513,7 +513,7 @@ class Game:
         carte_img = pygame.image.load(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Inventory" + os.sep + "carte.png").convert_alpha()
 
         while continue3:
-            self.carte.render()
+            self.carte.update()
 
             #on dessine le fond (et accessoirement on efface ainsi la fenetre) :
             self.fenetre.blit(inventaire, (10, 10))
@@ -663,7 +663,7 @@ class Game:
         pygame.draw.rect(self.fenetre, (240, 240, 240), (0, 0, self.fenetre.get_size()[0], 600))
         pygame.display.flip()
         pygame.time.wait(0.1)
-        self.carte.render()
+        self.carte.update()
         pygame.display.flip()
 
     def time_cruise(self):
@@ -682,7 +682,7 @@ class Game:
         choisi = -1
 
         while continuer:
-            self.carte.render()
+            self.carte.update()
             pygame.draw.rect(self.fenetre, (80, 160, 80), ((self.fenetre.get_size()[0] - width_) // 2,
                                                   300 - (height_ // 2),
                                                   width_,
@@ -782,7 +782,7 @@ class Game:
         #actualisation de l'écran pour afficher les changements
         pygame.display.flip()
 
-    def casser_teleporteur(self, x, y):
+    def poser_teleporteur(self, x, y):
         """
         a function who put a teleporteur
         :param x: the position of the block
@@ -888,7 +888,7 @@ class Game:
                         self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
                         self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
             if self.obj_courant == 'vb':
-                self.casser_teleporteur(x_blit, y_blit)
+                self.poser_teleporteur(x_blit, y_blit)
             if self.obj_courant == '%a':
                 self.poser_pancarte(x_blit, y_blit)
             if self.carte.get_tile(x_blit, y_blit) == '%a' and self.obj_courant != '%a':
@@ -980,7 +980,7 @@ class Game:
         else:
             message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
     
-    def right_click(self, x_clic, y_clic):
+    def rc(self, x_clic, y_clic):
         self.dust_electricty_driven_manager.right_click(x_clic, y_clic)
         tile = self.carte.conteneur_right_click(x_clic, y_clic)
         if tile != '':
@@ -998,6 +998,19 @@ class Game:
             self.rc_pancarte(x_clic, y_clic)
         elif self.carte.get_tile(x_clic, y_clic) == '%b':
             self.rc_time_telep(x_clic, y_clic)
+
+    def check_perso(self):
+        """
+        fonction vérifiant que le personnage n'est pas dans un bloc et le déplacant dans ce cas
+        a améliorer
+        :return: nothing
+        """
+        x, y = self.personnage.get_pos()
+        if self.carte.collide(x, y):
+            if not self.carte.collide(x, 0):
+                self.personnage.move_to_y(0)
+            else:
+                self.carte.remove_bloc(x, y, '0')
     
     def get_events(self):
         """
@@ -1031,7 +1044,7 @@ class Game:
                                                  or self.obj_courant in self.dico_cd.keys()):
                     x_clic = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_clic = ev.pos[1] // 30
-                    self.right_click(x_clic, y_clic)
+                    self.rc(x_clic, y_clic)
             elif ev.type == MOUSEBUTTONUP:
                 if ev.button == 1:
                     #clic gauche, on relache la souris donc on met à false le 'booleen' qui dit que l'on peut
@@ -1078,7 +1091,7 @@ class Game:
                                 self.blocs.use(self.obj_courant)
                             self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
                             # raffraichir la map pour voir le placement multiple :
-                            self.carte.render()
+                            self.carte.update()
                             if self.show_stats:
                                 self.personnage.afficher_vie()
                                 self.personnage.afficher_mana()
@@ -1222,7 +1235,7 @@ class Game:
     def auto_update(self):
         """
         a function who call all the updater of the dependencies of the game
-        :return! nothing
+        :return: nothing
         """
         #pour les FPS
         self.temps_avant_fps = time.time()
@@ -1244,6 +1257,8 @@ class Game:
             self.marteau.render()
         #régénration de la mana
         self.personnage.regen_mana()
+        #pour ne pas se retrouver bloqué
+        self.check_perso()
 
     def start(self):
         """
@@ -1279,18 +1294,12 @@ class Game:
             #gestion du réseau ici
             if self.en_reseau:
                 self.actualise_chat()
-                if time.time() >= self.tps_tour:
-                    tps_tour = time.time() + 0.1
-                    self.FPS.timer(self.cpt_tour)
-                    self.cpt_tour = 0
 
             #items
             self.marteau.update()
 
             #fin de boucle => régulation et affichage des FPS
-            self.cpt_tour += 1
-            if not self.en_reseau:
-                self.FPS.pause()
+            self.FPS.actualise()
             self.print_fps()
 
             #blit ici de toutes les surfaces
