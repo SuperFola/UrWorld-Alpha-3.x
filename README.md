@@ -8,7 +8,7 @@ You will need to install Python 3.4.x, Pygame for python 34 and Pillow for pytho
 I will complete this section soon :D don't worry
 
 # Bugs
-If you found any type of bug, create an issue in the appropriate section of the repository ! Thank you so much for your help ^^
+If you find any bug, please create an issue in the appropriate section of the repository ! Thank you so much for your help ^^
 
 # Know problem(s)
 If the game didn't start immediately in fullscreen mode, make sure that the test.test file doesn't exist anymore. If there is one, delete it and the game will automatically start in fullscreen.
