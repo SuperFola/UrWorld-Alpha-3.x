@@ -1,47 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24b2fcad-e893-4c92-a896-fa956d8ac6ba" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0003.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0004.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0005.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0006.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0007.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0008.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0009.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0010.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0011.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0012.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0013.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0014.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0015.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Maps\Olds Maps\map0016.lvl" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Save\README.txt" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Save\clouds.sav" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Moustillon\Desktop\UrWorld Alpha 3.0.0\UrWorld-Alpha-3.x\assets\Save\serveur.sav" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Tiles/Thumbs.db" afterPath="$PROJECT_DIR$/assets/Tiles/Thumbs.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Tiles/Electricity/Thumbs.db" afterPath="$PROJECT_DIR$/assets/Tiles/Electricity/Thumbs.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Tiles/thumbnail/Thumbs.db" afterPath="$PROJECT_DIR$/assets/Tiles/thumbnail/Thumbs.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/bloc.sav" afterPath="$PROJECT_DIR$/assets/Save/bloc.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/conteneurs.sav" afterPath="$PROJECT_DIR$/assets/Save/conteneurs.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/fov.sav" afterPath="$PROJECT_DIR$/assets/Save/fov.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/inventaire.sav" afterPath="$PROJECT_DIR$/assets/Save/inventaire.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/pos.sav" afterPath="$PROJECT_DIR$/assets/Save/pos.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constantes.py" afterPath="$PROJECT_DIR$/src/constantes.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/couleur.sav" afterPath="$PROJECT_DIR$/assets/Save/couleur.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dialog_box.py" afterPath="$PROJECT_DIR$/src/dialog_box.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamecore.py" afterPath="$PROJECT_DIR$/src/gamecore.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gentest.py" afterPath="$PROJECT_DIR$/src/gentest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.py" afterPath="$PROJECT_DIR$/src/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Maps/map.lvl" afterPath="$PROJECT_DIR$/assets/Maps/map.lvl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Maps/Olds Maps/map0001.lvl" afterPath="$PROJECT_DIR$/assets/Maps/Olds Maps/map0001.lvl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Maps/Olds Maps/map0002.lvl" afterPath="$PROJECT_DIR$/assets/Maps/Olds Maps/map0002.lvl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/niveau.py" afterPath="$PROJECT_DIR$/src/niveau.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/personnage_code.py" afterPath="$PROJECT_DIR$/src/personnage_code.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/Save/pseudo.sav" afterPath="$PROJECT_DIR$/assets/Save/pseudo.sav" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/suite_jeu.py" afterPath="$PROJECT_DIR$/src/suite_jeu.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="24b2fcad-e893-4c92-a896-fa956d8ac6ba" name="Default" comment="" />
     <ignored path="UrWorld-Alpha-3.x.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -63,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="gamecore.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamecore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="9.369732" vertical-offset="3167" max-vertical-offset="10064">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3167" max-vertical-offset="10064">
               <caret line="1282" column="17" selection-start-line="1282" selection-start-column="17" selection-end-line="1282" selection-end-column="17" />
               <folding>
                 <element signature="e#5966#15203#0" expanded="false" />
@@ -100,6 +60,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="serveur_manager.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tools/serveur_manager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2859813" vertical-offset="0" max-vertical-offset="535">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+              <folding>
+                <element signature="e#114#129#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="FPS_regulator.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FPS_regulator.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -127,16 +99,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3349">
               <caret line="78" column="68" selection-start-line="78" selection-start-column="68" selection-end-line="78" selection-end-column="68" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="personnage_code.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/personnage_code.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4488" max-vertical-offset="7650">
-              <caret line="264" column="31" selection-start-line="264" selection-start-column="31" selection-end-line="264" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -309,6 +271,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="UrWorld-Alpha-3.x" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UrWorld-Alpha-3.x" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UrWorld-Alpha-3.x" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -581,41 +557,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/gamecore.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4726" max-vertical-offset="23562">
-          <caret line="278" column="17" selection-start-line="278" selection-start-column="17" selection-end-line="278" selection-end-column="17" />
-          <folding>
-            <element signature="e#5966#15203#0" expanded="false" />
-            <element signature="e#15243#16057#0" expanded="false" />
-            <element signature="e#16102#17869#0" expanded="false" />
-            <element signature="e#17899#20341#0" expanded="false" />
-            <element signature="e#20386#20935#0" expanded="false" />
-            <element signature="e#20970#21433#0" expanded="false" />
-            <element signature="e#21501#24595#0" expanded="false" />
-            <element signature="e#24641#24908#0" expanded="false" />
-            <element signature="e#24954#32212#0" expanded="false" />
-            <element signature="e#32252#32560#0" expanded="false" />
-            <element signature="e#32594#34060#0" expanded="false" />
-            <element signature="e#34091#34387#0" expanded="false" />
-            <element signature="e#34424#38338#0" expanded="false" />
-            <element signature="e#38390#39281#0" expanded="false" />
-            <element signature="e#39313#40287#0" expanded="false" />
-            <element signature="e#40336#40749#0" expanded="false" />
-            <element signature="e#40809#41225#0" expanded="false" />
-            <element signature="e#41285#41925#0" expanded="false" />
-            <element signature="e#41982#43410#0" expanded="false" />
-            <element signature="e#43455#43762#0" expanded="false" />
-            <element signature="e#43817#46023#0" expanded="false" />
-            <element signature="e#46073#48856#0" expanded="false" />
-            <element signature="e#48912#49472#0" expanded="false" />
-            <element signature="e#49529#50823#0" expanded="false" />
-            <element signature="e#50882#51063#0" expanded="false" />
-            <element signature="e#51111#52073#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/personnage_code.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="299" max-vertical-offset="7650">
@@ -1132,7 +1073,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamecore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="9.369732" vertical-offset="3167" max-vertical-offset="10064">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3167" max-vertical-offset="10064">
           <caret line="1282" column="17" selection-start-line="1282" selection-start-column="17" selection-end-line="1282" selection-end-column="17" />
           <folding>
             <element signature="e#5966#15203#0" expanded="false" />
@@ -1161,6 +1102,16 @@
             <element signature="e#49529#50823#0" expanded="false" />
             <element signature="e#50882#51063#0" expanded="false" />
             <element signature="e#51111#52073#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/serveur_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2859813" vertical-offset="0" max-vertical-offset="535">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="e#114#129#0" expanded="true" />
           </folding>
         </state>
       </provider>
