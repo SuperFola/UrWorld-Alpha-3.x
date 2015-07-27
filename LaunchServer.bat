@@ -1,5 +1,5 @@
 REM @echo off
-cd ../server/
+cd server/
 color 0f
 cls
 py -3.4 serveur.py

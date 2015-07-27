@@ -49,7 +49,6 @@ class IAFPS:
                 self.wait = 0
                 #print("temps de pause (sec) :: " + str(self.wait))
                 #print("frame_rate compté dans la boucle :: " + str(self.frame_rate))
-        print(self.get_DeltaTime())
 
     def pause(self):
         time.sleep(self.wait)
