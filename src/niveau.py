@@ -264,6 +264,15 @@ class MapArray:
     def check(self, x, y):
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
 
+    def get_max_size_x(self):
+        return self.size[0]
+
+    def get_max_size_y(self):
+        return self.size[1]
+
+    def get_max_size(self):
+        return self.size
+
     def get(self, x, y):
         x %= self.size[0]
         if self.check(x, y):
@@ -807,6 +816,9 @@ class Carte:
             self.fov = [first_fov, last_fov]
             return True
         return False
+
+    def get_max_fov(self):
+        return self.carte.get_max_size_x()
 
     def get_space(self):
         return self.fov[1] - self.fov[0]

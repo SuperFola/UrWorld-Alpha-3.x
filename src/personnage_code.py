@@ -333,6 +333,7 @@ class Personnage:
         self.immobile_time = 0
         self.__deplacements(direction)
         self.immobile = True
+        self.change_direction(self.orientation)
 
     def __deplacements(self, direction):
         case_x = self.x_pos // 30 + self.carte.get_fov()[0] + self.carte.get_offset()
@@ -344,6 +345,7 @@ class Personnage:
                 if not self.carte.collide(case_x, case_y - 1):
                     case_y -= 1
         elif direction == 'gauche':
+            #est ce qu on peut se deplacer ou non ?
             if 0 <= case_x - 1:
                 #escalier montant
                 if self.carte.collide(case_x - 1, case_y) and not self.carte.collide(case_x, case_y - 1):
@@ -351,13 +353,13 @@ class Personnage:
                         if not self.carte.collide(case_x - 1, case_y - 1):
                             if not self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1):
                                 case_x -= 1
-                            else:
-                                case_y -= 1
+                            case_y -= 1
                 #déplacements normaux
                 elif not self.carte.collide(case_x - 1, case_y):
                     if not self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1):
                         case_x -= 1
         elif direction == 'droite':
+            #est ce qu on peut se deplacer ou non ?
             if case_x + 1 <= 4096:
                 #escalier montant
                 if self.carte.collide(case_x + 1, case_y) and not self.carte.collide(case_x, case_y - 1):
@@ -365,8 +367,7 @@ class Personnage:
                         if not self.carte.collide(case_x + 1, case_y - 1):
                             if not self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1) or self.x_pos // 30 < self.carte.get_space() // 5:
                                 case_x += 1
-                            else:
-                                case_y -= 1
+                            case_y -= 1
                 #déplacements normaux
                 elif not self.carte.collide(case_x + 1, case_y):
                     if not self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1):

@@ -383,47 +383,59 @@ while serveur_lance:
     data, addr = connexion_principale.recvfrom(BUFFER_SIZE)
     if addr not in connectes.keys():
         datas = pickle.loads(data)
-        datas = {
-            #simplement le pseudo
-            'pseudo': datas[0],
-            #en cases avec le fov préintégré dedans
-            'x': datas[1],
-            #en cases aussi
-            'y': datas[2],
-            #le FOV actif
-            'fov': [0, 75],
-            #la direction du personnage
-            'dir': 1,
-            #juste le dossier, pas l'image
-            'repr': datas[3],
-            #le message qu'il faudra afficher
-            'cur_msg': '',
-            #la couleur dans laquelle sera le pseudo
-            'color': (255, 255, 255),
-            #la vie du personnage
-            'vie': 100
-        }
-        connectes[addr] = datas
-        #on dit au client si le serveur est sécurisé ou non
-        connexion_principale.sendto(pickle.dumps(white_list['secure']), addr)
-        if white_list['secure']:
-            #il faut un mot de passe pour se connecter au serveur !
-            mot_de_passe_client, addr2 = connexion_principale.recvfrom(BUFFER_SIZE)
-            mot_de_passe_client = pickle.loads(mot_de_passe_client)
-            if connectes[addr]['pseudo'] in white_list['authentification']:
-                if white_list['authentification'][connectes[addr]['pseudo']] == mot_de_passe_client:
-                    connexion_principale.sendto(pickle.dumps(True), addr)
+        if datas[1] is not bool and datas[2] is not bool and datas[3] is not bool:
+            datas = {
+                #simplement le pseudo
+                'pseudo': datas[0],
+                #en cases avec le fov préintégré dedans
+                'x': datas[1],
+                #en cases aussi
+                'y': datas[2],
+                #le FOV actif
+                'fov': [0, 75],
+                #la direction du personnage
+                'dir': 1,
+                #juste le dossier, pas l'image
+                'repr': datas[3],
+                #le message qu'il faudra afficher
+                'cur_msg': '',
+                #la couleur dans laquelle sera le pseudo
+                'color': (255, 255, 255),
+                #la vie du personnage
+                'vie': 100
+            }
+            connectes[addr] = datas
+            #on dit au client si le serveur est sécurisé ou non
+            connexion_principale.sendto(pickle.dumps(white_list['secure']), addr)
+            if white_list['secure']:
+                #il faut un mot de passe pour se connecter au serveur !
+                mot_de_passe_client, addr2 = connexion_principale.recvfrom(BUFFER_SIZE)
+                mot_de_passe_client = pickle.loads(mot_de_passe_client)
+                if connectes[addr]['pseudo'] in white_list['authentification']:
+                    if white_list['authentification'][connectes[addr]['pseudo']] == mot_de_passe_client:
+                        connexion_principale.sendto(pickle.dumps(True), addr)
+                    else:
+                        connexion_principale.sendto(pickle.dumps(False), addr)
                 else:
                     connexion_principale.sendto(pickle.dumps(False), addr)
+            if connectes[addr]['pseudo'] in white_list['users'].keys():
+                grade = white_list['users'][connectes[addr]['pseudo']]
+                couleur = white_list['colors'][grade]
+                connectes[addr]['color'] = couleur
+                print("In[0]: Nouveau client : '%s' #%i" % (connectes[addr]['pseudo'], grade))
             else:
-                connexion_principale.sendto(pickle.dumps(False), addr)
-        if connectes[addr]['pseudo'] in white_list['users'].keys():
-            grade = white_list['users'][connectes[addr]['pseudo']]
-            couleur = white_list['colors'][grade]
-            connectes[addr]['color'] = couleur
-            print("In[0]: Nouveau client : '%s' #%i" % (connectes[addr]['pseudo'], grade))
+                print("In[0]: Nouveau client : '%s'" % connectes[addr]['pseudo'])
         else:
-            print("In[0]: Nouveau client : '%s'" % connectes[addr]['pseudo'])
+            #un admin se connect depuis un shell maison
+            if datas[0] in white_list['users']:
+                if white_list[datas[0]] == 64:
+                    #on verifie que c'est bien un admin
+                    if white_list['secure']:
+                        mdp_recv, addr = connexion_principale.recvfrom(BUFFER_SIZE)
+                        mdp = pickle.loads(mdp_recv)
+                        if white_list['authentification'][datas[0]] == mdp:
+                            #tout est ok
+                            connexion_principale.sendto(pickle.dumps(True), addr)
 
     if data:
         data = pickle.loads(data)

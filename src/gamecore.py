@@ -152,6 +152,8 @@ class Game:
                 self.vip_bool = False
             tmp.close()
         self.conteneur = Conteneur()
+        self.continuer = 1
+        self.temps_avant_fps = time.time()
 
     def load_coponents(self):
         """
@@ -1018,6 +1020,7 @@ class Game:
         :return: nothing
         """
         for ev in [pygame.event.poll()]:
+            #petite optimisation maison qui attend les evennements, et ne les checks pas tout le temps
             if ev.type == KEYDOWN and (ev.key == K_ESCAPE or ev.key == K_F4):
                 self.save()
                 self.continuer = 0
@@ -1032,7 +1035,7 @@ class Game:
                 elif ev.button == 4:  #la molette monte
                     self.molette_('haut')
                 elif ev.button == 1:
-                    clique_gauche = 1
+                    self.clique_gauche = 1
                     #clic, donc on pose un bloc là où on a cliqué !
                     x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_blit = ev.pos[1] // 30
@@ -1112,11 +1115,9 @@ class Game:
                 elif ev.key == K_LEFT:
                     #on va à gauche
                     self.personnage.move("gauche")
-                    self.personnage.change_direction("gauche")
                 elif ev.key == K_RIGHT:
                     #on va à droite
                     self.personnage.move("droite")
-                    self.personnage.change_direction("droite")
                 #changement de la taille du FOV
                 elif ev.key == K_e:
                     new_size_fov = dlb.DialogBox(self.fenetre, ["Entrez la nouvelle taille du", "FOV (entre 0 et " + str(self.nb_blocs_large) + " ) :"],
@@ -1265,9 +1266,7 @@ class Game:
         the main function of this class. run the main thread and load the different coponents
         :return: nothing
         """
-        self.continuer = 1
         self.tps_tour = time.time() + 0.1
-        self.temps_avant_fps = time.time()
         self.load_coponents()
 
         x_souris, y_souris = 0, 0

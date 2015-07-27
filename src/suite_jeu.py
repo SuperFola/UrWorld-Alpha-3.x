@@ -8,6 +8,7 @@ import pickle
 import socket
 import personnage_code
 import items as itm
+import ded_manager as ded
 import niveau as niveau_pkg
 import weather
 import pygame
@@ -200,7 +201,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
             if pickle.Unpickler(f).load():
                 carte.add_meteo(vent)
     
-    dust_electricty_driven_manager = itm.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
+    dust_electricty_driven_manager = ded.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
 
     game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte,
                          rcenter, dust_electricty_driven_manager, socket_client_serv)
