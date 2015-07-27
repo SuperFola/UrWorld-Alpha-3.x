@@ -51,6 +51,7 @@ class Map(list):
             tundra,
             mineral_world
         ]
+        self.biome_alea = biome_alea
 
         #---------------- Binary terrain generation ----------------#
         array = [[VOID for iy in range(height.stop)] for ix in range(length)]
@@ -94,7 +95,7 @@ class Map(list):
         array = [[array[width-1 - x][y] for x in range(width)][::-1] for y in range(height)][::-1]
 
         #---------------------- Biomes choice ----------------------#
-        biomes = [random.choice(self.liste_biomes) for _ in range(32)]
+        biomes = [random.choice(self.liste_biomes) for _ in range(length / 64)]
     
         super().__init__(array)
 

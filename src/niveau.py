@@ -13,6 +13,7 @@ import random as r
 import pygame
 from pygame.locals import *
 import os
+from map_generator import LaunchMapGen
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -255,14 +256,28 @@ class Block:
 
 
 class MapArray:
-    def __init__(self, defaut="0", size=(4096, 20), biom_size=64):
+    def __init__(self, defaut="0", size=(4096, 20), biom_size=64, blocs=None):
         self.carte = []
         self.defaut = defaut
         self.size = size
         self.biom_size = biom_size
+        self.generator = LaunchMapGen(save_to_file=False)
+        self.blocs = blocs
 
     def check(self, x, y):
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
+
+    def create_chunk(self):
+        chunk = self.generator.generer(lenght=self.biom_size, headstart=self.get_height(self.size[0]-1))
+        self.add_chunk()
+
+    def get_height(self, x):
+        height = self.size[1]
+        for y in range(0, self.size[1]):
+            if self.carte[y][x] in self.blocs.list_solid():
+                height = self.size[1] - y
+                break
+        return height
 
     def get_max_size_x(self):
         return self.size[0]
@@ -313,8 +328,8 @@ class Carte:
     def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
         self.ecran = surface
         self.root = surface_mere
-        self.carte = MapArray()
         self.blocs = blocs
+        self.carte = MapArray(blocs=self.blocs)
         self.marteau = marteau
         self.adresse = ""
         self.couleur_fond = (0, 184, 169)
