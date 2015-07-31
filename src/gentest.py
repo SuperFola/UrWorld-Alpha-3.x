@@ -51,7 +51,6 @@ class Map(list):
             tundra,
             mineral_world
         ]
-        self.biome_alea = biome_alea
 
         #---------------- Binary terrain generation ----------------#
         array = [[VOID for iy in range(height.stop)] for ix in range(length)]
@@ -95,7 +94,7 @@ class Map(list):
         array = [[array[width-1 - x][y] for x in range(width)][::-1] for y in range(height)][::-1]
 
         #---------------------- Biomes choice ----------------------#
-        biomes = [random.choice(self.liste_biomes) for _ in range(length / 64)]
+        biomes = [random.choice(self.liste_biomes) for _ in range(length // 64)]
     
         super().__init__(array)
 
@@ -126,7 +125,7 @@ class Map(list):
                     new_array[y][x] = new_block
                 else:
                     new_array[y][x] = AIR
-                if not x:
+                if not x and length > 128:
                     #on est tout à droite de la map
                     new_array[y][x] = 'p'  #on met de la bedrock
 
@@ -169,7 +168,7 @@ class Map(list):
             try:
                 return self[y][x]
             except IndexError:
-                pass
+                return None
         else:
             return super().__getitem__(item)
 
@@ -179,7 +178,7 @@ class Map(list):
             try:
                 self[y][x] = value
             except IndexError:
-                pass
+                return None
         else:
             super().__setitem__(item, value)
 

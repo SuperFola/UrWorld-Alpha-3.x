@@ -100,7 +100,8 @@ img_ = {
     'hhh': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_thumbnail.png").convert_alpha(),
     'iii': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
     'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha(),
-    '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha()
+    '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha(),
+    '403': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "403_thumbnail.png").convert_alpha()
 }
 
 def souris_ou_t_es(fenetre, arme_h_g):
@@ -130,6 +131,7 @@ def fps_stp(temps_avant_fps, root, rcenter, font):
 class Inventory:
     def __init__(self):
         self.blocs = {}
+        self.erros_codes = ('200', '403', '404')
 
     def get(self, item):
         if item in self.blocs.keys():
@@ -199,7 +201,7 @@ class Inventory:
         return 'None'
 
     def get_by_code(self, tilecode):
-        if tilecode in self.blocs.keys():
+        if tilecode in self.blocs.keys() or tilecode in self.erros_codes:
             return tilecode
         return "404"
 
@@ -257,10 +259,10 @@ class Block:
 
 
 class MapArray:
-    def __init__(self, defaut="0", size=(4096, 20), biom_size=64, blocs=None):
+    def __init__(self, defaut="0", biom_size=64, blocs=None):
         self.carte = []
         self.defaut = defaut
-        self.size = size
+        self.size = (4096, 20)
         self.biom_size = biom_size
         self.generator = LaunchMapGen(save_to_file=False)
         self.blocs = blocs
@@ -269,6 +271,7 @@ class MapArray:
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
 
     def create_chunk(self):
+        print("je crée un nouveau chunk !!!")
         chunk = self.generator.generer(lenght=self.biom_size, headstart=self.get_height(self.size[0]-1))
         self.add_chunk(chunk)
 
@@ -305,8 +308,11 @@ class MapArray:
 
     def set_all(self, array):
         self.carte = array
+        self.size = (len(array[0]), len(array))
 
     def add_chunk(self, chunk):
+        print("j'ajoute le chunk !!!")
+        print(chunk)
         for y in range(0, len(self.carte)):
             self.carte[y].append(chunk[y])
 
@@ -320,6 +326,8 @@ class MapArray:
                 for _ in range(temp):
                     liste[y].insert(0, '403')
             return liste
+        if end > self.size[0]:
+            self.create_chunk()
         return [l[first:end:] for l in self.carte]
 
 
@@ -335,8 +343,6 @@ class Carte:
         self.collision_bloc = self.blocs.list_solid()
         self.texture_pack = ".." + os.sep + "assets" + os.sep + "Tiles" + os.sep
         self.bloc_name = self.blocs.dict_name()
-        self.y_max = 20
-        self.x_max = 4096
         self.nb_blocs_large = nb_blocs_large
         self.fov = [0, self.nb_blocs_large]
         self.new_bloc = False
@@ -350,7 +356,7 @@ class Carte:
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
-        self.unrenderable = ('0', '403')
+        self.unrenderable = ('0')
     
     def conteneur_load(self):
         if self.conteneur:
@@ -417,18 +423,17 @@ class Carte:
         with open(adresse, 'rb') as map_reading:
             #self.carte = rle.RLEUncompress(map_reading).load()
             self.carte.set_all(pickle.Unpickler(map_reading).load())
+            self.y_max = self.carte.get_max_size_y()
+            self.x_max = self.carte.get_max_size_x()
             #self.carte = rle.load(map_reading)
 
     def load_image(self):
         # Chargement des images (seule celle d'arrivée contient de la transparence)
         #mode 'nuit'
+        self.cloud = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "cloud.png").convert_alpha()
         self.selection_bloc = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert()
         self.bleu_nuit_1 = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert_alpha()
-        self.bleu_nuit_1.set_alpha(65)
-        self.bleu_nuit_1.convert_alpha()
-        self.bleu_nuit_2 = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert()
-        self.cloud = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "cloud.png").convert_alpha()
-        #blocs -----------------------------------------------------------------------------------------------
+        #blocs
         #minerai
         self.mine_or = pygame.image.load(self.texture_pack + "mine_or.png").convert()
         self.mine_c = pygame.image.load(self.texture_pack + "mine_charbon.png").convert()
@@ -457,8 +462,6 @@ class Carte:
         #aquatique
         self.sable = pygame.image.load(self.texture_pack + "sable.png").convert()
         self.eau_ = pygame.image.load(self.texture_pack + "eau.png").convert()
-        self.eau_.set_alpha(cst.valeur_transparence_eau)
-        pygame.Surface.convert_alpha(self.eau_)
         #naturels
         self.herbe = pygame.image.load(self.texture_pack + "herbe.png").convert()
         self.dirt = pygame.image.load(self.texture_pack + "dirt.png").convert()
@@ -542,6 +545,12 @@ class Carte:
         self.piston_collant = pygame.image.load(self.texture_pack + "Electricity" + os.sep + "piston_collant.png").convert_alpha()
         self.conteneur = pygame.image.load(self.texture_pack + "conteneur.png").convert_alpha()
         self.tilenotfound404 = pygame.image.load(self.texture_pack + "404.png").convert_alpha()
+        self.accessdenied403 = pygame.image.load(self.texture_pack + "403.png").convert_alpha()
+
+        self.bleu_nuit_1.set_alpha(65)
+        self.bleu_nuit_1.convert_alpha()
+        self.eau_.set_alpha(cst.valeur_transparence_eau)
+        self.eau_.convert_alpha()
 
         #dico
         self.img_tous_blocs = {
@@ -646,7 +655,8 @@ class Carte:
             'hhh': self.piston,
             'iii': self.piston_collant,
             'jjj': self.conteneur,
-            '404': self.tilenotfound404
+            '404': self.tilenotfound404,
+            '403': self.accessdenied403
         }
 
     def get_img_dict(self):
@@ -681,6 +691,8 @@ class Carte:
             with open(self.adresse, 'rb') as map_reading:
                 #self.carte = rle.RLEUncompress(map_reading).load()
                 self.carte.set_all(pickle.Unpickler(map_reading).load())
+                self.y_max = self.carte.get_max_size_y()
+                self.x_max = self.carte.get_max_size_x()
                 #self.carte = rle.load(map_reading)
 
     def update(self, pos=(0, 0)):
