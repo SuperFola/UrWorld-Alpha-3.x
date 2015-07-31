@@ -94,7 +94,7 @@ class Map(list):
         array = [[array[width-1 - x][y] for x in range(width)][::-1] for y in range(height)][::-1]
 
         #---------------------- Biomes choice ----------------------#
-        biomes = [random.choice(self.liste_biomes) for _ in range(length // 64)]
+        biomes = [random.choice(self.liste_biomes) for _ in range(32)]
     
         super().__init__(array)
 
@@ -126,7 +126,7 @@ class Map(list):
                 else:
                     new_array[y][x] = AIR
                 if not x and length > 128:
-                    #on est tout à droite de la map
+                    #on est tout à gauche de la map
                     new_array[y][x] = 'p'  #on met de la bedrock
 
                 #on se décale d'un bloc dans le biome

@@ -59,6 +59,8 @@ class LaunchMapGen:
                 for y, ligne in enumerate(map_struct):
                     for x, elem in enumerate(ligne):
                         map_struct[y][x] = str(map_struct[y][x])
+                print(len(map_struct))
+                print(len(map_struct[0]))
                 with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl", "wb") as file:
                     #rle.RLECompress(file).dump(map_struct)
                     pickle.Pickler(file).dump(map_struct)

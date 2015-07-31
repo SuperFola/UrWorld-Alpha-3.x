@@ -191,6 +191,17 @@ class Game:
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav", "rb") as inventory_r:
                 self.inventaire = pickle.Unpickler(inventory_r).load()
+        else:
+            self.inventaire = [
+                                ['h',  's',  'e',  'a',  'q',  'm',  't',  'd',  'r',  'y',  'u',  'i',  'M',  'v',  'l',  'k'],
+                                ['/',  '.',  '?',  'n',  'b',  'x',  'f',  'g',  'A',  'Z',  'E',  'R',  'T',  'Y',  'U',  'I'],
+                                ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
+                                ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
+                                ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
+                                ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
+                                ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+                                ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
+                            ]
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav", "rb") as lire_equipement:
                 self.obj_courant = pickle.Unpickler(lire_equipement).load()
@@ -207,7 +218,7 @@ class Game:
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pos.sav", "rb") as pos_lire:
                 self.personnage.set_pos(pickle.Unpickler(pos_lire).load())
         else:
-            self.personnage.set_pos((0, 0))
+            self.personnage.set_pos((self.fenetre.get_size()[0] // 2 - 1, 0))
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "fov.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "fov.sav", "rb") as fov_lire:
                 new = pickle.Unpickler(fov_lire).load()
@@ -268,7 +279,7 @@ class Game:
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'jheight.sav'):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'jheight.sav', 'r') as jhr:
                 self.jump_height = int(jhr.read())
-            liste_hauteur_saut = [-1 for _ in range(self.jump_height + 1)] + [+1 for _ in range(self.jump_height + 2)]
+            self.liste_hauteur_saut = [-1 for _ in range(self.jump_height + 1)] + [+1 for _ in range(self.jump_height + 2)]
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'jtime.sav'):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'jtime.sav', 'r') as tjr:
                 self.temps_saut_attendre = int(tjr.read()) / 1000
@@ -1280,6 +1291,9 @@ class Game:
 
         #le "tour" de l'ecran de jeu
         self.custom()
+
+        print(self.carte.get_x_len())
+        print(self.carte.get_y_len())
 
         while self.continuer:
             self.auto_update()

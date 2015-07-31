@@ -312,7 +312,6 @@ class MapArray:
 
     def add_chunk(self, chunk):
         print("j'ajoute le chunk !!!")
-        print(chunk)
         for y in range(0, len(self.carte)):
             self.carte[y].append(chunk[y])
 
