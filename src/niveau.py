@@ -99,7 +99,8 @@ img_ = {
     'ggg': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "command_block_thumbnail.png").convert_alpha(),
     'hhh': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_thumbnail.png").convert_alpha(),
     'iii': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
-    'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha()
+    'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha(),
+    '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha()
 }
 
 def souris_ou_t_es(fenetre, arme_h_g):
@@ -269,7 +270,7 @@ class MapArray:
 
     def create_chunk(self):
         chunk = self.generator.generer(lenght=self.biom_size, headstart=self.get_height(self.size[0]-1))
-        self.add_chunk()
+        self.add_chunk(chunk)
 
     def get_height(self, x):
         height = self.size[1]
@@ -310,18 +311,16 @@ class MapArray:
             self.carte[y].append(chunk[y])
 
     def get_fov(self, fov):
-        first = fov[0] % self.size[0]
-        end = fov[1] % self.size[0]
-        if end > first:
-            return [l[first:end:] for l in self.carte]
-        elif first > end:
-            begin = [l[end::] for l in self.carte]
-            next = [l[:first:] for l in self.carte]
-
-            for y in range(0, self.size[1]):
-                begin[y].extend(next[y])
-
-            return begin
+        first = fov[0]  #% self.size[0]
+        end = fov[1]  #% self.size[0]
+        if first < 0:
+            liste = [l[0:end:] for l in self.carte]
+            temp = abs(first)
+            for y in range(len(liste)):
+                for _ in range(temp):
+                    liste[y].insert(0, '403')
+            return liste
+        return [l[first:end:] for l in self.carte]
 
 
 class Carte:
@@ -351,6 +350,7 @@ class Carte:
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
+        self.unrenderable = ('0', '403')
     
     def conteneur_load(self):
         if self.conteneur:
@@ -723,7 +723,7 @@ class Carte:
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
-                if bloc_actuel != '0':
+                if bloc_actuel not in self.unrenderable:
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
                         self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:
@@ -768,7 +768,7 @@ class Carte:
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
-                if bloc_actuel != '0':
+                if bloc_actuel not in self.unrenderable:
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
                         self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:
@@ -815,22 +815,21 @@ class Carte:
         return self.carte.get_all()
 
     def remove_bloc(self, x, y, new):
-        if new == 'jjj':
-            self.conteneur.add_new(x, y)
-        if not self.conteneur.test(x, y):
-            self.carte.set(x, y, new)
-        else:
-            self.conteneur.add_on_existing(x, y, new)
-        self.new_bloc = True
+        if x >= 0:
+            #on ne doit pas pouvoir poser un bloc dans le neant
+            if new == 'jjj':
+                self.conteneur.add_new(x, y)
+            if not self.conteneur.test(x, y):
+                self.carte.set(x, y, new)
+            else:
+                self.conteneur.add_on_existing(x, y, new)
+            self.new_bloc = True
 
     def get_fov(self):
         return self.fov
 
     def set_fov(self, first_fov, last_fov):
-        if first_fov >= 0:
-            self.fov = [first_fov, last_fov]
-            return True
-        return False
+        self.fov = [first_fov, last_fov]
 
     def get_max_fov(self):
         return self.carte.get_max_size_x()
@@ -936,7 +935,7 @@ class LANMap(Carte):
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite
                 y = num_ligne * taille_sprite
-                if bloc_actuel != '0':
+                if bloc_actuel not in self.unrenderable:
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
                         self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                     else:

@@ -19,9 +19,9 @@ sys.excepthook = pdb_post_mortem
 """
 
 VERSION = "Alpha 3.0.9"
-not_finished = False
+finished = False
 
-if not_finished:
+if not finished:
     import resize_with_pillow
     resize_with_pillow.start()
 
@@ -227,9 +227,14 @@ def texture_pack(fenetre, grd_font, hauteur_fen, fullscreen):
     path_to = dlb.DialogBox(fenetre, ["Chemin vers le pack de", "textures :"], "Pack de textures",
                             (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                             type_btn=2, mouse=False).render()
-    if os.path.exists(path_to):
-        with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'texture_pack.sav', 'w') as txt_pack_w:
-            txt_pack_w.write(path_to + os.sep)
+    if path_to != '':
+        if os.path.exists(path_to):
+            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'texture_pack.sav', 'w') as txt_pack_w:
+                txt_pack_w.write(path_to + os.sep)
+        else:
+            dlb.DialogBox(fenetre, ["Erreur dans le chemin", "vers la pack de textures"], "Erreur",
+                          (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                           type_btn=2, mouse=False).render()
     return fullscreen
 
 
@@ -237,13 +242,14 @@ def fov_size(fenetre, grd_font, hauteur_fen, fullscreen):
     new_size = dlb.DialogBox(fenetre, ["Nouvelle taille pour le FOV,", "comprise entre 0 et 75 :"], "Taille du FOV",
                             (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                             type_btn=3, mouse=False).render()
-    if int(new_size) > 0:
-        last_size = [0, 0]
-        with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'fov.sav', 'rb') as fovrb:
-            last_size = pickle.Unpickler(fovrb).load()
-        if last_size[0] + int(new_size) < 4096:
-            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'fov.sav', 'wb') as fovwb:
-                pickle.Pickler(fovwb).dump([last_size[0], last_size[0] + int(new_size)])
+    if new_size != '':
+        if int(new_size) > 0:
+            last_size = [0, 0]
+            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'fov.sav', 'rb') as fovrb:
+                last_size = pickle.Unpickler(fovrb).load()
+            if last_size[0] + int(new_size) < 4096:
+                with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'fov.sav', 'wb') as fovwb:
+                    pickle.Pickler(fovwb).dump([last_size[0], last_size[0] + int(new_size)])
     return fullscreen
 
 
@@ -251,9 +257,10 @@ def jump_height(fenetre, grd_font, hauteur_fen, fullscreen):
     height_jump = dlb.DialogBox(fenetre, "Hauteur du saut (en case) :", "Saut",
                                 (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                                 type_btn=3, mouse=False).render()
-    if 0 < int(height_jump) <= 16:
-        with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'jheight.sav', 'w') as jhw:
-            jhw.write(str(height_jump))
+    if height_jump != '':
+        if 0 < int(height_jump) <= 16:
+            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'jheight.sav', 'w') as jhw:
+                jhw.write(str(height_jump))
     return fullscreen
 
 
@@ -261,9 +268,10 @@ def jump_time(fenetre, grd_font, hauteur_fen, fullscreen):
     time_jump = dlb.DialogBox(fenetre, "Temps du saut (en millisecondes) :", "Saut",
                                 (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                                 type_btn=3, mouse=False).render()
-    if 0 < int(time_jump) <= 512:
-        with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'jtime.sav', 'w') as tjw:
-            tjw.write(str(time_jump))
+    if time_jump != '':
+        if 0 < int(time_jump) <= 512:
+            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'jtime.sav', 'w') as tjw:
+                tjw.write(str(time_jump))
     return fullscreen
 
 
@@ -289,13 +297,14 @@ def bg_color(fenetre, grd_font, hauteur_fen, fullscreen):
     couleur = dlb.DialogBox(fenetre, ["Code couleur (sous la forme :", "(Red, Green, Blue))"], "Couleur de fond",
                                 (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
                                 type_btn=2, mouse=False).render()
-    if re.match(r'\([0-9]{1,3}, ? ?[0-9]{1,3}, ?[0-9]{1,3}\)', couleur):
-        with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'couleur.sav', 'w') as clw:
-            clw.write(str(couleur))
-    else:
-        dlb.DialogBox(fenetre, ["Le code couleur fournit n'est pas", "valide dans son contexte."], "Erreur",
-                                (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
-                                type_btn=0, mouse=False).render()
+    if couleur != '':
+        if re.match(r'\([0-9]{1,3}, ? ?[0-9]{1,3}, ?[0-9]{1,3}\)', couleur):
+            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'couleur.sav', 'w') as clw:
+                clw.write(str(couleur))
+        else:
+            dlb.DialogBox(fenetre, ["Le code couleur fournit n'est pas", "valide dans son contexte."], "Erreur",
+                                    (fenetre.get_size()[0] // 2, fenetre.get_size()[1] // 2), grd_font, hauteur_fen,
+                                    type_btn=0, mouse=False).render()
     return fullscreen
 
 
@@ -478,28 +487,30 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
     surf_noire2.set_alpha(80)
     surf_noire2.convert_alpha()
     continuer = 1
+    danger_color = (170, 15, 15)
+    normal_color = (10, 10, 10)
     clikable = [
-        [90,  'Pack de textures', texture_pack, (10, 10, 10)],
-        [109, 'Taille du FOV', fov_size, (10, 10, 10)],
-        [128, 'Hauteur du saut', jump_height, (10, 10, 10)],
-        [147, 'Temps de saut', jump_time, (10, 10, 10)],
-        [166, 'Mode de jeu', gamemode_def, (10, 10, 10)],
-        [185, 'Couleur de fond', bg_color, (10, 10, 10)],
-        [204, 'Etat de la fenetre', windows_property, (10, 10, 10)],
-        [223, 'Vent', vent_property, (10, 10, 10)],
-        [242, 'Pluie', pluie_property, (10, 10, 10)],
-        [261, 'Orage', orage_property, (10, 10, 10)],
-        [280, 'Nuages', clouds_property, (10, 10, 10)],
-        [299, 'Hauteur de la map (defaut:20)', height_map, (200, 25, 10)],
-        [318, 'Planéité de la map (defaut:4)', flatness_map, (200, 25, 10)],
-        [337, 'Dénivelé (defaut:1)', deniv_map, (200, 25, 10)],
-        [356, 'Hauteur de la 1ere colonne (defaut:10)', headstart_map, (200, 25, 10)],
-        [375, 'Taille de la map (defaut:4096)', lenght_map, (200, 25, 10)],
-        [394, '', pass_, (10, 10, 10)],
-        [413, '', pass_, (10, 10, 10)],
-        [432, '', pass_, (10, 10, 10)],
-        [451, '', pass_, (10, 10, 10)],
-        [470, '', pass_, (10, 10, 10)]
+        ['Pack de textures', texture_pack, normal_color],
+        ['Taille du FOV', fov_size, normal_color],
+        ['Hauteur du saut', jump_height, normal_color],
+        ['Temps de saut', jump_time, normal_color],
+        ['Mode de jeu', gamemode_def, normal_color],
+        ['Couleur de fond', bg_color, normal_color],
+        ['Etat de la fenetre', windows_property, normal_color],
+        ['Vent', vent_property, normal_color],
+        ['Pluie', pluie_property, normal_color],
+        ['Orage', orage_property, normal_color],
+        ['Nuages', clouds_property, normal_color],
+        ['Hauteur de la map (defaut:20)', height_map, danger_color],
+        ['Planéité de la map (defaut:4)', flatness_map, danger_color],
+        ['Dénivelé (defaut:1)', deniv_map, danger_color],
+        ['Hauteur de la 1ere colonne (defaut:10)', headstart_map, danger_color],
+        ['Taille de la map (defaut:4096)', lenght_map, danger_color],
+        ['', pass_, normal_color],
+        ['', pass_, normal_color],
+        ['', pass_, normal_color],
+        ['', pass_, normal_color],
+        ['', pass_, normal_color]
     ]
     btn_menu_focus = False
     largeur = 70
@@ -538,7 +549,7 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
             if k == 2:
                 fenetre.blit(grd_font.render('Réglages du jeu', 1, (10, 10, 10)), ((240 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, 60))
                 for n in range(len(clikable)):
-                    fenetre.blit(grd_font.render(clikable[n][1], 1, clikable[n][3]), ((10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, clikable[n][0]))
+                    fenetre.blit(grd_font.render(clikable[n][0], 1, clikable[n][2]), ((10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * k, 90 + 19 * n))
 
         pygame.draw.rect(fenetre, btn_menu_color, (btn_menu_pos[0], btn_menu_pos[1], largeur, hauteur))
         fenetre.blit(grd_font.render('Menu', 1, (10, 10, 10)), (btn_menu_pos[0] + 8, btn_menu_pos[1] + 11))
@@ -548,7 +559,7 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen):
             if e.type == MOUSEBUTTONDOWN:
                 if (10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * 2 <= e.pos[0] <= (10 + fenetre.get_size()[0] - 3 * (surf_noire.get_size()[0] + 20)) // 2 + (surf_noire.get_size()[0] + 20) * 2 + surf_noire.get_size()[0] - 10:
                     if 0 <= (e.pos[1] - 90 - hauteur_fenetre) // 19 <= len(clikable) - 1:
-                        fullscreen = clikable[(e.pos[1] - 90 - hauteur_fenetre) // 19][2](fenetre, grd_font, hauteur_fenetre, fullscreen)
+                        fullscreen = clikable[(e.pos[1] - 90 - hauteur_fenetre) // 19][1](fenetre, grd_font, hauteur_fenetre, fullscreen)
                 elif btn_menu_pos[0] <= e.pos[0] <= btn_menu_pos[0] + largeur and btn_menu_pos[1] + hauteur_fenetre <= e.pos[1] <= btn_menu_pos[1] + hauteur_fenetre + hauteur:
                     continuer = 0
 

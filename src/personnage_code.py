@@ -351,13 +351,11 @@ class Personnage:
                 if self.carte.collide(case_x - 1, case_y) and not self.carte.collide(case_x, case_y - 1):
                     if 0 <= case_y - 1:
                         if not self.carte.collide(case_x - 1, case_y - 1):
-                            if not self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1):
-                                case_x -= 1
+                            self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1)
                             case_y -= 1
                 #déplacements normaux
                 elif not self.carte.collide(case_x - 1, case_y):
-                    if not self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1):
-                        case_x -= 1
+                    self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1)
         elif direction == 'droite':
             #est ce qu on peut se deplacer ou non ?
             if case_x + 1 <= 4096:
@@ -365,13 +363,11 @@ class Personnage:
                 if self.carte.collide(case_x + 1, case_y) and not self.carte.collide(case_x, case_y - 1):
                     if case_y - 1 >= 0:
                         if not self.carte.collide(case_x + 1, case_y - 1):
-                            if not self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1) or self.x_pos // 30 < self.carte.get_space() // 5:
-                                case_x += 1
+                            self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1)
                             case_y -= 1
                 #déplacements normaux
                 elif not self.carte.collide(case_x + 1, case_y):
-                    if not self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1):
-                        case_x += 1
+                    self.carte.set_fov(self.carte.get_fov()[0] + 1, self.carte.get_fov()[1] + 1)
         self.x_pos = case_x - last_fov
         self.x_pos *= 30
         self.y_pos = case_y * 30
@@ -393,9 +389,6 @@ class Personnage:
         if not mouse:
             self.direction = "perso_droite.png" if situation == "droite" else "perso_gauche.png"
             self.personnage_png = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + self.location + self.direction).convert_alpha()
-
-    def get_direction(self):
-        return "droite" if self.direction == "perso_droite.png" else "gauche"
 
     def encaisser_degats(self, degats):
         self.vie.encaisser_degats(degats)

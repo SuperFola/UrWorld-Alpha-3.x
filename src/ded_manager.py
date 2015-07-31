@@ -61,21 +61,28 @@ class DustElectricityDriven:
         self.carte.remove_bloc(x, y, tile)
         self.put(tile, x, y)
 
-    def check_all(self):
+    def check_all(self, x, y):
+        """
+        aim of the funciton : check all the DED's elements and turn them on or off
+        nodes: if we reach a node, we add it to this list, with the position, the intensity of the DED,
+            and the way already used at this node
+        paths: path[0] contains [start point, end point, way, intensity of the DED at the end of the path
+        way: can take the values :
+            0: up
+            1: right
+            2: down
+            3: left
+        cur_intensity: current intensity of the DED in the current iteration
+        :param x: first position of the click
+        :param y: second position of the click
+        :return: nothing
+        """
         if not self.en_reseau:
-            interruptors = []
-            cables = []
-            lights = []
-            for i in range(0, 19):
-                for j in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
-                    tile = self.carte.get_tile(j, i)
-                    if tile == self.interrup_on or tile == self.interrup_off:
-                        state = 0 if tile == self.interrup_off else 1
-                        interruptors.append([(j, i), state])
-            for k in range(0, 19):
-                for l in range(self.carte.get_first_fov(-2), self.carte.get_last_fov(+2)):
-                    for m in interruptors:
-                        pass
+            nodes = []
+            paths = []
+            way = 0
+            cur_intensity = self.stop_conduct_after
+
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)
@@ -88,4 +95,4 @@ class DustElectricityDriven:
                 self.put_light(x, y, reverse=True)
             if tile == self.light_on:
                 self.put_light(x, y)
-            self.check_all()
+            self.check_all(x, y)

@@ -126,6 +126,9 @@ class Map(list):
                     new_array[y][x] = new_block
                 else:
                     new_array[y][x] = AIR
+                if not x:
+                    #on est tout à droite de la map
+                    new_array[y][x] = 'p'  #on met de la bedrock
 
                 #on se décale d'un bloc dans le biome
                 self.current_biome_size += 1

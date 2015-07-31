@@ -76,7 +76,7 @@ class Game:
         self.creatif = creatif
         self.pancartes_lst = []
         self.inventaire = []
-        self.windowed_is = False
+        self.windowed_is = testeur
         self.marteau = marteau
         self.params_co = params_co_network
         self.nb_blocs_large = self.fenetre.get_size()[0] // 30 + 1
@@ -355,18 +355,21 @@ class Game:
             (x-1, y+2),
             (x+1, y+2)
         ]
-        is_there_water = lambda x, y: [i for i in [(x-1, y), (x+1, y), (x, y-1), (x, y+1)] if self.carte.get_tile(i[0], i[1]) == "e"] if (x-1 >= 0 and x+1 <= 4096 and y-1 >= 0 and y+1 <= 19) else []
-        
+
         for i in explode_list:
             if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= self.carte.get_y_len():
-                if self.carte.get_tile(i[0], i[1]) != 'cv' and not is_there_water(i[0], i[1]):
+                if self.carte.get_tile(i[0], i[1]) != 'cv' and self.carte.get_tile(i[0], i[1]) != 'p':
+                    #si il n'y a pas de bombe a coté ni d'eau ni de bedrock
                     self.carte.remove_bloc(i[0], i[1], '0')
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y) and self.carte.get_tile(i[0], i[1]) != "e" and not is_there_water(i[0], i[1]):
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y) and self.carte.get_tile(i[0], i[1]) != "e":
+                    #si il y a une bombe à coté
                     self.boumList.append([time.time(), (i[0], i[1])])
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y and not is_there_water(i[0], i[1]):
+                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y:
+                    #si j'ai été une bombe à coté d'une autre
                     self.carte.remove_bloc(x, y, '0')
-                elif is_there_water(i[0], i[1]):
-                    self.carte.remove_bloc(x, y, 'e')
+                elif i == (x, y):
+                    #on efface la bombe
+                    self.carte.remove_bloc(x, y, '0')
 
     def save(self):
         """
