@@ -11,7 +11,7 @@ def restart():
             os.remove(j)
         os.remove(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
     except OSError:
-        print("Une erreur est survenue.")
+        print("Un fichier a déjà été supprimé. Impossible de le ré-effacer.")
         return False
     else:
         print("Formatage réussi !")

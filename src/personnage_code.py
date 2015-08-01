@@ -358,7 +358,7 @@ class Personnage:
                     self.carte.set_fov(self.carte.get_fov()[0] - 1, self.carte.get_fov()[1] - 1)
         elif direction == 'droite':
             #est ce qu on peut se deplacer ou non ?
-            if case_x + 1 <= 4096:
+            if case_x + 1 <= self.carte.get_max_fov():
                 #escalier montant
                 if self.carte.collide(case_x + 1, case_y) and not self.carte.collide(case_x, case_y - 1):
                     if case_y - 1 >= 0:

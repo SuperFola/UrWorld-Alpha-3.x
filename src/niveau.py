@@ -6,6 +6,7 @@ from ombrage_bloc import *
 import constantes as cst
 import glob
 from weather import Weather
+from threading import Thread
 import pickle
 import compressor as rle
 import ombrage_bloc as omb
@@ -14,6 +15,7 @@ import pygame
 from pygame.locals import *
 import os
 from map_generator import LaunchMapGen
+
 
 pygame.display.init()
 autre = pygame.display.set_mode((0, 0))
@@ -259,21 +261,23 @@ class Block:
 
 
 class MapArray:
-    def __init__(self, defaut="0", biom_size=64, blocs=None):
+    def __init__(self, defaut="0", chunk_size=64, blocs=None):
         self.carte = []
         self.defaut = defaut
         self.size = (4096, 20)
-        self.biom_size = biom_size
-        self.generator = LaunchMapGen(save_to_file=False)
+        self.chunk_size = chunk_size
+        self.generator = LaunchMapGen(save_to_file=False, chunks_gen=True)
         self.blocs = blocs
+        self.decalage_force = 15
 
     def check(self, x, y):
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
 
     def create_chunk(self):
-        print("je crée un nouveau chunk !!!")
-        chunk = self.generator.generer(lenght=self.biom_size, headstart=self.get_height(self.size[0]-1))
+        chunk = self.generator.generer(lenght=self.chunk_size, headstart=self.get_height(self.size[0]-1), chunk_size=self.chunk_size)
         self.add_chunk(chunk)
+        #il faut mettre à jour la size
+        self.size = (len(self.carte[0]), len(self.carte))
 
     def get_height(self, x):
         height = self.size[1]
@@ -311,9 +315,9 @@ class MapArray:
         self.size = (len(array[0]), len(array))
 
     def add_chunk(self, chunk):
-        print("j'ajoute le chunk !!!")
         for y in range(0, len(self.carte)):
-            self.carte[y].append(chunk[y])
+            for x in chunk[y]:
+                self.carte[y].append(x)
 
     def get_fov(self, fov):
         first = fov[0]  #% self.size[0]
@@ -325,7 +329,7 @@ class MapArray:
                 for _ in range(temp):
                     liste[y].insert(0, '403')
             return liste
-        if end > self.size[0]:
+        if end + self.decalage_force > self.size[0]:
             self.create_chunk()
         return [l[first:end:] for l in self.carte]
 
@@ -423,7 +427,6 @@ class Carte:
             #self.carte = rle.RLEUncompress(map_reading).load()
             self.carte.set_all(pickle.Unpickler(map_reading).load())
             self.y_max = self.carte.get_max_size_y()
-            self.x_max = self.carte.get_max_size_x()
             #self.carte = rle.load(map_reading)
 
     def load_image(self):
@@ -691,7 +694,6 @@ class Carte:
                 #self.carte = rle.RLEUncompress(map_reading).load()
                 self.carte.set_all(pickle.Unpickler(map_reading).load())
                 self.y_max = self.carte.get_max_size_y()
-                self.x_max = self.carte.get_max_size_x()
                 #self.carte = rle.load(map_reading)
 
     def update(self, pos=(0, 0)):
@@ -798,7 +800,7 @@ class Carte:
 
     def collide(self, x, y):
         collision = False
-        if 0 <= y <= self.y_max and 0 <= x <= self.x_max:
+        if 0 <= y <= self.y_max and 0 <= x <= self.carte.get_max_size_x():
             if self.carte.get(x, y) in self.collision_bloc and self.carte.get(x, y) != './':
                 collision = True
             else:
@@ -991,7 +993,7 @@ class LANMap(Carte):
     def collide(self, x, y):
         collision = False
         x -= self.fov[0]
-        if 0 <= y <= self.y_max and 0 <= x <= self.x_max:
+        if 0 <= y <= self.y_max and 0 <= x <= self.carte.get_max_size_x():
             if self.carte.get(x, y) in self.collision_bloc and self.carte.get(x, y) != './':
                 collision = True
             else:

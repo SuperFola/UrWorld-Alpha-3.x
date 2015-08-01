@@ -90,7 +90,6 @@ class Game:
         self.font2 = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 10)
         self.grd_font = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 12)
         self.y_ecart = (self.root.get_size()[1] - 600) // 2
-        self.max_scrolling = 4096
         self.obj_courant = '0'
         self.petits_blocs = img_
         self.index_couleur = 0
@@ -154,6 +153,7 @@ class Game:
         self.conteneur = Conteneur()
         self.continuer = 1
         self.temps_avant_fps = time.time()
+        self.suiveur = False
 
     def load_coponents(self):
         """
@@ -368,7 +368,7 @@ class Game:
         ]
 
         for i in explode_list:
-            if 0 <= i[0] <= self.max_scrolling and 0 <= i[1] <= self.carte.get_y_len():
+            if 0 <= i[0] <= self.carte.get_max_fov() and 0 <= i[1] <= self.carte.get_y_len():
                 if self.carte.get_tile(i[0], i[1]) != 'cv' and self.carte.get_tile(i[0], i[1]) != 'p':
                     #si il n'y a pas de bombe a coté ni d'eau ni de bedrock
                     self.carte.remove_bloc(i[0], i[1], '0')
@@ -628,7 +628,7 @@ class Game:
                     else:
                         continue3 = 0
 
-            message_affiche_non_bloquant("Vous êtes actuellement dans la section : " + str(numero_niv) + "/" + str(self.max_scrolling) + ".", self.rcenter)
+            message_affiche_non_bloquant("Vous êtes actuellement dans la section : " + str(numero_niv) + "/" + str(self.carte.get_max_fov()) + ".", self.rcenter)
             pygame.display.flip()
 
         if obj_retour_actu != "":
@@ -923,10 +923,10 @@ class Game:
                         #impair
                         #passage en cases
                         z = self.teleporteurs[i - 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-                        if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+                        if self.carte.get_fov()[0] + z <= self.carte.get_max_fov() - self.carte.get_space():
                             self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
                         else:
-                            self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+                            self.carte.set_fov(self.carte.get_max_fov() - self.carte.get_space(), self.carte.get_max_fov())
                         self.personnage.set_y((self.teleporteurs[i - 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i - 1][1][1] + 1) * 30)
                         #pour etre au dessus et pas dedans
                     elif not self.teleporteurs[i][0] % 2:
@@ -934,10 +934,10 @@ class Game:
                         if not len(self.teleporteurs) % 2:
                             #passage en cases
                             z = self.teleporteurs[i + 1][1][0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-                            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+                            if self.carte.get_fov()[0] + z <= self.carte.get_max_fov() - self.carte.get_space():
                                 self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
                             else:
-                                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+                                self.carte.set_fov(self.carte.get_max_fov() - self.carte.get_space(), self.carte.get_max_fov())
                             self.personnage.set_y((self.teleporteurs[i + 1][1][1] - 1 if y_clic - 1 >= 0 else self.teleporteurs[i + 1][1][1] + 1) * 30)
                         elif len(self.teleporteurs) % 2 and i == len(self.teleporteurs) - 1:
                             message_affiche("Aucune cible n'a été définie pour ce téléporteur !", self.rcenter)
@@ -947,10 +947,10 @@ class Game:
             temp = pickle.loads(temp)
             #passage en cases
             z = temp[0] - (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0])
-            if self.carte.get_fov()[0] + z <= self.max_scrolling - self.carte.get_space():
+            if self.carte.get_fov()[0] + z <= self.carte.get_max_fov() - self.carte.get_space():
                 self.carte.set_fov(self.carte.get_fov()[0] + z, self.carte.get_fov()[1] + z)
             else:
-                self.carte.set_fov(self.max_scrolling - self.carte.get_space(), self.max_scrolling)
+                self.carte.set_fov(self.carte.get_max_fov() - self.carte.get_space(), self.carte.get_max_fov())
             self.personnage.set_y((temp[1] - 1 if y_clic - 1 >= 0 else temp[1] + 1) * 30)
             #pour etre au dessus et pas dedans
     
@@ -1053,7 +1053,7 @@ class Game:
                     #clic, donc on pose un bloc là où on a cliqué !
                     x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_blit = ev.pos[1] // 30
-                    if y_blit <= 19 and x_blit <= self.max_scrolling - 1 and (self.blocs.get(self.obj_courant) > 0 or not self.creatif) \
+                    if y_blit <= 19 and x_blit <= self.carte.get_max_fov() - 1 and (self.blocs.get(self.obj_courant) > 0 or not self.creatif) \
                             and ((x_blit, y_blit) != (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30) or self.obj_courant not in self.blocs.list_solid()) \
                             and self.obj_courant not in self.blocs.list_unprintable():
                         self.put_blocs(x_blit, y_blit)
@@ -1086,7 +1086,7 @@ class Game:
                     #en fait on est en créatif quand meme dans ce cas ci :)
                     x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_blit = ev.pos[1] // 30
-                    if y_blit <= 19 and x_blit <= self.max_scrolling and self.blocs.get(self.obj_courant) > 0 \
+                    if y_blit <= 19 and x_blit <= self.carte.get_max_fov() and self.blocs.get(self.obj_courant) > 0 \
                             and ((x_blit, y_blit) != (
                                             self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
                                             self.personnage.get_pos()[1] // 30) or self.obj_courant not in self.blocs.list_solid()):
@@ -1159,10 +1159,6 @@ class Game:
                     self.carte.switch_shader()
                 elif ev.key == K_t:
                     self.show_cursor = not self.show_cursor
-                #saut
-                elif ev.key == K_SPACE:
-                    self.saut = True
-                    self.time_saut = time.time() + self.temps_saut_attendre
                 #controle pour courir
                 elif ev.key == K_RETURN:
                     #pour courir
@@ -1175,7 +1171,7 @@ class Game:
                 #controle du tchat
                 elif ev.key == K_0 or ev.key == K_KP0:
                     txt_chat = dlb.DialogBox(self.fenetre, "Que voulez-vous dire ?", "Chat", self.rcenter, self.grd_font, self.y_ecart, type_btn=2, carte=self.carte).render()
-                    time_blitting_txt_chat = time.time() + 10
+                    self.time_blitting_txt_chat = time.time() + 10
                     if txt_chat[:16] == 'toggledownfalled':
                         self.carte.set_meteo('toggledownfalled')
                     elif txt_chat[:6] == 'invert':
@@ -1184,7 +1180,7 @@ class Game:
                         go_to = txt_chat[4::].split(',')
                         x_ = self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0] - int(go_to[0])
                         new0 = self.carte.get_fov()[0] - x_ if self.carte.get_fov()[0] - x_ >= 0 else 0
-                        new0 = new0 if new0 <= 4096 - (self.carte.get_fov()[1] - self.carte.get_fov()[0]) else 4096 - (self.carte.get_fov()[1] - self.carte.get_fov()[0])
+                        new0 = new0 if new0 <= self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0]) else self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0])
                         self.carte.set_fov(new0, new0 + (self.carte.get_fov()[1] - self.carte.get_fov()[0]))
                     if self.en_reseau:
                         reseau_speaking(self.network, txt_chat, self.params_co, self.personnage, self.carte, self.blocs)
@@ -1219,6 +1215,11 @@ class Game:
                         self.custom()
                         pygame.display.set_caption("UrWorld")
                         self.windowed_is = True
+            elif ev.type == KEYUP:
+                #saut
+                if ev.key == K_SPACE:
+                    self.saut = True
+                    self.time_saut = time.time() + self.temps_saut_attendre
 
     def thread_bombs(self):
         """
@@ -1283,17 +1284,13 @@ class Game:
         self.tps_tour = time.time() + 0.1
         self.load_coponents()
 
-        x_souris, y_souris = 0, 0
         txt_chat = ""
-        time_blitting_txt_chat = 0
-        nb_cases_chut = 0
+        self.time_blitting_txt_chat = 0
+        self.nb_cases_chut = 0
         pseudo_aff = self.font.render(self.personnage.get_pseudo(), 1, (0, 0, 0))
 
         #le "tour" de l'ecran de jeu
         self.custom()
-
-        print(self.carte.get_x_len())
-        print(self.carte.get_y_len())
 
         while self.continuer:
             self.auto_update()
@@ -1359,7 +1356,7 @@ class Game:
                 if self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) != 'p' and \
                         0 <= x_souris // 30 <= self.fenetre.get_size()[0] and 0 <= y_souris // 30 <= self.carte.get_y_len():
                     bloc_actuel = self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) if not self.marteau.has_been_2nd_planed(self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)) else self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)[2::]
-                    bloc_carac = self.font.render(self.blocs.dict_name()[bloc_actuel] + ' : %3i,' % self.blocs.get(bloc_actuel) + ' x:{}, y:{}'.format(str(x_souris // 30 + self.carte.get_fov()[0]), str(y_souris // 30)), 1, (10, 10, 10))
+                    bloc_carac = self.font.render(self.blocs.dict_name()[bloc_actuel] + ' : %3i,' % self.blocs.get(bloc_actuel) + ' x:{}, y:{}, collide:{}'.format(str(x_souris // 30 + self.carte.get_fov()[0]), str(y_souris // 30), str(self.carte.collide(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30))), 1, (10, 10, 10))
                     pygame.draw.rect(self.fenetre, (150, 150, 150), (
                         x_souris, y_souris,
                         4 + bloc_carac.get_size()[0],
@@ -1395,10 +1392,11 @@ class Game:
             self.root.blit(self.font.render('Année :: ' + str(self.annee + 1), 1, (0, 0, 0)), (14, 10))
 
             #affichage du 'suiveur'
-            pygame.draw.rect(self.fenetre, (180, 25, 150), (last_pos[0], last_pos[1], 30, 30))
+            if self.suiveur:
+                pygame.draw.rect(self.fenetre, (180, 25, 150), (last_pos[0], last_pos[1], 30, 30))
 
             #affichage du chat
-            if txt_chat != "" or time.time() <= time_blitting_txt_chat:
+            if txt_chat != "" or time.time() <= self.time_blitting_txt_chat:
                 txt_afficher_chat = self.font.render(txt_chat, 1, (10, 10, 10))
                 pygame.draw.rect(self.fenetre, (150, 150, 150), (self.personnage.get_pos()[0] + 30,
                                                             self.personnage.get_pos()[1] - txt_afficher_chat.get_size()[1] - 10,

@@ -40,10 +40,11 @@ mineral_world = {
 }
 
 class Map(list):
-    def __init__(self, length, flatness, height=range(1, 16), headstart=8, deniv=1, structs=Structure.structures):
+    def __init__(self, length, flatness, height=range(1, 16), headstart=8, deniv=1, structs=Structure.structures, chunk_size=64):
         self.structs = structs
         self.current_biome_size = 0
         self.current_biome = 0
+        self.biom_size = 64  #default value
         self.liste_biomes = [
             foret,
             desert,
@@ -94,8 +95,9 @@ class Map(list):
         array = [[array[width-1 - x][y] for x in range(width)][::-1] for y in range(height)][::-1]
 
         #---------------------- Biomes choice ----------------------#
-        biomes = [random.choice(self.liste_biomes) for _ in range(32)]
-    
+        biomes = [random.choice(self.liste_biomes) for _ in range(length // 64)]
+        self.biom_size = self.biom_size if length > chunk_size else chunk_size
+
         super().__init__(array)
 
         #---------------------- Block setting ----------------------#
@@ -132,7 +134,7 @@ class Map(list):
                 #on se décale d'un bloc dans le biome
                 self.current_biome_size += 1
 
-                if self.current_biome_size >= 128:
+                if self.current_biome_size >= self.biom_size:
                     self.current_biome_size = 0
                     self.current_biome = self.current_biome + 1 if self.current_biome + 1 <= len(biomes) - 1 else 0
     
