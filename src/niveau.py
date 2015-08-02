@@ -15,6 +15,7 @@ import pygame
 from pygame.locals import *
 import os
 from map_generator import LaunchMapGen
+from skybox import Skybox
 
 
 pygame.display.init()
@@ -342,7 +343,7 @@ class Carte:
         self.carte = MapArray(blocs=self.blocs)
         self.marteau = marteau
         self.adresse = ""
-        self.couleur_fond = (0, 184, 169)
+        self.couleur_fond = (20, 50, 160)
         self.collision_bloc = self.blocs.list_solid()
         self.texture_pack = ".." + os.sep + "assets" + os.sep + "Tiles" + os.sep
         self.bloc_name = self.blocs.dict_name()
@@ -360,6 +361,83 @@ class Carte:
         self.conteneur = None
         self.all_ = all_
         self.unrenderable = ('0')
+        self.skybox = None
+        self.generation = 0
+
+    def load_components(self):
+        if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
+            with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav", "r") as couleur_lire:
+                self.couleur_fond = eval(couleur_lire.read())
+        else:
+            with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav", "w") as couleur_ecrire:
+                couleur_ecrire.write(str(self.couleur_fond))
+        self.skybox = Skybox(self.ecran, self.couleur_fond)
+        self.load_images()
+        self.shaders.set_max_time_game(self.skybox.get_max_time_game())
+
+    def get_background_color(self):
+        return self.couleur_fond
+
+    def get_curent_shader(self):
+        return self.shaders.get_cur_shader()
+
+    def get_max_fov(self):
+        return self.carte.get_max_size_x()
+
+    def get_space(self):
+        return self.fov[1] - self.fov[0]
+
+    def get_fov(self):
+        return self.fov
+
+    def get_texture_pack(self):
+        return self.texture_pack
+
+    def get_tile(self, x, y):
+        if 0 <= x <= self.get_x_len() and 0 <= y <= self.get_y_len():
+            return self.carte.get(x, y)
+        return '0'
+
+    def get_y_len(self):
+        return len(self.carte.get_all()) - 1
+
+    def get_x_len(self):
+        return len(self.carte.get_all()[0]) - 1
+
+    def get_list(self):
+        return self.carte.get_all()
+
+    def get_action_meteo(self):
+        for j in self.meteos:
+            if not j.get_action():
+                return False
+        return True
+
+    def get_img_dict(self):
+        return self.img_tous_blocs
+
+    def get_first_fov(self, extend=0):
+        retour = self.fov[0] + extend if 0 <= self.fov[0] + extend <= self.get_x_len() - self.get_space() else self.fov[0]
+        return retour
+
+    def get_last_fov(self, extend=0):
+        retour = self.fov[1] + extend if self.fov[1] + extend <= self.get_y_len() else self.fov[1]
+        return retour
+
+    def get_offset(self):
+        return self.pixel_offset
+
+    def get_skybox(self):
+        return self.skybox
+
+    def get_std_shader_shade(self):
+        return self.shaders.get_std_shade(self.skybox.get_game_time())
+
+    def get_generation_time(self):
+        return self.generation
+
+    def count_chunks(self):
+        return self.carte.get_max_size_x() // self.carte.chunk_size
     
     def conteneur_load(self):
         if self.conteneur:
@@ -382,17 +460,6 @@ class Carte:
         if not self.pixel_offset:
             return True
         return False
-
-    def get_first_fov(self, extend=0):
-        retour = self.fov[0] + extend if 0 <= self.fov[0] + extend <= self.get_x_len() - self.get_space() else self.fov[0]
-        return retour
-
-    def get_last_fov(self, extend=0):
-        retour = self.fov[1] + extend if self.fov[1] + extend <= self.get_y_len() else self.fov[1]
-        return retour
-
-    def get_offset(self):
-        return self.pixel_offset
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -429,7 +496,7 @@ class Carte:
             self.y_max = self.carte.get_max_size_y()
             #self.carte = rle.load(map_reading)
 
-    def load_image(self):
+    def load_images(self):
         # Chargement des images (seule celle d'arrivée contient de la transparence)
         #mode 'nuit'
         self.cloud = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "cloud.png").convert_alpha()
@@ -661,9 +728,6 @@ class Carte:
             '403': self.accessdenied403
         }
 
-    def get_img_dict(self):
-        return self.img_tous_blocs
-
     def fire_bloc(self, pos_x, pos_y):
         self.bloc_fired = pos_x, pos_y
         self.start_fireing = time.time() + 0.125
@@ -682,12 +746,6 @@ class Carte:
         for i in self.meteos:
             i.send(command)
 
-    def get_action_meteo(self):
-        for j in self.meteos:
-            if not j.get_action():
-                return False
-        return True
-
     def reload_map(self):
         if self.adresse != "":
             with open(self.adresse, 'rb') as map_reading:
@@ -700,11 +758,14 @@ class Carte:
         self.gravity_for_entity()
         #On blit le fond
         if not self.get_action_meteo():
-            self.ecran.fill((76, 76, 76))
+            self.skybox.bad_weather(True)
         else:
-            self.ecran.fill(self.couleur_fond)
+            self.skybox.bad_weather(False)
+        self.skybox.draw()
+        #on blit les nuages
         if self.draw_clouds:
             self.move_clouds()
+        #on choisi le mode de rendu de la map
         if self.all_ == 2:
             self.render_all()
         elif self.all_ == 1:
@@ -742,25 +803,17 @@ class Carte:
                     else:
                         self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
-                self.shaders.update(x=num_case, y=num_ligne)
+                self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
         for i in self.conteneur.list_conteners_pos_and_tile():
             x = (i[0][0] - self.fov[0]) * taille_sprite
             y = i[0][1] * taille_sprite
             self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
 
         #calcul et affichage du temps de génération du terrain
-        #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
-        #affichage du shader en cours d'utilisation
-        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
-        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
-        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
-        self.root.blit(rendu_shader, (111, 10))
+        self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
     
     def render_none(self):
-        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
-        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
-        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
-        self.root.blit(rendu_shader, (111, 10))
+        pass
     
     def render_circle(self, pos):
         debut_generation = time.time()
@@ -793,11 +846,6 @@ class Carte:
             y = i[0][1] * taille_sprite
             self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
 
-        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
-        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
-        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
-        self.root.blit(rendu_shader, (111, 10))
-
     def collide(self, x, y):
         collision = False
         if 0 <= y <= self.y_max and 0 <= x <= self.carte.get_max_size_x():
@@ -810,23 +858,6 @@ class Carte:
     def set_texture_pack(self, txt_pack):
         self.texture_pack = txt_pack
 
-    def get_texture_pack(self):
-        return self.texture_pack
-
-    def get_tile(self, x, y):
-        if 0 <= x <= self.get_x_len() and 0 <= y <= self.get_y_len():
-            return self.carte.get(x, y)
-        return '0'
-
-    def get_y_len(self):
-        return len(self.carte.get_all()) - 1
-
-    def get_x_len(self):
-        return len(self.carte.get_all()[0]) - 1
-
-    def get_list(self):
-        return self.carte.get_all()
-
     def remove_bloc(self, x, y, new):
         if x >= 0:
             #on ne doit pas pouvoir poser un bloc dans le neant
@@ -838,17 +869,8 @@ class Carte:
                 self.conteneur.add_on_existing(x, y, new)
             self.new_bloc = True
 
-    def get_fov(self):
-        return self.fov
-
     def set_fov(self, first_fov, last_fov):
         self.fov = [first_fov, last_fov]
-
-    def get_max_fov(self):
-        return self.carte.get_max_size_x()
-
-    def get_space(self):
-        return self.fov[1] - self.fov[0]
 
     def switch_shader(self):
         self.shaders.change_shader()
@@ -856,14 +878,9 @@ class Carte:
     def set_current_shader(self, shader):
         self.shaders.set_shader(shader)
 
-    def get_curent_shader(self):
-        return self.shaders.get_cur_shader()
-
     def set_background_color(self, color):
         self.couleur_fond = color
-
-    def get_background_color(self):
-        return self.couleur_fond
+        self.skybox.change_color(color)
 
     def save(self):
         with open(self.adresse, "wb") as map_writing:
@@ -923,9 +940,10 @@ class LANMap(Carte):
         self.socket.sendto(pickle.dumps("set->pos" + str(position_player[0]) + ":" + str(position_player[1]) + ":" + position_player[2]), self.params)
         #On blit le fond
         if not self.get_action_meteo():
-            self.ecran.fill((76, 76, 76))
+            self.skybox.bad_weather(True)
         else:
-            self.ecran.fill(self.couleur_fond)
+            self.skybox.bad_weather(False)
+        self.skybox.draw()
         self.move_clouds()
         self.render()
 
@@ -981,14 +999,7 @@ class LANMap(Carte):
                 self.ecran.blit(pseudo_oth, (x - len(pseudo_str), y - 12))
 
         #calcul et affichage du temps de génération du terrain
-        #generation = "Terrain généré en %3.3f millisecondes" % ((time.time() - debut_generation) * 1000)
-        #pygame.draw.rect(self.root, (150, 150, 150), (6, 5, 265, 19))
-        #self.root.blit(font.render(generation, 1, (10, 10, 10)), (12, 6))
-        #affichage du shader en cours d'utilisation
-        rendu_shader = font.render("Shader :: " + self.shaders.get_cur_shader(), 1, (10, 10, 10))
-        pygame.draw.rect(self.root, (0, 0, 0), (105, 9, 250, 19))
-        pygame.draw.rect(self.root, (150, 150, 150), (105, 9, rendu_shader.get_size()[0] + 12, 19))
-        self.root.blit(rendu_shader, (111, 10))
+        self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
 
     def collide(self, x, y):
         collision = False

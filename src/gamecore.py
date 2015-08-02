@@ -154,6 +154,10 @@ class Game:
         self.continuer = 1
         self.temps_avant_fps = time.time()
         self.suiveur = False
+        self.surf_debug = pygame.Surface((420, 22 * 6))
+        self.surf_debug.fill((220, 220, 220))
+        self.surf_debug.set_alpha(70)
+        self.surf_debug.convert_alpha()
 
     def load_coponents(self):
         """
@@ -230,11 +234,6 @@ class Game:
                 self.personnage.set_mana(pickle.Unpickler(mana_lire).load())
         else:
             self.personnage.set_mana(100)
-        if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "couleur.sav"):
-            with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "couleur.sav", "r") as couleur_lire:
-                self.carte.set_background_color(eval(couleur_lire.read()))
-        else:
-            self.carte.set_background_color((20, 180, 20))
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "teleporteurs.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "teleporteurs.sav", "rb") as teleport_lire:
                 self.teleporteurs = pickle.Unpickler(teleport_lire).load()
@@ -270,7 +269,7 @@ class Game:
                     self.vip_bool = False
 
         # Chargement obligatoire
-        self.carte.load_image()
+        self.carte.load_components()
 
         # Chargements optionnels
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'texture_pack.sav'):
@@ -404,8 +403,6 @@ class Game:
             pickle.Pickler(fov_ecrire).dump(self.carte.get_fov())
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "mana.sav", "wb") as mana_ecrire:
             pickle.Pickler(mana_ecrire).dump(self.personnage.get_mana())
-        with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "couleur.sav", "w") as couleur_ecrire:
-            couleur_ecrire.write(str(self.carte.get_background_color()))
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "teleporteurs.sav", "wb") as teleport_ecrire:
             pickle.Pickler(teleport_ecrire).dump(self.teleporteurs)
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "gamemode.sav", "wb") as creatifmode_ecrire:
@@ -1163,27 +1160,27 @@ class Game:
                 elif ev.key == K_RETURN:
                     #pour courir
                     self.courir_bool = not self.courir_bool
-                    new_speed = self.personnage.get_speed() + 50 if self.courir_bool else self.personnage.get_speed() - 50
+                    new_speed = self.personnage.get_speed() - 60 if self.courir_bool else self.personnage.get_speed() + 60
                     self.personnage.set_speed(new_speed)
                 #controle de l'affichage de l'inventaire Drag&Drop
                 elif ev.key == K_LSHIFT or ev.key == K_RSHIFT:
                     self.drag_and_drop_invent()
                 #controle du tchat
                 elif ev.key == K_0 or ev.key == K_KP0:
-                    txt_chat = dlb.DialogBox(self.fenetre, "Que voulez-vous dire ?", "Chat", self.rcenter, self.grd_font, self.y_ecart, type_btn=2, carte=self.carte).render()
+                    self.txt_chat = dlb.DialogBox(self.fenetre, "Que voulez-vous dire ?", "Chat", self.rcenter, self.grd_font, self.y_ecart, type_btn=2, carte=self.carte).render()
                     self.time_blitting_txt_chat = time.time() + 10
-                    if txt_chat[:16] == 'toggledownfalled':
+                    if self.txt_chat[:16] == 'toggledownfalled':
                         self.carte.set_meteo('toggledownfalled')
-                    elif txt_chat[:6] == 'invert':
+                    elif self.txt_chat[:6] == 'invert':
                         self.carte.set_meteo('invert')
-                    elif txt_chat[:4] == 'tp->':
-                        go_to = txt_chat[4::].split(',')
+                    elif self.txt_chat[:4] == 'tp->':
+                        go_to = self.txt_chat[4::].split(',')
                         x_ = self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0] - int(go_to[0])
                         new0 = self.carte.get_fov()[0] - x_ if self.carte.get_fov()[0] - x_ >= 0 else 0
                         new0 = new0 if new0 <= self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0]) else self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0])
                         self.carte.set_fov(new0, new0 + (self.carte.get_fov()[1] - self.carte.get_fov()[0]))
                     if self.en_reseau:
-                        reseau_speaking(self.network, txt_chat, self.params_co, self.personnage, self.carte, self.blocs)
+                        reseau_speaking(self.network, self.txt_chat, self.params_co, self.personnage, self.carte, self.blocs)
                 elif ev.key == K_o:
                     if self.creatif:
                         self.creatif = False
@@ -1276,6 +1273,19 @@ class Game:
         #pour ne pas se retrouver bloqué
         self.check_perso()
 
+    def debug_on_windows(self):
+        rel = 30
+        self.fenetre.blit(self.surf_debug, (15, rel))
+        self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))
+        self.fenetre.blit(self.font.render("Heure jeu : " + str(self.carte.get_skybox().get_game_time()), 1, (10, 10, 10)), (30, rel + 25))
+        self.fenetre.blit(self.font.render("Couleur RGB : " + str(self.carte.get_skybox().get_color()), 1, (10, 10, 10)), (30, rel + 35))
+        self.fenetre.blit(self.font.render("Mauvais temps : " + str(self.carte.get_skybox().get_bad_weather()), 1, (10, 10, 10)), (30, rel + 45))
+        self.fenetre.blit(self.font.render("Vitesse de répétition des touches : " + str(self.personnage.get_speed()) + " ms", 1, (10, 10, 10)), (30, rel + 55))
+        self.fenetre.blit(self.font.render("Shader : " + self.carte.get_curent_shader(), 1, (10, 10, 10)), (30, rel + 65))
+        self.fenetre.blit(self.font.render("Intensité du shader std : " + str(self.carte.get_std_shader_shade()), 1, (10, 10, 10)), (30, rel + 75))
+        self.fenetre.blit(self.font.render("Nombre de chunks : " + str(self.carte.count_chunks()), 1, (10, 10, 10)), (30, rel + 85))
+        self.fenetre.blit(self.font.render("Temps de génération de l'affichage de la carte : " + str(self.carte.get_generation_time() + " ms"), 1, (10, 10, 10)), (30, rel + 95))
+
     def start(self):
         """
         the main function of this class. run the main thread and load the different coponents
@@ -1284,7 +1294,7 @@ class Game:
         self.tps_tour = time.time() + 0.1
         self.load_coponents()
 
-        txt_chat = ""
+        self.txt_chat = ""
         self.time_blitting_txt_chat = 0
         self.nb_cases_chut = 0
         pseudo_aff = self.font.render(self.personnage.get_pseudo(), 1, (0, 0, 0))
@@ -1362,6 +1372,7 @@ class Game:
                         4 + bloc_carac.get_size()[0],
                         4 + bloc_carac.get_size()[1]))
                     self.fenetre.blit(bloc_carac, (x_souris + 2, y_souris + 2))
+                    self.debug_on_windows()
 
             #saut
             if self.saut and self.time_saut <= time.time():
@@ -1396,8 +1407,8 @@ class Game:
                 pygame.draw.rect(self.fenetre, (180, 25, 150), (last_pos[0], last_pos[1], 30, 30))
 
             #affichage du chat
-            if txt_chat != "" or time.time() <= self.time_blitting_txt_chat:
-                txt_afficher_chat = self.font.render(txt_chat, 1, (10, 10, 10))
+            if self.txt_chat != "" or time.time() <= self.time_blitting_txt_chat:
+                txt_afficher_chat = self.font.render(self.txt_chat, 1, (10, 10, 10))
                 pygame.draw.rect(self.fenetre, (150, 150, 150), (self.personnage.get_pos()[0] + 30,
                                                             self.personnage.get_pos()[1] - txt_afficher_chat.get_size()[1] - 10,
                                                             txt_afficher_chat.get_size()[0] + 4,

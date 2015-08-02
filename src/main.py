@@ -299,7 +299,7 @@ def bg_color(fenetre, grd_font, hauteur_fen, fullscreen):
                                 type_btn=2, mouse=False).render()
     if couleur != '':
         if re.match(r'\([0-9]{1,3}, ? ?[0-9]{1,3}, ?[0-9]{1,3}\)', couleur):
-            with open(".." + os.sep + "assets" + os.sep + 'Save' + os.sep + 'couleur.sav', 'w') as clw:
+            with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav", 'w') as clw:
                 clw.write(str(couleur))
         else:
             dlb.DialogBox(fenetre, ["Le code couleur fournit n'est pas", "valide dans son contexte."], "Erreur",

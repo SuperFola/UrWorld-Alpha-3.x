@@ -1,5 +1,4 @@
 import pygame
-import string
 from pygame.locals import *
 import os
 

@@ -286,7 +286,7 @@ class Personnage:
         else:
             self.vie = LANVie(self.ecran, self.center, self.socket_serv, self.addr)
         self.mana = Mana(self.ecran, self.carte, self.blocs)
-        self.speed = 60
+        self.speed = 100
         self.immobile = True
         self.immobile_time = 0
         self.pseudo = ""

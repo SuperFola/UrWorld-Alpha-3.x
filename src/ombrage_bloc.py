@@ -14,7 +14,7 @@ width = taille_fenetre_largeur_win // 30 + 30
 
 
 class Shader:
-    def __init__(self, ecran, blocs, base_type='nul'):
+    def __init__(self, ecran, blocs, base_type='standart'):
         self.ecran = ecran
         self.indice_shader = 0
         self.liste_shader = [
@@ -32,12 +32,31 @@ class Shader:
         self.surf.fill((0, 0, 0))
         self.surf.set_alpha(90)
         self.surf.convert_alpha()
+        self.surfs = []
         self.surf2 = pygame.Surface((30, 30))
         self.surf2.fill((0, 0, 0))
         self.surf2.set_alpha(90)
         self.surf2.convert_alpha()
         self.ombre = False
         self.progressif = 0x000000
+        self.max_time_game = 0
+
+    def set_max_time_game(self, value):
+        #a appeler au plus tot, car crée les surfaces pour le shader std !!
+        self.max_time_game = value
+        self.generate()
+
+    def generate(self):
+        surf = pygame.Surface((30, 30))
+        surf.fill((0, 0, 0))
+        magic_constant = 4.5
+        for i in range(self.max_time_game):
+            surf.set_alpha(int(i * magic_constant))
+            surf.convert_alpha()
+            self.surfs.append([surf, int(i * magic_constant)])
+
+    def get_std_shade(self, game_time):
+        return self.surfs[game_time][1]
     
     def change_shader(self):
         self.indice_shader += 1
@@ -54,14 +73,14 @@ class Shader:
     def set_shader(self, new):
         self.current_shader = new
     
-    def update(self, x=0, y=0):
+    def update(self, x=0, y=0, time_game=0):
         bloc = self.carte[y][x]
         if not y:
             self.ombre = False
             self.progressif = 0x000000
         if self.current_shader == 'standart':
             if bloc in self.blocs_passe_pas:
-                self.ecran.blit(self.surf, (x*30, y*30))
+                self.ecran.blit(self.surfs[time_game][0], (x*30, y*30))
         if self.current_shader == 'raycasté':
             if bloc in self.blocs_passe_pas:
                 self.ombre = True
