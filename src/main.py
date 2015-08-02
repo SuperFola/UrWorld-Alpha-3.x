@@ -3,8 +3,9 @@
 import sys
 import traceback
 import pdb
+import os
 
-"""
+
 def pdb_post_mortem(exc_type, exc_val, exc_tb):
     # On affiche l'exception histoire de savoir ce qu'on debug
     print("".join(traceback.format_exception(exc_type, exc_val, exc_tb)))
@@ -14,11 +15,11 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
     pdb.post_mortem(exc_tb)
 
 
-# On dit à python de lancer cette fonction quand il plante
-sys.excepthook = pdb_post_mortem
-"""
+# On dit à python de lancer cette fonction quand il plante, si on est pas sous Windows
+if os.name != 'nt':
+    sys.excepthook = pdb_post_mortem
 
-VERSION = "Alpha 3.0.9"
+VERSION = "Alpha 3.1.0"
 finished = False
 
 if not finished:
@@ -26,7 +27,6 @@ if not finished:
     resize_with_pillow.start()
 
 import glob
-import os
 import sys
 import text_entry
 import restart
@@ -148,7 +148,7 @@ def run_demos(width, height, fps):
     while True:
         the_world_is_a_happy_place += 1
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl") \
-                and open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl", "r").read() != "":
+                and open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl", "rb").read() != "":
             if time.time() >= tmps_fin:
                 break
         for event in pygame.event.get():
