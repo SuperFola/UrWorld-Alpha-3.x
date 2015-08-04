@@ -268,7 +268,7 @@ class Mana:
 
 
 class Personnage:
-    def __init__(self, ecran, dossier, carte, rcenter, blocs, socket_serv=None, addr=('192.168.1.1', 60000), lan=False):
+    def __init__(self, ecran, dossier, carte, rcenter, blocs, socket_serv=None, addr=('192.168.1.1', 60000), lan=False, testeur=False):
         self.x_pos = 0
         self.y_pos = 0
         self.ecran = ecran
@@ -281,12 +281,17 @@ class Personnage:
         self.personnage_png = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + self.location + self.direction).convert_alpha()
         self.carte = carte
         self.center = rcenter
+        self.testeur = testeur
         if not lan:
             self.vie = Vie(self.ecran, self.center)
         else:
             self.vie = LANVie(self.ecran, self.center, self.socket_serv, self.addr)
         self.mana = Mana(self.ecran, self.carte, self.blocs)
-        self.speed = 100
+        if not self.testeur:
+            self.speed = 61
+        else:
+            self.speed = 100
+        self.speed_decrease = 60
         self.immobile = True
         self.immobile_time = 0
         self.pseudo = ""
@@ -312,6 +317,9 @@ class Personnage:
     def get_immobility(self):
         return self.immobile_time
 
+    def get_speed_decrease(self):
+        return self.speed_decrease
+
     def set_speed(self, new):
         self.speed = new
         #vitesse du personnage réglé par celle des touches
@@ -327,13 +335,71 @@ class Personnage:
     def set_x(self, new_x):
         self.x_pos = new_x
 
+    def set_x_to_default(self):
+        self.x_pos = self.ecran.get_size()[0] // 2 - 1
+
+    def change_test(self, new):
+        self.testeur = new
+        if not self.testeur:
+            self.speed = 61
+        else:
+            self.speed = 100
+        self.set_speed(self.speed)
+
+    def get_abs_pos(self):
+        return self.x_pos // 30 + self.carte.get_first_fov(), self.y_pos // 30
+
+    def get_rel_pos_px(self):
+        return self.x_pos, self.y_pos
+
     def move(self, direction):
         self.orientation = direction
         self.immobile = False
         self.immobile_time = 0
-        self.__deplacements(direction)
+        if not self.testeur:
+            self.__deplacements_pixels__(direction)
+        else:
+            self.__deplacements(direction)
         self.immobile = True
         self.change_direction(self.orientation)
+
+    def __deplacements_pixels__(self, direction):
+        case_x = (self.x_pos + self.carte.get_offset()) // 30 + self.carte.get_fov()[0]
+        case_y = self.y_pos // 30
+
+        if direction == 'haut':
+            if case_y - 1 >= 0:
+                if not self.carte.collide(case_x, case_y - 1):
+                    case_y -= 1
+        elif direction == 'gauche':
+            if not (self.x_pos + self.carte.get_offset()) % 30:
+                #il y a possibilité de collision, on est sur une case "entière"
+                #escalier montant
+                if self.carte.collide(case_x - 1, case_y) and not self.carte.collide(case_x, case_y - 1):
+                    if 0 <= case_y - 1:
+                        if not self.carte.collide(case_x - 1, case_y - 1):
+                            self.carte.change_pixel_offset(-1)
+                            case_y -= 1
+                #déplacements normaux
+                elif not self.carte.collide(case_x - 1, case_y):
+                    self.carte.change_pixel_offset(-1)
+            else:
+                self.carte.change_pixel_offset(-1)
+        elif direction == 'droite':
+            if not (self.x_pos + self.carte.get_offset()) % 30:
+                #il y a possibilité de collision, on est sur une case "entière"
+                #escalier montant
+                if self.carte.collide(case_x + 1, case_y) and not self.carte.collide(case_x, case_y - 1):
+                    if case_y - 1 >= 0:
+                        if not self.carte.collide(case_x + 1, case_y - 1):
+                            self.carte.change_pixel_offset(+1)
+                            case_y -= 1
+                #déplacements normaux
+                elif not self.carte.collide(case_x + 1, case_y):
+                    self.carte.change_pixel_offset(+1)
+            else:
+                self.carte.change_pixel_offset(+1)
+        self.y_pos = case_y * 30
 
     def __deplacements(self, direction):
         case_x = self.x_pos // 30 + self.carte.get_fov()[0] + self.carte.get_offset()

@@ -1,5 +1,6 @@
 import os
 import time
+import glob
 import pickle
 from gentest import Map
 
@@ -22,6 +23,7 @@ class LaunchMapGen:
         }
         self.save_to_file = save_to_file
         self.chunks_gen = chunks_gen
+        self.save_dir = ".." + os.sep + "assets" + os.sep + "Maps" + os.sep
 
     def generer(self, lenght=64, headstart=10, chunk_size=64):
         print('Début de la génération ...')
@@ -42,11 +44,11 @@ class LaunchMapGen:
             return chunk
     
     def check_if_exists_and_open(self, path, mode="rb"):
-        if os.path.exists(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + "Settings" + os.sep + path):
-            with open(path, mode) as file:
+        if os.path.exists(self.save_dir + "Settings" + os.sep + path):
+            with open(self.save_dir + "Settings" + os.sep + path, mode) as file:
                 return pickle.Unpickler(file).load()
         return self.datas[path[:-8:]]
-    
+
     def check_for_files(self):
         for file in self.file_to_load:
             self.datas[file[:-8:]] = self.check_if_exists_and_open(file)
@@ -54,6 +56,14 @@ class LaunchMapGen:
     def check_for_partial_files(self):
         for file in ['height_map.sav', 'flatness_map.sav', 'deniv_map.sav']:
             self.datas[file[:-8:]] = self.check_if_exists_and_open(file)
+
+    def get_height(self, x, carte):
+        height = self.datas['height']
+        for y in range(0, self.datas['height']):
+            if carte[y][x] in ('hhh', 'iii', 'eee', 'bbb', 'ccc', 'fff', 'ggg', 's', 'h', 'U', 'I', 'az', 'ze', 'd'):
+                height = self.datas['height'] - y
+                break
+        return height
 
     def run_to_chunk(self, lenght, headstart, chunk_size):
         map_struct = list(Map(lenght,
@@ -65,7 +75,14 @@ class LaunchMapGen:
         for y in range(len(map_struct)):
             for x in range(len(map_struct[0])):
                 map_struct[y][x] = str(map_struct[y][x])
-        return map_struct
+        if not self.save_to_file:
+            return map_struct
+        else:
+            with open(self.save_dir + "chunk" + str(len(glob.glob(self.save_dir + "*.chk"))) + ".chk", "wb") as file:
+                #rle.RLECompress(file).dump(map_struct)
+                pickle.Pickler(file).dump(map_struct)
+                #rle.dump(file, map_struct)
+            return self.get_height(len(map_struct) - 1, map_struct)
 
     def run(self):
         if self.save_to_file:

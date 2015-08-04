@@ -261,13 +261,29 @@ class Block:
         self.image = image
 
 
+class ThreadChunkGen(Thread):
+    def __init__(self, size, chunksize, headstart):
+        Thread.__init__(self)
+        self.generator = LaunchMapGen(save_to_file=False, chunks_gen=True)
+        self.end = False
+        self.size = size
+        self.chunksize = chunksize
+        self.headstart = headstart
+
+    def run(self):
+        tmp = self.generator.generer(lenght=self.chunksize, headstart=self.headstart, chunk_size=self.chunksize)
+        return tmp
+
+    def stop(self):
+        self.end = True
+
+
 class MapArray:
     def __init__(self, defaut="0", chunk_size=64, blocs=None):
         self.carte = []
         self.defaut = defaut
         self.size = (4096, 20)
         self.chunk_size = chunk_size
-        self.generator = LaunchMapGen(save_to_file=False, chunks_gen=True)
         self.blocs = blocs
         self.decalage_force = 15
 
@@ -275,7 +291,8 @@ class MapArray:
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
 
     def create_chunk(self):
-        chunk = self.generator.generer(lenght=self.chunk_size, headstart=self.get_height(self.size[0]-1), chunk_size=self.chunk_size)
+        self.worker = ThreadChunkGen(self.size, self.chunk_size, self.get_height(self.size[0]-1))
+        chunk = self.worker.run() #~~~~
         self.add_chunk(chunk)
         #il faut mettre à jour la size
         self.size = (len(self.carte[0]), len(self.carte))
@@ -356,6 +373,7 @@ class Carte:
         self.bloc_fired = -1, -1
         self.shaders = shader
         self.pixel_offset = 0
+        self.pixel_offset_right = 0
         self.clouds = []
         self.draw_clouds = draw_clouds
         self.conteneur = None
@@ -363,6 +381,7 @@ class Carte:
         self.unrenderable = ('0')
         self.skybox = None
         self.generation = 0
+        self.last_dir = +1
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -454,12 +473,23 @@ class Carte:
         return self.conteneur.destroy_last_bloc(x, y)
 
     def change_pixel_offset(self, direction=+1):
-        self.pixel_offset += direction
-        self.pixel_offset %= 30
-        self.pixel_offset = abs(self.pixel_offset)
-        if not self.pixel_offset:
-            return True
-        return False
+        #calcul des offset
+        self.pixel_offset += -direction
+        #il faut inverser le mouvement, car ici c'est la carte qui bouge
+        #pas le personnage
+        if not self.pixel_offset % 30:
+            #au cas ou on a commencé à aller a droite puis que l'on va a gauche
+            #pour ne pas que le fovse deplace "violemment"
+            if self.last_dir == direction:
+                self.set_fov(self.get_fov()[0] + direction, self.get_fov()[1] + direction)
+            self.pixel_offset %= 30
+            self.last_dir = direction
+
+    def get_pixel_offset(self):
+        return self.pixel_offset
+
+    def set_pixel_offset(self, new):
+        self.pixel_offset = new
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -775,13 +805,13 @@ class Carte:
 
     def gravity_for_entity(self):
         structure = self.carte.get_fov(self.fov)
-        for y in range(len(structure)):
-            for x in range(len(structure[0])):
+        for x in range(len(structure[0])):
+            for y in range(len(structure)):
                 bloc = structure[y][x]
                 if bloc in self.gravity_entity and y + 1 <= len(structure) - 1:
                     if structure[y+1][x] == '0':
-                        self.carte.set(x + self.fov[0], y, self.carte.get(x + self.fov[0], y+1))
                         self.carte.set(x + self.fov[0], y+1, self.carte.get(x + self.fov[0], y))
+                        self.carte.set(x + self.fov[0], y, '0')
 
     def render_all(self):
         debut_generation = time.time()

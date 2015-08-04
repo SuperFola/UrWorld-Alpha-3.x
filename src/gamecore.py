@@ -17,9 +17,6 @@ from items import Conteneur
 import FPS_regulator
 
 
-testeur = os.path.exists("test.test")
-
-
 def padding_0(liste):
     intermediaire = []
     for i in liste:
@@ -76,7 +73,8 @@ class Game:
         self.creatif = creatif
         self.pancartes_lst = []
         self.inventaire = []
-        self.windowed_is = testeur
+        self.testeur = os.path.exists('test.test')
+        self.windowed_is = self.testeur
         self.marteau = marteau
         self.params_co = params_co_network
         self.nb_blocs_large = self.fenetre.get_size()[0] // 30 + 1
@@ -154,10 +152,12 @@ class Game:
         self.continuer = 1
         self.temps_avant_fps = time.time()
         self.suiveur = False
-        self.surf_debug = pygame.Surface((420, 22 * 6))
+        self.surf_debug = pygame.Surface((420, 245))
         self.surf_debug.fill((220, 220, 220))
-        self.surf_debug.set_alpha(70)
+        self.surf_debug.set_alpha(90)
         self.surf_debug.convert_alpha()
+        self.ZQSD = False
+        self.play_song = True
 
     def load_coponents(self):
         """
@@ -254,6 +254,8 @@ class Game:
                 self.pancartes_lst = pickle.Unpickler(lire_pancartes).load()
         else:
             self.pancartes_lst = []
+        if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "gamer.gm"):
+            self.ZQSD = True
 
         # Files
         with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "pseudo.sav", "r") as nom_perso:  #pour le pseudo
@@ -309,6 +311,7 @@ class Game:
                 pickle.Pickler(f).dump(data_serv)
         self.carte.create_conteneur(self.conteneur)
         self.carte.conteneur_load()
+        self.personnage.change_test(self.testeur)
 
         # A lancer apres avoir chargé || initialisé une Carte | LANMap
         self.img_tous_blocs = self.carte.get_img_dict()
@@ -1043,19 +1046,20 @@ class Game:
                 if ev.button == 5:
                     #la molette descend
                     self.molette_('bas')
-                elif ev.button == 4:  #la molette monte
+                elif ev.button == 4:
+                    #la molette monte
                     self.molette_('haut')
                 elif ev.button == 1:
                     self.clique_gauche = 1
                     #clic, donc on pose un bloc là où on a cliqué !
-                    x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0]
+                    x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0] + self.carte.get_offset() // 30
                     y_blit = ev.pos[1] // 30
                     if y_blit <= 19 and x_blit <= self.carte.get_max_fov() - 1 and (self.blocs.get(self.obj_courant) > 0 or not self.creatif) \
                             and ((x_blit, y_blit) != (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30) or self.obj_courant not in self.blocs.list_solid()) \
                             and self.obj_courant not in self.blocs.list_unprintable():
                         self.put_blocs(x_blit, y_blit)
                 elif ev.button == 3 and (self.obj_courant not in self.blocs.list_unprintable() or self.obj_courant == '§%' \
-                                                 or self.obj_courant in self.dico_cd.keys()):
+                                            or self.obj_courant in self.dico_cd.keys()):
                     x_clic = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_clic = ev.pos[1] // 30
                     self.rc(x_clic, y_clic)
@@ -1081,7 +1085,7 @@ class Game:
             elif ev.type == MOUSEMOTION:
                 if self.clique_gauche and not self.creatif:
                     #en fait on est en créatif quand meme dans ce cas ci :)
-                    x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0]
+                    x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0] + self.carte.get_offset() // 30
                     y_blit = ev.pos[1] // 30
                     if y_blit <= 19 and x_blit <= self.carte.get_max_fov() and self.blocs.get(self.obj_courant) > 0 \
                             and ((x_blit, y_blit) != (
@@ -1115,73 +1119,72 @@ class Game:
             #controles au clavier
             elif ev.type == KEYDOWN:
                 #controles de déplacement au clavier
-                if ev.key == K_UP:
-                    #on monte
-                    self.personnage.move("haut")
-                elif ev.key == K_DOWN:
-                    #on descend mais uniquement si il y a une echelle en dessous de nous
-                    if self.carte.get_tile(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
-                                           self. personnage.get_pos()[1] // 30 + 1) == './':
-                        self.personnage.set_y(self.personnage.get_pos()[1] + 30)
-                elif ev.key == K_LEFT:
-                    #on va à gauche
-                    self.personnage.move("gauche")
-                elif ev.key == K_RIGHT:
-                    #on va à droite
-                    self.personnage.move("droite")
+                if not self.ZQSD:
+                    if ev.key == K_UP:
+                        #on monte
+                        self.personnage.move("haut")
+                    elif ev.key == K_DOWN:
+                        #on descend mais uniquement si il y a une echelle en dessous de nous
+                        if self.carte.get_tile(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
+                                               self. personnage.get_pos()[1] // 30 + 1) == './':
+                            self.personnage.set_y(self.personnage.get_pos()[1] + 30)
+                    elif ev.key == K_LEFT:
+                        #on va à gauche
+                        self.personnage.move("gauche")
+                    elif ev.key == K_RIGHT:
+                        #on va à droite
+                        self.personnage.move("droite")
+                    #controle de l'affichage de l'inventaire Drag&Drop
+                    elif ev.key == K_LSHIFT or ev.key == K_RSHIFT:
+                        self.drag_and_drop_invent()
+                elif self.ZQSD:
+                    #déplacement avec les touches ZQSD
+                    if ev.key == K_w:
+                        #on monte
+                        self.personnage.move("haut")
+                    elif ev.key == K_s:
+                        #on descend mais uniquement si il y a une echelle en dessous de nous
+                        if self.carte.get_tile(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
+                                               self. personnage.get_pos()[1] // 30 + 1) == './':
+                            self.personnage.set_y(self.personnage.get_pos()[1] + 30)
+                    elif ev.key == K_a:
+                        #on va à gauche
+                        self.personnage.move("gauche")
+                    elif ev.key == K_d:
+                        #on va à droite
+                        self.personnage.move("droite")
+                    #controle de l'affichage de l'inventaire Drag&Drop
+                    elif ev.key == K_e:
+                        self.drag_and_drop_invent()
+                if ev.key == K_KP9:
+                    self.show_cursor = not self.show_cursor
                 #changement de la taille du FOV
-                elif ev.key == K_e:
+                if ev.key == K_KP7:
                     new_size_fov = dlb.DialogBox(self.fenetre, ["Entrez la nouvelle taille du", "FOV (entre 0 et " + str(self.nb_blocs_large) + " ) :"],
                                   "Réglage du FOV", self.rcenter, self.grd_font, self.y_ecart, type_btn=3, carte=self.carte).render()
                     if new_size_fov.isdigit():
                         self.carte.set_fov(self.carte.get_fov()[0], self.carte.get_fov()[0] + abs(int(new_size_fov)))
                 #controles discuter et inventaire
-                elif ev.key == K_d:
+                elif ev.key == K_KP6:
                     #on parle à la personne la plus proche de soi
                     passant_parle(self.fenetre, self.personnage.get_direction(), self.personnage, self.carte.get_list(),
                                   self.blocs.get('/§'), self.rcenter, self.carte.get_img_dict(), self.carte.get_fov())
-                elif ev.key == K_i:
+                elif ev.key == K_KP5:
                     #la musique en pause ou pas !
-                    if pygame.mixer.music.get_busy():
+                    self.play_song = not self.play_song
+                    if self.play_song:
                         pygame.mixer.music.set_volume(0)
-                    elif not pygame.mixer.music.get_busy():
+                    elif not self.play_song:
                         pygame.mixer.music.set_volume(self.volume_son_j)
                 #on affiche les autres ou pas :D
-                elif ev.key == K_p:
+                elif ev.key == K_KP4:
                     if self.en_reseau:
                         self.carte.change_oth_visibility()
                         dlb.DialogBox(self.fenetre, "Les autres joueurs ne sont plus visibles" if not self.carte.get_oth_visibility() else "Les autres joueurs sont visibles",
                                     "Visiblité des joueurs", self.rcenter, self.grd_font, self.y_ecart, type_btn=0, carte=self.carte).render()
-                elif ev.key == K_y:
+                elif ev.key == K_KP3:
                     self.carte.switch_shader()
-                elif ev.key == K_t:
-                    self.show_cursor = not self.show_cursor
-                #controle pour courir
-                elif ev.key == K_RETURN:
-                    #pour courir
-                    self.courir_bool = not self.courir_bool
-                    new_speed = self.personnage.get_speed() - 60 if self.courir_bool else self.personnage.get_speed() + 60
-                    self.personnage.set_speed(new_speed)
-                #controle de l'affichage de l'inventaire Drag&Drop
-                elif ev.key == K_LSHIFT or ev.key == K_RSHIFT:
-                    self.drag_and_drop_invent()
-                #controle du tchat
-                elif ev.key == K_0 or ev.key == K_KP0:
-                    self.txt_chat = dlb.DialogBox(self.fenetre, "Que voulez-vous dire ?", "Chat", self.rcenter, self.grd_font, self.y_ecart, type_btn=2, carte=self.carte).render()
-                    self.time_blitting_txt_chat = time.time() + 10
-                    if self.txt_chat[:16] == 'toggledownfalled':
-                        self.carte.set_meteo('toggledownfalled')
-                    elif self.txt_chat[:6] == 'invert':
-                        self.carte.set_meteo('invert')
-                    elif self.txt_chat[:4] == 'tp->':
-                        go_to = self.txt_chat[4::].split(',')
-                        x_ = self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0] - int(go_to[0])
-                        new0 = self.carte.get_fov()[0] - x_ if self.carte.get_fov()[0] - x_ >= 0 else 0
-                        new0 = new0 if new0 <= self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0]) else self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0])
-                        self.carte.set_fov(new0, new0 + (self.carte.get_fov()[1] - self.carte.get_fov()[0]))
-                    if self.en_reseau:
-                        reseau_speaking(self.network, self.txt_chat, self.params_co, self.personnage, self.carte, self.blocs)
-                elif ev.key == K_o:
+                elif ev.key == K_KP2:
                     if self.creatif:
                         self.creatif = False
                         pygame.draw.rect(self.root, (140, 140, 140), (self.rcenter[0] + 120, 9, 43, 17))
@@ -1194,7 +1197,7 @@ class Game:
                         self.last_vie = self.personnage.get_vie()
                         self.personnage.set_vie(100)
                 #passage fullscreen -> windowed / windowed -> fullscreen
-                elif ev.key == K_u:
+                elif ev.key == K_KP1:
                     if self.windowed_is:
                         self.root = pygame.display.set_mode((0, 0), FULLSCREEN)
                         r = pygame.Rect(0, 0, self.fenetre.get_size()[0], 600)  # definition de la taille de la fenetre de jeu
@@ -1212,11 +1215,43 @@ class Game:
                         self.custom()
                         pygame.display.set_caption("UrWorld")
                         self.windowed_is = True
+                #controle du tchat
+                elif ev.key == K_KP0:
+                    self.txt_chat = dlb.DialogBox(self.fenetre, "Que voulez-vous dire ?", "Chat", self.rcenter, self.grd_font, self.y_ecart, type_btn=2, carte=self.carte).render()
+                    self.time_blitting_txt_chat = time.time() + 10
+                    if self.txt_chat[:16] == 'toggledownfalled':
+                        self.carte.set_meteo('toggledownfalled')
+                    elif self.txt_chat[:6] == 'invert':
+                        self.carte.set_meteo('invert')
+                    elif self.txt_chat[:4] == 'tp->':
+                        go_to = self.txt_chat[4::].split(',')
+                        x_ = self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0] - int(go_to[0])
+                        new0 = self.carte.get_fov()[0] - x_ if self.carte.get_fov()[0] - x_ >= 0 else 0
+                        new0 = new0 if new0 <= self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0]) else self.carte.get_max_fov() - (self.carte.get_fov()[1] - self.carte.get_fov()[0])
+                        self.carte.set_fov(new0, new0 + (self.carte.get_fov()[1] - self.carte.get_fov()[0]))
+                    if self.en_reseau:
+                        reseau_speaking(self.network, self.txt_chat, self.params_co, self.personnage, self.carte, self.blocs)
+                #controle pour courir
+                elif ev.key == K_RETURN:
+                    #pour courir
+                    self.courir_bool = not self.courir_bool
+                    new_speed = self.personnage.get_speed() - self.personnage.get_speed_decrease() if self.courir_bool else self.personnage.get_speed() + self.personnage.get_speed_decrease()
+                    self.personnage.set_speed(new_speed)
             elif ev.type == KEYUP:
                 #saut
-                if ev.key == K_SPACE:
-                    self.saut = True
-                    self.time_saut = time.time() + self.temps_saut_attendre
+                if not self.ZQSD:
+                    if ev.key == K_SPACE:
+                        self.saut = True
+                        self.time_saut = time.time() + self.temps_saut_attendre
+                elif self.ZQSD:
+                    if ev.key == K_q:
+                        self.saut = True
+                        self.time_saut = time.time() + self.temps_saut_attendre
+                    if ev.key == K_SPACE:
+                        self.testeur = not self.testeur
+                        self.personnage.change_test(self.testeur)
+                        self.carte.set_pixel_offset(0)
+                        self.personnage.set_x_to_default()
 
     def thread_bombs(self):
         """
@@ -1273,18 +1308,31 @@ class Game:
         #pour ne pas se retrouver bloqué
         self.check_perso()
 
-    def debug_on_windows(self):
+    def debug_on_windows(self, xs, ys):
         rel = 30
+        #pour le bloc sélectionné
+        self.fenetre.blit(self.carte.get_img_dict()['0'], ((xs // 30) * 30 + self.carte.get_offset(), (ys // 30) * 30))
+        #logs
+        to_print = [
+            "Heure jeu : " + str(self.carte.get_skybox().get_game_time()),
+            "Couleur RGB : " + str(self.carte.get_skybox().get_color()),
+            "Mauvais temps : " + str(self.carte.get_skybox().get_bad_weather()),
+            "Vitesse de répétition des touches : " + str(self.personnage.get_speed()) + " ms",
+            "Shader : " + self.carte.get_curent_shader(),
+            "Intensité du shader std : " + str(self.carte.get_std_shader_shade()),
+            "Nombre de chunks : " + str(self.carte.count_chunks()),
+            "Temps de génération de l'affichage de la carte : " + str(self.carte.get_generation_time()) + " ms",
+            "Position absolue (blocs) : " + str(self.personnage.get_abs_pos()),
+            "Position relative (pixels) : " + str(self.personnage.get_rel_pos_px()),
+            "Pixel offset de la carte : " + str(self.carte.get_pixel_offset()),
+            "FOV : " + str(self.carte.get_fov()),
+            "Testeur : " + str(self.testeur),
+            "Gamer : " + str(self.ZQSD)
+        ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))
-        self.fenetre.blit(self.font.render("Heure jeu : " + str(self.carte.get_skybox().get_game_time()), 1, (10, 10, 10)), (30, rel + 25))
-        self.fenetre.blit(self.font.render("Couleur RGB : " + str(self.carte.get_skybox().get_color()), 1, (10, 10, 10)), (30, rel + 35))
-        self.fenetre.blit(self.font.render("Mauvais temps : " + str(self.carte.get_skybox().get_bad_weather()), 1, (10, 10, 10)), (30, rel + 45))
-        self.fenetre.blit(self.font.render("Vitesse de répétition des touches : " + str(self.personnage.get_speed()) + " ms", 1, (10, 10, 10)), (30, rel + 55))
-        self.fenetre.blit(self.font.render("Shader : " + self.carte.get_curent_shader(), 1, (10, 10, 10)), (30, rel + 65))
-        self.fenetre.blit(self.font.render("Intensité du shader std : " + str(self.carte.get_std_shader_shade()), 1, (10, 10, 10)), (30, rel + 75))
-        self.fenetre.blit(self.font.render("Nombre de chunks : " + str(self.carte.count_chunks()), 1, (10, 10, 10)), (30, rel + 85))
-        self.fenetre.blit(self.font.render("Temps de génération de l'affichage de la carte : " + str(self.carte.get_generation_time() + " ms"), 1, (10, 10, 10)), (30, rel + 95))
+        for i in range(len(to_print)):
+            self.fenetre.blit(self.font.render(to_print[i], 1, (10, 10, 10)), (30, rel + 25 + 15 * i))
 
     def start(self):
         """
@@ -1362,6 +1410,8 @@ class Game:
             self.aff_bloc()
 
             if self.show_cursor:
+                #on affiche l'interface de debug
+                self.debug_on_windows(x_souris, y_souris)
                 #on affiche les caractéristiques du bloc survolé :)
                 if self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) != 'p' and \
                         0 <= x_souris // 30 <= self.fenetre.get_size()[0] and 0 <= y_souris // 30 <= self.carte.get_y_len():
@@ -1372,7 +1422,6 @@ class Game:
                         4 + bloc_carac.get_size()[0],
                         4 + bloc_carac.get_size()[1]))
                     self.fenetre.blit(bloc_carac, (x_souris + 2, y_souris + 2))
-                    self.debug_on_windows()
 
             #saut
             if self.saut and self.time_saut <= time.time():

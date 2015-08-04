@@ -6,12 +6,24 @@ from structs import *
 
 BLOCK, VOID = True, False
 
+basic_coeff = 8
+coeffs = {
+    'foret': basic_coeff,
+    'desert': basic_coeff // 2,
+    'noman_land': basic_coeff // 2,
+    'tundra': basic_coeff // 2,
+    'mineral_world': 1,
+    'redstone_world': 1
+}
+total_coeff = basic_coeff * 2 + basic_coeff // 2 + 2
+
 foret = {
     'stone': ['s'],
     'snow': ['I'],
     'grass': ['h'],
     'dirt': ['U']
 }
+
 desert = {
     'stone': ['s'],
     'snow': ['d'],
@@ -39,19 +51,34 @@ mineral_world = {
     'dirt': ['U']
 }
 
+redstone_world = {
+    'stone': ['jjj'],
+    'snow': ['hhh', 'iii'],
+    'grass': ['eee', 'bbb', 'ccc', 'fff'],
+    'dirt': ['ggg']
+}
+
 class Map(list):
     def __init__(self, length, flatness, height=range(1, 16), headstart=8, deniv=1, structs=Structure.structures, chunk_size=64):
         self.structs = structs
         self.current_biome_size = 0
         self.current_biome = 0
         self.biom_size = 64  #default value
-        self.liste_biomes = [
-            foret,
-            desert,
-            noman_land,
-            tundra,
-            mineral_world
-        ]
+        self.liste_biomes = []
+        for k, v in coeffs.items():
+            for i in range(v):
+                if k == "foret":
+                    self.liste_biomes.append(foret)
+                if k == 'desert':
+                    self.liste_biomes.append(desert)
+                if k == 'noman_land':
+                    self.liste_biomes.append(noman_land)
+                if k == 'tundra':
+                    self.liste_biomes.append(tundra)
+                if k == 'mineral_world':
+                    self.liste_biomes.append(mineral_world)
+                if k == 'redstone_world':
+                    self.liste_biomes.append(redstone_world)
 
         #---------------- Binary terrain generation ----------------#
         array = [[VOID for iy in range(height.stop)] for ix in range(length)]

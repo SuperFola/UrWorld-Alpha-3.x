@@ -32,7 +32,7 @@ class DialogBox:
         self.text_entry = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] + 40),
                                          self.ecran, size=self.size[0] - 20)
         self.text_entry_int = txte.TextEntry((self.center_screen[0] + 4 - (self.size[0] - 20) // 2, self.center_screen[1] + 40),
-                                         self.ecran, size=self.size[0] - 20, type_txt=0)
+                                                self.ecran, size=self.size[0] - 20, type_txt=0)
 
     def render(self):
         continuer = 1
@@ -42,14 +42,9 @@ class DialogBox:
 
         clicked = 0
 
-        #couleurs
-        btn_ok_couleur = (20, 20, 180)
-        btn_oui_couleur = (20, 180, 20)
-        btn_non_couleur = (180, 20, 20)
-
         while continuer:
             #le fond
-            if self.carte != None:
+            if self.carte is not None:
                 self.carte.update()
             else:
                 pg.draw.rect(self.ecran, (0, 0, 0), (0, 0, self.ecran.get_size()[0], self.ecran.get_size()[1]))
@@ -117,9 +112,9 @@ class DialogBox:
                                                         40,
                                                         30))
                 self.ecran.blit(oui, (self.center_screen[0] + 2 - oui.get_size()[0] // 2 - 30,
-                                    self.center_screen[1] + self.size[1] // 2 - 36))
+                                        self.center_screen[1] + self.size[1] // 2 - 36))
                 self.ecran.blit(non, (self.center_screen[0] + 2 - non.get_size()[0] // 2 + 31,
-                                    self.center_screen[1] + self.size[1] // 2 - 36))
+                                        self.center_screen[1] + self.size[1] // 2 - 36))
 
             #event
             for e in pg.event.get():
@@ -130,15 +125,17 @@ class DialogBox:
                             continuer = 0
                     elif self.type_btn == 1:
                         if self.oui_type0_pos[0] <= e.pos[0] <= self.oui_type0_pos[0] + 40 \
-                            and self.oui_type0_pos[1] + self.y_ecart <= e.pos[1] <= self.oui_type0_pos[1] + 30 + self.y_ecart:
+                                and self.oui_type0_pos[1] + self.y_ecart <= e.pos[1] <= self.oui_type0_pos[1] + 30 + self.y_ecart:
                             clicked = 1
                             continuer = 0
                         elif self.non_type0_pos[0] <= e.pos[0] <= self.non_type0_pos[0] + 40 \
-                            and self.non_type0_pos[1] + self.y_ecart <= e.pos[1] <= self.non_type0_pos[1] + 30 + self.y_ecart:
+                                and self.non_type0_pos[1] + self.y_ecart <= e.pos[1] <= self.non_type0_pos[1] + 30 + self.y_ecart:
                             clicked = 2
                             continuer = 0
                 elif e.type == KEYDOWN:
                     if e.key == K_ESCAPE:
+                        continuer = 0
+                    elif e.key == K_RETURN:
                         continuer = 0
                     else:
                         if self.type_btn == 2:
@@ -152,18 +149,18 @@ class DialogBox:
                 self.ecran.blit(self.cursor, (x_s, y_s - self.y_ecart))
             if self.type_btn == 0:
                 if self.ok_type0_pos[0] <= x_s <= self.ok_type0_pos[0] + 35 \
-                    and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
+                        and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
                     btn_ok_focus = True
                 else:
                     btn_ok_focus = False
             elif self.type_btn == 1:
                 if self.oui_type0_pos[0] <= x_s <= self.oui_type0_pos[0] + 40 \
-                    and self.oui_type0_pos[1] + self.y_ecart <= y_s <= self.oui_type0_pos[1] + 30 + self.y_ecart:
+                        and self.oui_type0_pos[1] + self.y_ecart <= y_s <= self.oui_type0_pos[1] + 30 + self.y_ecart:
                     btn_oui_focus = True
                 else:
                     btn_oui_focus = False
                 if self.non_type0_pos[0] <= x_s <= self.non_type0_pos[0] + 40 \
-                    and self.non_type0_pos[1] + self.y_ecart <= y_s <= self.non_type0_pos[1] + 30 + self.y_ecart:
+                        and self.non_type0_pos[1] + self.y_ecart <= y_s <= self.non_type0_pos[1] + 30 + self.y_ecart:
                     btn_non_focus = True
                 else:
                     btn_non_focus = False
@@ -171,7 +168,7 @@ class DialogBox:
                 self.text_entry.render()
 
                 if self.ok_type0_pos[0] <= x_s <= self.ok_type0_pos[0] + 35 \
-                    and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
+                        and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
                     btn_ok_focus = True
                 else:
                     btn_ok_focus = False
@@ -179,7 +176,7 @@ class DialogBox:
                 self.text_entry_int.render()
 
                 if self.ok_type0_pos[0] <= x_s <= self.ok_type0_pos[0] + 35 \
-                    and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
+                        and self.ok_type0_pos[1] + self.y_ecart <= y_s <= self.ok_type0_pos[1] + 30 + self.y_ecart:
                     btn_ok_focus = True
                 else:
                     btn_ok_focus = False
