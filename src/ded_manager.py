@@ -12,20 +12,26 @@ class DustElectricityDriven:
         self.light_on = 'ddd'
         self.repeteur = 'fff'
         self.piston = 'hhh'
+        self.piston_on = 'lll'
         self.piston_collant = 'iii'
+        self.piston_collant_on = 'kkk'
         self.receivers = [
             self.cable,
             self.repeteur,
             self.light_on,
             self.light_off,
             self.piston,
-            self.piston_collant
+            self.piston_collant,
+            self.piston_on,
+            self.piston_collant_on
         ]
         self.can_ch_states = [
             self.light_off,
             self.light_on,
             self.piston,
-            self.piston_collant
+            self.piston_collant,
+            self.piston_on,
+            self.piston_collant_on
         ]
         self.sources = [
             self.interrup_off,
@@ -39,29 +45,12 @@ class DustElectricityDriven:
             self.light_on,
             self.repeteur
         ]
-        self.road_map = []
-        for i in self.carte.get_list():
-            line = []
-            for j in i:
-                if j != '0' and j not in self.all:
-                    line.append('1')
-                else:
-                    line.append(j)
-            self.road_map.append(line)
 
     def get_built_tiles(self):
         return self.all
 
-    def put(self, objet, x, y):
-        if not self.en_reseau:
-            self.road_map[y][x] = objet
-        else:
-            #en mode réseau, la DED ne fonctionnera pas
-            pass
-
     def put_cable(self, x, y):
         self.carte.remove_bloc(x, y, self.cable)
-        self.put(self.cable, x, y)
 
     def put_interrupt(self, x, y, reverse=False):
         if not reverse:
@@ -69,7 +58,70 @@ class DustElectricityDriven:
         else:
             tile = self.interrup_on
         self.carte.remove_bloc(x, y, tile)
-        self.put(tile, x, y)
+
+    def use_piston(self, x, y, z, push=True):
+        new_x = x + z[0]
+        new_y = y + z[1]
+        which = 0 if z[0] != 0 else 1
+        #on cherche le range dans le lequel on va itérer pour pousser des blocs
+        #jusqu'à ce que l'on rencontre du vide
+        way = [0, 0]  #default value
+        if z[which] == +1:
+            #on est dans les x
+            if not which:
+                way = [new_x, self.carte.get_x_len()]
+            #on est les y
+            else:
+                way = [new_y, self.carte.get_y_len()]
+        if z[which] == -1:
+            #on est dans les x
+            if not which:
+                way = [-new_x, +1]
+            #on est dans les y
+            else:
+                way = [-new_y, +1]
+        if push:
+            for i in range(way[0], way[1]):
+                cur_pos = (i, new_y) if not which else (new_x, i)
+                next_one = (i + z[which], new_y) if not which else (new_x, i + z[which])
+                if self.carte.get_tile(next_one[0], next_one[1]) == '0':
+                    break
+                else:
+                    self.carte.remove_bloc(next_one[0], next_one[1], self.carte.get_tile(cur_pos[0], cur_pos[1]))
+        else:
+            self.carte.remove(new_x, new_y, '0')
+
+    def use_piston_collant(self, x, y, z, push=True):
+        new_x = x + z[0]
+        new_y = y + z[1]
+        which = 0 if z[0] != 0 else 1
+        #on cherche le range dans le lequel on va itérer pour pousser des blocs
+        #jusqu'à ce que l'on rencontre du vide
+        way = [0, 0]  #default value
+        if z[which] == +1:
+            #on est dans les x
+            if not which:
+                way = [new_x, self.carte.get_x_len()]
+            #on est les y
+            else:
+                way = [new_y, self.carte.get_y_len()]
+        if z[which] == -1:
+            #on est dans les x
+            if not which:
+                way = [-new_x, +1]
+            #on est dans les y
+            else:
+                way = [-new_y, +1]
+        if push:
+            for i in range(way[0], way[1]):
+                cur_pos = (i, new_y) if not which else (new_x, i)
+                next_one = (i + z[which], new_y) if not which else (new_x, i + z[which])
+                if self.carte.get_tile(next_one[0], next_one[1]) == '0':
+                    break
+                else:
+                    self.carte.remove_bloc(next_one[0], next_one[1], self.carte.get_tile(cur_pos[0], cur_pos[1]))
+        else:
+            self.carte.remove_bloc(new_x, new_y, self.carte.get_tile(new_x + z[0], new_y + z[1]))
 
     def put_light(self, x, y, reverse=False):
         if not reverse:
@@ -77,7 +129,6 @@ class DustElectricityDriven:
         else:
             tile = self.light_on
         self.carte.remove_bloc(x, y, tile)
-        self.put(tile, x, y)
 
     def check_all(self, x, y):
         """
@@ -101,19 +152,19 @@ class DustElectricityDriven:
                     what_to_do = [0, -1]
                 for i in range(self.stop_conduct_after):
                     if what_to_do == [+1, 0]:
-                        pos = (x+i, y)
+                        pos = (x+i, y, +1, 0)
                     if what_to_do == [-1, 0]:
-                        pos = (x-i, y)
+                        pos = (x-i, y, -1, 0)
                     if what_to_do == [0, +1]:
-                        pos = (x, y+i)
+                        pos = (x, y+i, 0, +1)
                     if what_to_do == [0, -1]:
-                        pos = (x, y-i)
+                        pos = (x, y-i, 0, -1)
                     if self.carte.get_tile(pos[0], pos[1]) in self.receivers and pos not in i_went_through:
                         #on a affaire à un conducteur dedstonique :D
                         #du coup, on le met 'on fire', pour se rappeler qu'il conduit
                         #mais ici, les blocs conduiront la ded ... :/
                         deds_on_fire.append(pos)
-                    elif self.carte.get_tile(pos[0], pos[1]) not in self.receivers and pos != (x, y):
+                    elif self.carte.get_tile(pos[0], pos[1]) not in self.receivers and pos[:2] != (x, y):
                         #au cas où c'est le bloc de depart
                         #il n'y a rien pour conduire, on s'arrete la
                         break
@@ -126,6 +177,14 @@ class DustElectricityDriven:
                         self.put_light(k[0], k[1], reverse=True)
                     if tile == self.light_on:
                         self.put_light(k[0], k[1])
+                    if tile == self.piston:
+                        self.use_piston(k[0], k[1], k[2:])
+                    if tile == self.piston_on:
+                        self.use_piston(k[0], k[1], k[2:], push=False)
+                    if tile == self.piston_collant:
+                        self.use_piston_collant(k[0], k[1], k[2:])
+                    if tile == self.piston_collant_on:
+                        self.use_piston_collant(k[0], k[1], k[2:], push=False)
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)

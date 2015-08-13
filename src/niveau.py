@@ -108,11 +108,12 @@ img_ = {
     'ttt': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "horloge_thumbnail.png").convert_alpha()
 }
 
+
 def souris_ou_t_es(fenetre, arme_h_g):
     x_souris, y_souris = pygame.mouse.get_pos()
     fenetre.blit(arme_h_g, (x_souris, y_souris))
     pygame.mouse.set_visible(False)
-    return (x_souris, y_souris)
+    return x_souris, y_souris
 
 
 def fps_stp(temps_avant_fps, root, rcenter, font):
@@ -383,6 +384,7 @@ class Carte:
         self.skybox = None
         self.generation = 0
         self.last_dir = +1
+        self.y_max = 20
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -893,7 +895,7 @@ class Carte:
         self.texture_pack = txt_pack
 
     def remove_bloc(self, x, y, new):
-        if x >= 0:
+        if x >= 0 and 0 <= y <= self.carte.get_max_size_y():
             #on ne doit pas pouvoir poser un bloc dans le neant
             if new == 'jjj':
                 self.conteneur.add_new(x, y)
