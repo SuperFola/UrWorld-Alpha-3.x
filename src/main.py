@@ -148,6 +148,8 @@ blocs.add('iii', solid=True, shadow=0, gravity=False, quantity=10, innafichable=
 blocs.add('jjj', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Conteneur', tps_explode=0, take_fire=False)
 blocs.add('404', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='404 Tile not found', tps_explode=0, take_fire=False)
 blocs.add('ttt', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Horloge', tps_explode=0, take_fire=True)
+blocs.add('lll', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston on', tps_explode=0, take_fire=False)
+blocs.add('kkk', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston collant on', tps_explode=0, take_fire=False)
 
 
 largeur_dispo = cst.taille_fenetre_largeur_win

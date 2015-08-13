@@ -96,36 +96,38 @@ class DustElectricityDriven:
                 pass
             else:
                 #faut tout décaler :D
-                if not which:
+                if not which and len(lst) >= 1:
                     #décalage en x
                     if z[which] == +1:
                         #décalage à droite en x
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0]-1, i[1]))
+                            self.carte.remove_bloc(i[0]+1, i[1], self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
                     if z[which] == -1:
                         #décalage à gauche en x
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0]+1, i[1]))
+                            self.carte.remove_bloc(i[0]-1, i[1], self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
-                if which:
+                if which and len(lst) >= 1:
                     #décalage en y
                     if z[which] == +1:
                         #décalage en bas en y
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0], i[1]-1))
+                            self.carte.remove_bloc(i[0], i[1]+1, self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
                     if z[which] == -1:
                         #décalage en haut en y
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0], i[1]+1))
+                            self.carte.remove_bloc(i[0], i[1]-1, self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
+            self.carte.remove_bloc(x, y, self.piston_on)
         else:
-            self.carte.remove(new_x, new_y, '0')
+            self.carte.remove_bloc(new_x, new_y, '0')
+            self.carte.remove_bloc(x, y, self.piston)
 
     def use_piston_collant(self, x, y, z, push=True):
         new_x = x + z[0]
@@ -163,36 +165,39 @@ class DustElectricityDriven:
                 pass
             else:
                 #faut tout décaler :D
-                if not which:
+                if not which and len(lst) >= 1:
                     #décalage en x
                     if z[which] == +1:
                         #décalage à droite en x
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0]-1, i[1]))
+                            self.carte.remove_bloc(i[0]+1, i[1], self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
                     if z[which] == -1:
                         #décalage à gauche en x
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0]+1, i[1]))
+                            self.carte.remove_bloc(i[0]-1, i[1], self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
-                if which:
+                if which and len(lst) >= 1:
                     #décalage en y
                     if z[which] == +1:
                         #décalage en bas en y
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0], i[1]-1))
+                            self.carte.remove_bloc(i[0], i[1]+1, self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
                     if z[which] == -1:
                         #décalage en haut en y
-                        for i in lst[-1]:
+                        for i in lst[::-1]:
                             #on doit prendre la liste à l'envers pour pas effacer de blocs
-                            self.carte.remove_bloc(i[0], i[1], self.carte.get_tile(i[0], i[1]+1))
+                            self.carte.remove_bloc(i[0], i[1]-1, self.carte.get_tile(i[0], i[1]))
                         self.carte.remove_bloc(lst[0][0], lst[0][1], '0') #TEMPORAIRE !! sera le self.piston_on apres
+            self.carte.remove_bloc(x, y, self.piston_collant_on)
         else:
-            self.carte.remove_bloc(new_x, new_y, self.carte.get_tile(new_x - z[0], new_y - z[1]))
+            self.carte.remove_bloc(new_x, new_y, self.carte.get_tile(new_x + z[0], new_y + z[1]))
+            self.carte.remove_bloc(new_x + z[0], new_y + z[1], '0')
+            self.carte.remove_bloc(x, y, self.piston_collant)
 
     def put_light(self, x, y, reverse=False):
         if not reverse:

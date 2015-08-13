@@ -101,6 +101,8 @@ img_ = {
     'fff': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "repeteur_thumbnail.png").convert_alpha(),
     'ggg': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "command_block_thumbnail.png").convert_alpha(),
     'hhh': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_thumbnail.png").convert_alpha(),
+    'lll': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_thumbnail.png").convert_alpha(),
+    'kkk': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
     'iii': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
     'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha(),
     '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha(),
@@ -760,7 +762,9 @@ class Carte:
             'jjj': self.conteneur,
             '404': self.tilenotfound404,
             '403': self.accessdenied403,
-            'ttt': self.clock
+            'ttt': self.clock,
+            'lll': self.piston,
+            'kkk': self.piston_collant
         }
 
     def fire_bloc(self, pos_x, pos_y):
@@ -791,6 +795,7 @@ class Carte:
 
     def update(self, pos=(0, 0)):
         self.gravity_for_entity()
+        self.check_the_grass()
         #On blit le fond
         if not self.get_action_meteo():
             self.skybox.bad_weather(True)
@@ -807,6 +812,19 @@ class Carte:
             self.render_circle(pos)
         elif self.all_ == 0:
             self.render_none()
+
+    def check_the_grass(self):
+        structure = self.carte.get_fov(self.fov)
+        for x in range(len(structure[0])):
+            grass = False
+            for y in range(len(structure)):
+                bloc = structure[y][x]
+                cur = x, y
+                if bloc == 'h':
+                    grass = True
+                if (x, y) != cur and grass:
+                    #on met de la terre à la place :D
+                    self.carte.set(x, y, 'U')
 
     def gravity_for_entity(self):
         structure = self.carte.get_fov(self.fov)
