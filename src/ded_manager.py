@@ -65,28 +65,34 @@ class DustElectricityDriven:
         which = 0 if z[0] != 0 else 1
         #on cherche le range dans le lequel on va itérer pour pousser des blocs
         #jusqu'à ce que l'on rencontre du vide
-        way = [0, 0]  #default value
+        way = [0, 0]  # default value
         if z[which] == +1:
             #on est dans les x
             if not which:
-                way = [new_x, self.carte.get_x_len()]
+                way = [0, self.carte.get_x_len() - new_x]
             #on est les y
             else:
-                way = [new_y, self.carte.get_y_len()]
+                way = [0, self.carte.get_y_len() - new_y]
         if z[which] == -1:
             #on est dans les x
             if not which:
                 way = [-new_x, +1]
             #on est dans les y
             else:
-                way = [-new_y, +1]
+                way = [-new_y, 0]
         if push:
             for i in range(way[0], way[1]):
-                cur_pos = (i, new_y) if not which else (new_x, i)
-                next_one = (i + z[which], new_y) if not which else (new_x, i + z[which])
-                if self.carte.get_tile(next_one[0], next_one[1]) == '0':
+                x2 = new_x + i
+                y2 = new_y + i
+                old_pos = (x2 - z[which], new_y) if not which else (new_x, y2 - z[which])
+                cur_pos = (x2, new_y) if not which else (new_x, y2)
+                next_one = (x2 + z[which], new_y) if not which else (new_x, y2 + z[which])
+                if self.carte.get_tile(cur_pos[0], cur_pos[1]) == '0':
+                    #on quitte, y a du vide pour le bloc, ca sert a rien de pousser
+                    self.carte.remove_bloc(cur_pos[0], cur_pos[1], self.carte.get_tile(old_pos[0], old_pos[1]))
                     break
                 else:
+                    #on avance, y a pas de vide, faut continuer à pousser
                     self.carte.remove_bloc(next_one[0], next_one[1], self.carte.get_tile(cur_pos[0], cur_pos[1]))
         else:
             self.carte.remove(new_x, new_y, '0')
@@ -97,31 +103,37 @@ class DustElectricityDriven:
         which = 0 if z[0] != 0 else 1
         #on cherche le range dans le lequel on va itérer pour pousser des blocs
         #jusqu'à ce que l'on rencontre du vide
-        way = [0, 0]  #default value
+        way = [0, 0]  # default value
         if z[which] == +1:
             #on est dans les x
             if not which:
-                way = [new_x, self.carte.get_x_len()]
+                way = [0, self.carte.get_x_len() - new_x]
             #on est les y
             else:
-                way = [new_y, self.carte.get_y_len()]
+                way = [0, self.carte.get_y_len() - new_y]
         if z[which] == -1:
             #on est dans les x
             if not which:
                 way = [-new_x, +1]
             #on est dans les y
             else:
-                way = [-new_y, +1]
+                way = [-new_y, 0]
         if push:
             for i in range(way[0], way[1]):
-                cur_pos = (i, new_y) if not which else (new_x, i)
-                next_one = (i + z[which], new_y) if not which else (new_x, i + z[which])
-                if self.carte.get_tile(next_one[0], next_one[1]) == '0':
+                x2 = new_x + i
+                y2 = new_y + i
+                old_pos = (x2 - z[which], new_y) if not which else (new_x, y2 - z[which])
+                cur_pos = (x2, new_y) if not which else (new_x, y2)
+                next_one = (x2 + z[which], new_y) if not which else (new_x, y2 + z[which])
+                if self.carte.get_tile(cur_pos[0], cur_pos[1]) == '0':
+                    #on quitte, y a du vide pour le bloc, ca sert a rien de pousser
+                    self.carte.remove_bloc(cur_pos[0], cur_pos[1], self.carte.get_tile(old_pos[0], old_pos[1]))
                     break
                 else:
+                    #on avance, y a pas de vide, faut continuer à pousser
                     self.carte.remove_bloc(next_one[0], next_one[1], self.carte.get_tile(cur_pos[0], cur_pos[1]))
         else:
-            self.carte.remove_bloc(new_x, new_y, self.carte.get_tile(new_x + z[0], new_y + z[1]))
+            self.carte.remove_bloc(new_x, new_y, self.carte.get_tile(new_x - z[0], new_y - z[1]))
 
     def put_light(self, x, y, reverse=False):
         if not reverse:
