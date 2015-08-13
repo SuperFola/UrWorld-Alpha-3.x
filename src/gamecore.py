@@ -157,7 +157,7 @@ class Game:
         self.surf_debug.set_alpha(90)
         self.surf_debug.convert_alpha()
         self.ZQSD = False
-        self.play_song = True
+        self.play_song = False
 
     def load_coponents(self):
         """

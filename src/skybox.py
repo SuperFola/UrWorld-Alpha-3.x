@@ -1,4 +1,6 @@
 import pygame
+import math
+import os
 
 
 class Skybox:
@@ -19,14 +21,31 @@ class Skybox:
         self.img_bad_weather.fill((76, 76, 76))
         self.img_bad_weather.fill(self.color)
         self.skybox = []
+        self.min = 0
         self.had_bad_weather = False
+        self.font = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 8)
         self.generate()
 
     def get_max_time_game(self):
         return self.max_game_time
 
+    def get_clock(self):
+        surf = pygame.Surface((30, 30))
+        frequency = 0.3
+        i = self.min // 3.25
+        red = math.sin(frequency * i + 0) * 127 + 128
+        green = math.sin(frequency * i + 2 * math.pi / 3) * 127 + 128
+        blue = math.sin(frequency * i + 4 * math.pi / 3) * 127 + 128
+        surf.fill((red, green, blue))
+        txt = self.font.render(self.get_s_prtime(), 1, (10, 10, 10))
+        surf.blit(txt, ((30 - txt.get_size()[0]) // 2, (30 - txt.get_size()[1]) // 2))
+        return surf
+
     def get_game_time(self):
         return self.game_time
+
+    def get_s_prtime(self):
+        return str(self.game_time) + ":" + str(self.min)
 
     def get_bad_weather(self):
         return self.had_bad_weather
@@ -75,3 +94,5 @@ class Skybox:
             self.game_time += 1
             if self.game_time == self.max_game_time:
                 self.game_time = 0
+            self.min = 0
+        self.min = self.count // 8

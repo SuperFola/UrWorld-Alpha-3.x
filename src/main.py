@@ -147,6 +147,7 @@ blocs.add('hhh', solid=True, shadow=0, gravity=False, quantity=10, innafichable=
 blocs.add('iii', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston collant', tps_explode=0, take_fire=False)
 blocs.add('jjj', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Conteneur', tps_explode=0, take_fire=False)
 blocs.add('404', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='404 Tile not found', tps_explode=0, take_fire=False)
+blocs.add('ttt', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Horloge', tps_explode=0, take_fire=True)
 
 
 largeur_dispo = cst.taille_fenetre_largeur_win
@@ -166,7 +167,7 @@ s = [
     ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
     ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
     ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
-    ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
+    ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', 'ttt', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
     ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]

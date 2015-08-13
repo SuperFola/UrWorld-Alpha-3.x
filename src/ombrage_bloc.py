@@ -21,7 +21,6 @@ class Shader:
             'standart',
             'raycasté',
             'progressif',
-            'gaussien',
             'nul'
         ]
         self.blocs = blocs
@@ -113,8 +112,6 @@ class Shader:
                 self.progressif = 0x000000
             self.surf2.set_alpha(self.progressif + cur_case_ombre)
             self.ecran.blit(self.surf2, (x*30, y*30))
-        if self.current_shader == 'gaussien':
-            pass
 
 
 def distance_right(x, y, carte, fov):

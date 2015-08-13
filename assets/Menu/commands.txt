@@ -4,29 +4,28 @@ Clavier :
 'Left' : permet d'aller à gauche
 'Right' : permet d'aller à droite
 '0' : ouvre l'invite pour le tchat
-'1' : bloc courant -> "Biblitohèque"
-'2' : bloc courant -> "Planches"
-'3' : bloc courant -> "Toit"
-'4' : bloc courant -> "Sable"
-'5' : bloc courant -> "Eau"
-'6' : bloc courant -> "Pierre"
-'7' : bloc courant -> "Herbe"
-'8' : bloc courant -> "Minerai d'or"
-'9' : bloc courant -> "Vide"
+'1' : fullscreen -> fenêtré
+'2' : passe ou non en mode créatif
+'3' : change de shader
+'4' : (en réseau) affiche ou non les
+    joueurs
+'5' : joue ou non la musique
+'6' : parler à quelqu'un
+'7' : choix de la taille du FOV
+'9' : affiche l'interface de debug
 'SHIFT' : ouvre l'inventaire
 'SPACE' : permet de sauter
 'ECHAP' : sauvegarder et revient au
     menu
 'RETURN' : permet de courir ou non
-'Y' : permet de changer de shader
-'P' : (en réseau) affiche ou non les
-    joueurs
-'T' : change le type du curseur
-'I' : active la musique ou non
-'O' : passe en mode créatif ou non
-'D' : permet de parler à quelqu'un
-'E' : change la taille du FOV
-'U' : passe de FULLSCREEN à WINDOWED
+En mode Gamer:
+'Z' : permet de monter
+'S' : permet de descendre
+'Q' : permet d'aller à gauche
+'D' : permet d'aller à droite
+'E' : ouvre l'inventaire
+'SPACE' : active ou non le mode
+    testeur
 Souris :
 'molette' : permet de changer de
     bloc courant

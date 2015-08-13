@@ -104,7 +104,8 @@ img_ = {
     'iii': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "piston_collant_thumbnail.png").convert_alpha(),
     'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha(),
     '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha(),
-    '403': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "403_thumbnail.png").convert_alpha()
+    '403': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "403_thumbnail.png").convert_alpha(),
+    'ttt': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "horloge_thumbnail.png").convert_alpha()
 }
 
 def souris_ou_t_es(fenetre, arme_h_g):
@@ -378,7 +379,7 @@ class Carte:
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
-        self.unrenderable = ('0')
+        self.unrenderable = ('0', 'ttt')
         self.skybox = None
         self.generation = 0
         self.last_dir = +1
@@ -645,6 +646,7 @@ class Carte:
         self.conteneur = pygame.image.load(self.texture_pack + "conteneur.png").convert_alpha()
         self.tilenotfound404 = pygame.image.load(self.texture_pack + "404.png").convert_alpha()
         self.accessdenied403 = pygame.image.load(self.texture_pack + "403.png").convert_alpha()
+        self.clock = pygame.image.load(self.texture_pack + "horloge.png").convert_alpha()
 
         self.bleu_nuit_1.set_alpha(65)
         self.bleu_nuit_1.convert_alpha()
@@ -755,7 +757,8 @@ class Carte:
             'iii': self.piston_collant,
             'jjj': self.conteneur,
             '404': self.tilenotfound404,
-            '403': self.accessdenied403
+            '403': self.accessdenied403,
+            'ttt': self.clock
         }
 
     def fire_bloc(self, pos_x, pos_y):
@@ -833,11 +836,12 @@ class Carte:
                     else:
                         self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                if bloc_actuel == 'ttt':
+                    #c'est une horloge urworldienne :D
+                    self.ecran.blit(self.skybox.get_clock(), (x, y))
                 self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
         for i in self.conteneur.list_conteners_pos_and_tile():
-            x = (i[0][0] - self.fov[0]) * taille_sprite
-            y = i[0][1] * taille_sprite
-            self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
+            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
 
         #calcul et affichage du temps de génération du terrain
         self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
