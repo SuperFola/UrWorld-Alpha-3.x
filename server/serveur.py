@@ -703,7 +703,18 @@ while serveur_lance:
                 else:
                     to_save_into_file += 'in : %s demande la map en %i %i' % (connectes[addr]['pseudo'], int(fov_to_send[0]), int(fov_to_send[1]))
                     to_save_into_file += "\n"
-                connexion_principale.sendto(pickle.dumps([line[int(fov_to_send[0]):int(fov_to_send[1]):] for line in carte]), addr)
+                first = int(fov_to_send[0])
+                end = int(fov_to_send[1])
+                if first < 0:
+                    liste = [l[0:end:] for l in carte]
+                    temp = abs(first)
+                    for y in range(len(liste)):
+                        for _ in range(temp):
+                            liste[y].insert(0, '403')
+                    carte_client = liste
+                else:
+                    carte_client = [l[first:end:] for l in carte]
+                connexion_principale.sendto(pickle.dumps(carte_client), addr)
                 if to_print:
                     print("Out[1]: map [%i -> %i] envoyé à %s" % (int(fov_to_send[0]), int(fov_to_send[1]), connectes[addr]['pseudo']))
                 else:

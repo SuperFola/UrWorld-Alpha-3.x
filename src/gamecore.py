@@ -1044,6 +1044,7 @@ class Game:
         blur_surf.fill((0, 0, 0))
         blur_surf.set_alpha(150)
         blur_surf.convert_alpha()
+        self.fenetre.blit(blur_surf, (0, 0))
         #le titre
         titre = self.grd_font.render("Pause", 1, (240, 240, 240))
         #les boutons
@@ -1071,7 +1072,6 @@ class Game:
             self.fenetre.blit(param_txt, (btn_param[0] + 7, btn_param[1] + 11))
             self.fenetre.blit(back_txt, (btn_back[0] + 17, btn_back[1] + 12))
 
-            self.fenetre.blit(blur_surf, (0, 0))
             self.fenetre.blit(titre, (self.fenetre.get_size()[0] // 2 - titre.get_size()[0] // 2, 30))
 
             for e in pygame.event.get():
@@ -1135,6 +1135,7 @@ class Game:
                     #clic, donc on pose un bloc là où on a cliqué !
                     x_blit = ev.pos[0] // 30 + self.carte.get_fov()[0] + self.carte.get_offset() // 30
                     y_blit = ev.pos[1] // 30
+                    self.souris_ou_t_es()
                     if y_blit <= 19 and x_blit <= self.carte.get_max_fov() - 1 and (self.blocs.get(self.obj_courant) > 0 or not self.creatif) \
                             and ((x_blit, y_blit) != (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30) or self.obj_courant not in self.blocs.list_solid()) \
                             and self.obj_courant not in self.blocs.list_unprintable():

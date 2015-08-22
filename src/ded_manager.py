@@ -212,55 +212,54 @@ class DustElectricityDriven:
         :param y: second position of the click
         :return: nothing
         """
-        if not self.en_reseau:
-            deds_on_fire = []
-            i_went_through = []
-            what_to_do = []
-            for j in range(4):
-                #on va choisir la "direction"
-                if not j:
-                    what_to_do = [+1, 0]
-                if j == 1:
-                    what_to_do = [-1, 0]
-                if j == 2:
-                    what_to_do = [0, +1]
-                if j == 3:
-                    what_to_do = [0, -1]
-                for i in range(self.stop_conduct_after):
-                    if what_to_do == [+1, 0]:
-                        pos = (x+i, y, +1, 0)
-                    if what_to_do == [-1, 0]:
-                        pos = (x-i, y, -1, 0)
-                    if what_to_do == [0, +1]:
-                        pos = (x, y+i, 0, +1)
-                    if what_to_do == [0, -1]:
-                        pos = (x, y-i, 0, -1)
-                    if self.carte.get_tile(pos[0], pos[1]) in self.receivers and pos not in i_went_through:
-                        #on a affaire à un conducteur dedstonique :D
-                        #du coup, on le met 'on fire', pour se rappeler qu'il conduit
-                        #mais ici, les blocs conduiront la ded ... :/
-                        deds_on_fire.append(pos)
-                    elif self.carte.get_tile(pos[0], pos[1]) not in self.receivers and pos[:2] != (x, y):
-                        #au cas où c'est le bloc de depart
-                        #il n'y a rien pour conduire, on s'arrete la
-                        break
-                    i_went_through.append(pos)
-            for k in deds_on_fire:
-                tile = self.carte.get_tile(k[0], k[1])
-                if tile in self.can_ch_states:
-                    #ce sont des objets pouvant changer d'etat (on/off)
-                    if tile == self.light_off:
-                        self.put_light(k[0], k[1], reverse=True)
-                    if tile == self.light_on:
-                        self.put_light(k[0], k[1])
-                    if tile == self.piston:
-                        self.use_piston(k[0], k[1], k[2:])
-                    if tile == self.piston_on:
-                        self.use_piston(k[0], k[1], k[2:], push=False)
-                    if tile == self.piston_collant:
-                        self.use_piston_collant(k[0], k[1], k[2:])
-                    if tile == self.piston_collant_on:
-                        self.use_piston_collant(k[0], k[1], k[2:], push=False)
+        deds_on_fire = []
+        i_went_through = []
+        what_to_do = []
+        for j in range(4):
+            #on va choisir la "direction"
+            if not j:
+                what_to_do = [+1, 0]
+            if j == 1:
+                what_to_do = [-1, 0]
+            if j == 2:
+                what_to_do = [0, +1]
+            if j == 3:
+                what_to_do = [0, -1]
+            for i in range(self.stop_conduct_after):
+                if what_to_do == [+1, 0]:
+                    pos = (x+i, y, +1, 0)
+                if what_to_do == [-1, 0]:
+                    pos = (x-i, y, -1, 0)
+                if what_to_do == [0, +1]:
+                    pos = (x, y+i, 0, +1)
+                if what_to_do == [0, -1]:
+                    pos = (x, y-i, 0, -1)
+                if self.carte.get_tile(pos[0], pos[1]) in self.receivers and pos not in i_went_through:
+                    #on a affaire à un conducteur dedstonique :D
+                    #du coup, on le met 'on fire', pour se rappeler qu'il conduit
+                    #mais ici, les blocs conduiront la ded ... :/
+                    deds_on_fire.append(pos)
+                elif self.carte.get_tile(pos[0], pos[1]) not in self.receivers and pos[:2] != (x, y):
+                    #au cas où c'est le bloc de depart
+                    #il n'y a rien pour conduire, on s'arrete la
+                    break
+                i_went_through.append(pos)
+        for k in deds_on_fire:
+            tile = self.carte.get_tile(k[0], k[1])
+            if tile in self.can_ch_states:
+                #ce sont des objets pouvant changer d'etat (on/off)
+                if tile == self.light_off:
+                    self.put_light(k[0], k[1], reverse=True)
+                if tile == self.light_on:
+                    self.put_light(k[0], k[1])
+                if tile == self.piston:
+                    self.use_piston(k[0], k[1], k[2:])
+                if tile == self.piston_on:
+                    self.use_piston(k[0], k[1], k[2:], push=False)
+                if tile == self.piston_collant:
+                    self.use_piston_collant(k[0], k[1], k[2:])
+                if tile == self.piston_collant_on:
+                    self.use_piston_collant(k[0], k[1], k[2:], push=False)
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)

@@ -285,18 +285,20 @@ class ThreadChunkGen(Thread):
 class MapArray:
     def __init__(self, defaut="0", chunk_size=64, blocs=None):
         self.carte = []
+        self.fond = []
         self.defaut = defaut
         self.size = (4096, 20)
         self.chunk_size = chunk_size
         self.blocs = blocs
         self.decalage_force = 15
+        self.worker = None
 
     def check(self, x, y):
         return True if 0 <= x <= self.size[0] and 0 <= y <= self.size[1] else False
 
     def create_chunk(self):
         self.worker = ThreadChunkGen(self.size, self.chunk_size, self.get_height(self.size[0]-1))
-        chunk = self.worker.run() #~~~~
+        chunk = self.worker.run()  # ~~~~
         self.add_chunk(chunk)
         #il faut mettre à jour la size
         self.size = (len(self.carte[0]), len(self.carte))
@@ -342,8 +344,8 @@ class MapArray:
                 self.carte[y].append(x)
 
     def get_fov(self, fov):
-        first = fov[0]  #% self.size[0]
-        end = fov[1]  #% self.size[0]
+        first = fov[0]
+        end = fov[1]
         if first < 0:
             liste = [l[0:end:] for l in self.carte]
             temp = abs(first)

@@ -13,7 +13,7 @@
     },
     'authentification':
     {
-        'Folaefolc': 'mot de passe'
+        'folaefolc': 'mot de passe'
     },
     'bannis':
     [

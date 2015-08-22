@@ -26,6 +26,7 @@ En mode Gamer:
 'E' : ouvre l'inventaire
 'SPACE' : active ou non le mode
     testeur
+
 Souris :
 'molette' : permet de changer de
     bloc courant
@@ -33,4 +34,4 @@ Souris :
 'right clic' utilise l'effet associé
     à un bloc si il y en a un
 'molette clic' : sélectionne le bloc
-    sous le pointeur
+    sous le pointeur 

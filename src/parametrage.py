@@ -359,7 +359,7 @@ def parametres(fenetre, grd_font, hauteur_fenetre, fullscreen, in_game=False):
         if not in_game:
             fenetre.blit(grd_font.render('Menu', 1, (10, 10, 10)), (btn_menu_pos[0] + 8, btn_menu_pos[1] + 11))
         else:
-            fenetre.blit(grd_font.render('Jeu', 1, (10, 10, 10)), (btn_menu_pos[0] + 12, btn_menu_pos[1] + 11))
+            fenetre.blit(grd_font.render('Jeu', 1, (10, 10, 10)), (btn_menu_pos[0] + 13, btn_menu_pos[1] + 11))
 
         #les events
         for e in pygame.event.get():
