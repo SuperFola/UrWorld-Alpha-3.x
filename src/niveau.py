@@ -815,16 +815,19 @@ class Carte:
 
     def check_the_grass(self):
         structure = self.carte.get_fov(self.fov)
+        last_b = '0'
         for x in range(len(structure[0])):
-            grass = False
             for y in range(len(structure)):
                 bloc = structure[y][x]
-                cur = x, y
-                if bloc == 'h':
-                    grass = True
-                if (x, y) != cur and grass:
-                    #on met de la terre à la place :D
-                    self.carte.set(x, y, 'U')
+                if last_b == '0' and bloc == 'U':
+                    #c'est du vide, donc la terre doit etre de l'herbe
+                    self.carte.set(x + self.fov[0], y, 'h')
+                elif last_b != '0' and bloc == 'h':
+                    #y a pas de vide, mais c'est de l'herbe !
+                    self.carte.set(x + self.fov[0], y, 'U')
+                elif last_b != '0' and bloc == 'U':
+                    pass
+                last_b = bloc
 
     def gravity_for_entity(self):
         structure = self.carte.get_fov(self.fov)

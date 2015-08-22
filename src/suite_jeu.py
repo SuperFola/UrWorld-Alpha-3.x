@@ -15,7 +15,7 @@ import pygame
 import ombrage_bloc as omb
 
 
-def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcenter, blocs):
+def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcenter, blocs, hauteur_fen):
     with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "dossier.sav", "wb") as dossier_ecrire:
         pickle.Pickler(dossier_ecrire).dump(dossier_personnage)
     
@@ -99,5 +99,5 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     dust_electricty_driven_manager = ded.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
 
     game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte,
-                         rcenter, dust_electricty_driven_manager, socket_client_serv)
+                         rcenter, dust_electricty_driven_manager, socket_client_serv, hauteur_fen)
     game.start()

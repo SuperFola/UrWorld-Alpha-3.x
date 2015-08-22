@@ -15,6 +15,7 @@ import pickle
 from pygame.locals import *
 from items import Conteneur
 import FPS_regulator
+import parametrage as prm
 
 
 def padding_0(liste):
@@ -46,7 +47,7 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 class Game:
     def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network,
-                root_surface, carte, rcenter, dust_electricty_driven_manager, network):
+                root_surface, carte, rcenter, dust_electricty_driven_manager, network, hauteur_fen):
         """
         :param surface: a pygame sub-surface
         :param personnage: an instance of the class Personnage
@@ -158,54 +159,24 @@ class Game:
         self.surf_debug.convert_alpha()
         self.ZQSD = False
         self.play_song = False
+        self.hauteur_fenetre = hauteur_fen
 
-    def load_coponents(self):
-        """
-        load all the files, the surfaces, the sound ... that the game need to work
-        :return: nothing
-        """
-        #Pygame elements
-        #surfaces
-        self.check = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "check_vert.png").convert_alpha()
-        self.arme_h_g = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "sword_up_g.png").convert_alpha()
-
-        #activation de la répétition des touches
-        pygame.key.set_repeat(200, self.personnage.get_speed())
-
-        #on n'affiche pas le curseur de la souris !
-        pygame.mouse.set_visible(False)
-
-        #si on est en créatif, on a tout les blocs en *9999 !
-        if not self.creatif or self.vip_bool:
-            #on est encore et quand même en créatif :D
-            for index in self.blocs.list():
-                if self.blocs.get(index) < 900 and index not in ('bn', 'n?', '?.', '/§', '§%'):
-                    quant = 5000 if not self.creatif else self.blocs.get(index) + 150
-                    self.blocs.set(index, nbr=quant)
-
-        # Musics
-        self.falling = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "falling.wav")
-        self.explode = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "explode.wav")
-        self.eau_bruit = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "water.wav")
-        self.breaking_bloc = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "wooden.wav")
-        self.volume = pygame.mixer.music.get_volume()  # Retourne la valeur du volume, entre 0 et 1
-        pygame.mixer.music.set_volume(self.volume_son_j / 4 * 3)  # Réglage du volume
-
+    def partial_load(self):
         # Pickling elements
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav", "rb") as inventory_r:
                 self.inventaire = pickle.Unpickler(inventory_r).load()
         else:
             self.inventaire = [
-                                ['h',  's',  'e',  'a',  'q',  'm',  't',  'd',  'r',  'y',  'u',  'i',  'M',  'v',  'l',  'k'],
-                                ['/',  '.',  '?',  'n',  'b',  'x',  'f',  'g',  'A',  'Z',  'E',  'R',  'T',  'Y',  'U',  'I'],
-                                ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
-                                ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
-                                ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
-                                ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
-                                ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-                                ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
-                            ]
+                ['h',  's',  'e',  'a',  'q',  'm',  't',  'd',  'r',  'y',  'u',  'i',  'M',  'v',  'l',  'k'],
+                ['/',  '.',  '?',  'n',  'b',  'x',  'f',  'g',  'A',  'Z',  'E',  'R',  'T',  'Y',  'U',  'I'],
+                ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
+                ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
+                ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
+                ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
+                ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+                ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
+            ]
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav", "rb") as lire_equipement:
                 self.obj_courant = pickle.Unpickler(lire_equipement).load()
@@ -270,9 +241,6 @@ class Game:
                 else:
                     self.vip_bool = False
 
-        # Chargement obligatoire
-        self.carte.load_components()
-
         # Chargements optionnels
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'texture_pack.sav'):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'texture_pack.sav', 'r') as txtpr:
@@ -287,6 +255,41 @@ class Game:
         if not os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + 'pos.sav'):
             #création de nouveau fichiers
             message_affiche_large(self.grd_msg_bjr, self.fenetre, self.rcenter)
+
+    def load_coponents(self):
+        """
+        load all the files, the surfaces, the sound ... that the game need to work
+        :return: nothing
+        """
+        #Pygame elements
+        #surfaces
+        self.check = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "check_vert.png").convert_alpha()
+        self.arme_h_g = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "sword_up_g.png").convert_alpha()
+
+        #activation de la répétition des touches
+        pygame.key.set_repeat(200, self.personnage.get_speed())
+
+        #on n'affiche pas le curseur de la souris !
+        pygame.mouse.set_visible(False)
+
+        #si on est en créatif, on a tout les blocs en *9999 !
+        if not self.creatif or self.vip_bool:
+            #on est encore et quand même en créatif :D
+            for index in self.blocs.list():
+                if self.blocs.get(index) < 900 and index not in ('bn', 'n?', '?.', '/§', '§%'):
+                    quant = 5000 if not self.creatif else self.blocs.get(index) + 150
+                    self.blocs.set(index, nbr=quant)
+
+        # Musics
+        self.falling = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "falling.wav")
+        self.explode = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "explode.wav")
+        self.eau_bruit = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "water.wav")
+        self.breaking_bloc = pygame.mixer.Sound(".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "wooden.wav")
+        self.volume = pygame.mixer.music.get_volume()  # Retourne la valeur du volume, entre 0 et 1
+        pygame.mixer.music.set_volume(self.volume_son_j / 4 * 3)  # Réglage du volume
+
+        # Chargement obligatoire
+        self.carte.load_components()
 
         # Personnal elements
         if self.en_reseau:
@@ -312,6 +315,8 @@ class Game:
         self.carte.create_conteneur(self.conteneur)
         self.carte.conteneur_load()
         self.personnage.change_test(self.testeur)
+
+        self.partial_load()
 
         # A lancer apres avoir chargé || initialisé une Carte | LANMap
         self.img_tous_blocs = self.carte.get_img_dict()
@@ -810,7 +815,7 @@ class Game:
             self.teleporteurs.append([len(self.teleporteurs), (x, y)])
         else:
             self.network.sendto(pickle.dumps('set->telep' + str(x) + ',' + str(y)), self.params_co)
-    
+
     def poser_pancarte(self, x_blit, y_blit):
         """
         a function who put a panneau
@@ -823,7 +828,7 @@ class Game:
             self.pancartes_lst.append([(x_blit, y_blit), ''])
         else:
             self.network.sendto(pickle.dumps("set->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
-    
+
     def break_pancarte(self, x_blit, y_blit):
         """
         a function who destroy a panneau
@@ -840,7 +845,7 @@ class Game:
                     break
         else:
             self.network.sendto(pickle.dumps("break->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
-    
+
     def break_telep(self, x_blit, y_blit):
         """
         a function who put a teleporteur
@@ -867,7 +872,7 @@ class Game:
                             self.carte.remove_bloc(self.teleporteurs[i][1][0], self.teleporteurs[i][1][1], '0')
                             self.teleporteurs.pop(i + 1)
                             self.teleporteurs.pop(i)
-    
+
     def put_water(self, x, y):
         """
         a function who put some water
@@ -879,7 +884,7 @@ class Game:
         self.carte.remove_bloc(x, y, "e")
         if self.carte.get_tile(x, y) == "e":
             self.mettre_eau(x, y)
-    
+
     def put_blocs(self, x_blit, y_blit):
         """
         a function who do all the test and check if we can put a bloc or not
@@ -953,7 +958,7 @@ class Game:
                 self.carte.set_fov(self.carte.get_max_fov() - self.carte.get_space(), self.carte.get_max_fov())
             self.personnage.set_y((temp[1] - 1 if y_clic - 1 >= 0 else temp[1] + 1) * 30)
             #pour etre au dessus et pas dedans
-    
+
     def rc_jukebox(self, x_clic, y_clic):
         #jukebox
         self.indice_son = 0 if self.obj_courant == 'qs' else 1
@@ -966,7 +971,7 @@ class Game:
             self.blocs.set(self.last_cd_used, nbr=self.blocs.get(self.last_cd_used)+1)
         pygame.mixer.music.load(self.music_liste[self.indice_son])
         pygame.mixer.music.play()
-    
+
     def rc_pancarte(self, x_clic, y_clic):
         if not self.en_reseau:
             for i in self.pancartes_lst:
@@ -989,13 +994,13 @@ class Game:
                 self.network.sendto(pickle.dumps("set->pan" + str(x_clic) + "," + str(y_clic) + "," + texte_pan_to_send), self.params_co)
             else:
                 message_affiche(temp, self.rcenter)
-    
+
     def rc_time_telep(self, x_clic, y_clic):
         if not self.en_reseau:
             self.annee = self.time_cruise()
         else:
             message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
-    
+
     def rc(self, x_clic, y_clic):
         self.dust_electricty_driven_manager.right_click(x_clic, y_clic)
         tile = self.carte.conteneur_right_click(x_clic, y_clic)
@@ -1027,7 +1032,83 @@ class Game:
                 self.personnage.move_to_y(0)
             else:
                 self.carte.remove_bloc(x, y, '0')
-    
+
+    def pause_screen(self):
+        """
+        a function who display the pause screen, with the settings button, and the quit one
+        :return: nothing
+        """
+        continuer = 1
+        #le fond
+        blur_surf = pygame.Surface(self.fenetre.get_size())
+        blur_surf.fill((0, 0, 0))
+        blur_surf.set_alpha(150)
+        blur_surf.convert_alpha()
+        #le titre
+        titre = self.grd_font.render("Pause", 1, (240, 240, 240))
+        #les boutons
+        btn_param = (self.fenetre.get_size()[0] // 2 - 110 // 2, 200, 110, 50)
+        btn_menu = (self.fenetre.get_size()[0] // 2 - 70 // 2, 300, 70, 50)
+        btn_back = (self.fenetre.get_size()[0] // 2 - 70 // 2, 400, 70, 50)
+        focus_param = False
+        focus_menu = False
+        focus_back = False
+        menu_txt = self.font2.render("Menu", 1, (10, 10, 10))
+        param_txt = self.font2.render("Paramètres", 1, (10, 10, 10))
+        back_txt = self.font2.render("Jeu", 1, (10, 10, 10))
+
+        pygame.mouse.set_visible(True)
+
+        while continuer:
+            color_menu = (140, 140, 140) if not focus_menu else (180, 20, 20)
+            color_param = (140, 140, 140) if not focus_param else (180, 180, 20)
+            color_back = (140, 140, 140) if not focus_back else (20, 20, 180)
+
+            pygame.draw.rect(self.fenetre, color_menu, btn_menu)
+            pygame.draw.rect(self.fenetre, color_param, btn_param)
+            pygame.draw.rect(self.fenetre, color_back, btn_back)
+            self.fenetre.blit(menu_txt, (btn_menu[0] + 11, btn_menu[1] + 11))
+            self.fenetre.blit(param_txt, (btn_param[0] + 7, btn_param[1] + 11))
+            self.fenetre.blit(back_txt, (btn_back[0] + 17, btn_back[1] + 12))
+
+            self.fenetre.blit(blur_surf, (0, 0))
+            self.fenetre.blit(titre, (self.fenetre.get_size()[0] // 2 - titre.get_size()[0] // 2, 30))
+
+            for e in pygame.event.get():
+                if e.type == KEYDOWN:
+                    if e.key == K_ESCAPE:
+                        continuer = 0
+                if e.type == MOUSEBUTTONUP:
+                    x, y = e.pos
+                    if btn_menu[0] <= x <= btn_menu[0] + btn_menu[2] and btn_menu[1] + self.hauteur_fenetre <= y <= btn_menu[1] + self.hauteur_fenetre + btn_menu[3]:
+                        #on quitte le jeu et on retourne au menu
+                        self.continuer = 0
+                        continuer = 0
+                    if btn_param[0] <= x <= btn_param[0] + btn_param[2] and btn_param[1] + self.hauteur_fenetre <= y <= btn_param[1] + self.hauteur_fenetre + btn_param[3]:
+                        prm.parametres(self.fenetre, self.grd_font, self.hauteur_fenetre, not self.windowed_is, in_game=True)
+                    if btn_back[0] <= x <= btn_back[0] + btn_back[2] and btn_back[1] + self.hauteur_fenetre <= y <= btn_back[1] + self.hauteur_fenetre + btn_back[3]:
+                        continuer = 0
+
+            #le focus des boutons
+            x_s, y_s = pygame.mouse.get_pos()
+            if btn_menu[0] <= x_s <= btn_menu[0] + btn_menu[2] and btn_menu[1] + self.hauteur_fenetre <= y_s <= btn_menu[1] + self.hauteur_fenetre + btn_menu[3]:
+                focus_menu = True
+            else:
+                focus_menu = False
+            if btn_param[0] <= x_s <= btn_param[0] + btn_param[2] and btn_param[1] + self.hauteur_fenetre <= y_s <= btn_param[1] + self.hauteur_fenetre + btn_param[3]:
+                focus_param = True
+            else:
+                focus_param = False
+            if btn_back[0] <= x_s <= btn_back[0] + btn_back[2] and btn_back[1] + self.hauteur_fenetre <= y_s <= btn_back[1] + self.hauteur_fenetre + btn_back[3]:
+                focus_back = True
+            else:
+                focus_back = False
+
+            pygame.display.flip()
+        pygame.mouse.set_visible(False)
+        # on doit recharger tous les paramètres
+        self.partial_load()
+
     def get_events(self):
         """
         a function who get the pygame events and run the associate action
@@ -1037,7 +1118,7 @@ class Game:
             #petite optimisation maison qui attend les evennements, et ne les checks pas tout le temps
             if ev.type == KEYDOWN and (ev.key == K_ESCAPE or ev.key == K_F4):
                 self.save()
-                self.continuer = 0
+                self.pause_screen()
             elif ev.type == QUIT and self.windowed_is:
                 self.save()
                 self.continuer = 0
