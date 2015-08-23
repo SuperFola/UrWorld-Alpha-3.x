@@ -1350,7 +1350,7 @@ class Game:
             "Testeur : " + str(self.testeur),
             "Gamer : " + str(self.ZQSD),
             "Année : " + str(self.annee + 1),
-            "Taille du bombs manager : " + str(len(self.bomb_mgr.size()))
+            "Taille du bombs manager : " + str(self.bomb_mgr.size())
         ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))

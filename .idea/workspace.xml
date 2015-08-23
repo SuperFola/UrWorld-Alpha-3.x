@@ -96,8 +96,8 @@
       <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gamecore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7866667" vertical-offset="1022" max-vertical-offset="25381">
-              <caret line="74" column="71" selection-start-line="74" selection-start-column="71" selection-end-line="74" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.33333334" vertical-offset="22884" max-vertical-offset="25381">
+              <caret line="1352" column="47" selection-start-line="1352" selection-start-column="47" selection-end-line="1352" selection-end-column="47" />
               <folding>
                 <element signature="e#21#30#0" expanded="true" />
               </folding>
@@ -894,8 +894,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamecore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7866667" vertical-offset="1022" max-vertical-offset="25381">
-          <caret line="74" column="71" selection-start-line="74" selection-start-column="71" selection-end-line="74" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="22884" max-vertical-offset="25381">
+          <caret line="1352" column="47" selection-start-line="1352" selection-start-column="47" selection-end-line="1352" selection-end-column="47" />
           <folding>
             <element signature="e#21#30#0" expanded="true" />
           </folding>
