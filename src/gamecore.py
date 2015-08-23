@@ -65,6 +65,8 @@ class Game:
         self.root = root_surface
         self.personnage = personnage
         self.dust_electricty_driven_manager = dust_electricty_driven_manager
+        self.bomb_mgr = bm.BombManager(self.carte)
+        self.dust_electricty_driven_manager.set_bomb_mgr(self.bomb_mgr)
         self.en_reseau = en_reseau
         self.network = network
         self.blocs = inventory
@@ -125,7 +127,6 @@ class Game:
             ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "urworld2.wav"
         ]
         self.number_of_case = 0
-        self.bomb_mgr = bm.BombManager()
         self.breakListe = []
         self.liste_septre = [
             'D', 'F',
@@ -959,7 +960,7 @@ class Game:
             self.blocs.set(tile, nbr=self.blocs.get(tile)+1)
         if self.carte.get_tile(x_clic, y_clic) == 'cv':
             #bombe atomique
-            self.bomb_mgr.add([time.time(), (x_clic, y_clic)])
+            self.bomb_mgr.add(x_clic, y_clic)
         elif self.carte.get_tile(x_clic, y_clic) == 'vb':
             self.rc_telep(x_clic, y_clic)
         elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':

@@ -3,9 +3,11 @@ class DustElectricityDriven:
         self.stop_conduct_after = 12  # blocks
         self.max_push = 12  # blocks
         self.en_reseau = en_reseau
+        self.bomb_mgr = None
         self.carte = carte
         self.font = font
         self.ecran = surface
+        self.bomb = 'cv'
         self.cable = 'ccc'
         self.interrup_off = 'bbb'
         self.interrup_on = 'aaa'
@@ -260,6 +262,11 @@ class DustElectricityDriven:
                     self.use_piston_collant(k[0], k[1], k[2:])
                 if tile == self.piston_collant_on:
                     self.use_piston_collant(k[0], k[1], k[2:], push=False)
+                if tile == self.bomb:
+                    self.bomb_mgr.add(k[0], k[1])
+
+    def set_bomb_mgr(self, element):
+        self.bomb_mgr = element
 
     def right_click(self, x, y):
         tile = self.carte.get_tile(x, y)
