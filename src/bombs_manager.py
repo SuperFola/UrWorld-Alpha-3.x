@@ -28,7 +28,7 @@ class BombManager:
         while iblist <= len(self.boumList) - 1:
             item = self.boumList[iblist]
             if time.time() - item[0] > 2:
-                self.boum_atomique(item[1][0], item[1][1])
+                self.boum_atomique(item[1], item[2])
                 self.boumList.pop(iblist)
             iblist += 1
 
