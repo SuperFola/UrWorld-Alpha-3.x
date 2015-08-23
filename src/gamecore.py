@@ -64,15 +64,15 @@ class Game:
         self.fenetre = surface
         self.root = root_surface
         self.personnage = personnage
-        self.dust_electricty_driven_manager = dust_electricty_driven_manager
-        self.bomb_mgr = bm.BombManager(self.carte)
-        self.dust_electricty_driven_manager.set_bomb_mgr(self.bomb_mgr)
         self.en_reseau = en_reseau
         self.network = network
         self.blocs = inventory
         self.equipement_courant = '0'
         self.numero_niv = 'map'
         self.carte = carte
+        self.dust_electricty_driven_manager = dust_electricty_driven_manager
+        self.bomb_mgr = bm.BombManager(self.carte)
+        self.dust_electricty_driven_manager.set_bomb_mgr(self.bomb_mgr)
         self.teleporteurs = []
         self.creatif = creatif
         self.pancartes_lst = []
