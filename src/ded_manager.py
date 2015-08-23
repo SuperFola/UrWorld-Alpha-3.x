@@ -26,7 +26,8 @@ class DustElectricityDriven:
             self.piston,
             self.piston_collant,
             self.piston_on,
-            self.piston_collant_on
+            self.piston_collant_on,
+            self.bomb
         ]
         self.can_ch_states = [
             self.light_off,
@@ -46,7 +47,12 @@ class DustElectricityDriven:
             self.interrup_on,
             self.light_off,
             self.light_on,
-            self.repeteur
+            self.repeteur,
+            self.piston_collant_on,
+            self.piston_collant,
+            self.piston_on,
+            self.piston_on,
+            self.bomb
         ]
 
     def get_built_tiles(self):
@@ -262,8 +268,8 @@ class DustElectricityDriven:
                     self.use_piston_collant(k[0], k[1], k[2:])
                 if tile == self.piston_collant_on:
                     self.use_piston_collant(k[0], k[1], k[2:], push=False)
-                if tile == self.bomb:
-                    self.bomb_mgr.add(k[0], k[1])
+            if tile == self.bomb:
+                self.bomb_mgr.add(k[0], k[1])
 
     def set_bomb_mgr(self, element):
         self.bomb_mgr = element

@@ -33,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ded_manager.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ded_manager.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ded_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4216" max-vertical-offset="4879">
-              <caret line="265" column="47" selection-start-line="265" selection-start-column="47" selection-end-line="265" selection-end-column="47" />
+            <state vertical-scroll-proportion="1.2492013" vertical-offset="4216" max-vertical-offset="4981">
+              <caret line="271" column="14" selection-start-line="271" selection-start-column="14" selection-end-line="271" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -83,10 +83,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gamecore.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="gamecore.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamecore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42" vertical-offset="21787" max-vertical-offset="25432">
+            <state vertical-scroll-proportion="0.0" vertical-offset="21787" max-vertical-offset="25432">
               <caret line="1289" column="47" selection-start-line="1289" selection-start-column="47" selection-end-line="1289" selection-end-column="47" />
               <folding>
                 <element signature="e#21#30#0" expanded="true" />
@@ -161,9 +161,9 @@
         <option value="$PROJECT_DIR$/src/parametrage.py" />
         <option value="$PROJECT_DIR$/src/niveau.py" />
         <option value="$PROJECT_DIR$/server/serveur.py" />
-        <option value="$PROJECT_DIR$/src/ded_manager.py" />
         <option value="$PROJECT_DIR$/src/bombs_manager.py" />
         <option value="$PROJECT_DIR$/src/gamecore.py" />
+        <option value="$PROJECT_DIR$/src/ded_manager.py" />
       </list>
     </option>
   </component>
@@ -465,7 +465,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -477,7 +477,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993174" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37883958" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37883958" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -861,14 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ded_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4216" max-vertical-offset="4879">
-          <caret line="265" column="47" selection-start-line="265" selection-start-column="47" selection-end-line="265" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/bombs_manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
@@ -895,11 +887,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamecore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42" vertical-offset="21787" max-vertical-offset="25432">
+        <state vertical-scroll-proportion="0.0" vertical-offset="21787" max-vertical-offset="25432">
           <caret line="1289" column="47" selection-start-line="1289" selection-start-column="47" selection-end-line="1289" selection-end-column="47" />
           <folding>
             <element signature="e#21#30#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ded_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2492013" vertical-offset="4216" max-vertical-offset="4981">
+          <caret line="271" column="14" selection-start-line="271" selection-start-column="14" selection-end-line="271" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
