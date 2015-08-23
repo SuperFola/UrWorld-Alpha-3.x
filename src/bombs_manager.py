@@ -30,6 +30,7 @@ class BombManager:
             if time.time() - item[0] > 2:
                 self.boum_atomique(item[1], item[2])
                 self.boumList.pop(iblist)
+                self.carte.remove_bloc(item[1], item[2], '0')
             iblist += 1
 
     def boum_atomique(self, x, y):
@@ -76,7 +77,4 @@ class BombManager:
                     self.boumList.append([time.time(), (i[0], i[1])])
                 elif self.carte.get_tile(i[0], i[1]) == self.bomb and i[0] == x and i[1] == y:
                     #si j'ai été une bombe à coté d'une autre
-                    self.carte.remove_bloc(x, y, '0')
-                elif i == (x, y):
-                    #on efface la bombe
                     self.carte.remove_bloc(x, y, '0')

@@ -582,7 +582,7 @@ class Game:
                             slice_[0] -= 5
                             slice_[1] -= 5
                     elif event.key == K_PRINT:
-                        continuer = 1
+                        pass
                     else:
                         continue3 = 0
 
@@ -1286,6 +1286,9 @@ class Game:
                         self.personnage.change_test(self.testeur)
                         self.carte.set_pixel_offset(0)
                         self.personnage.set_x_to_default()
+                if ev.key == K_PRINT:
+                    pygame.image.save(self.root, ".." + os.sep + "assets" + os.sep + "Screenchots" + os.sep +
+                                      str(time.strftime('%Y%m%d')) + " - " + str(time.strftime('%H %M %S')) + ".png")
 
     def thread_destroy_bloc(self):
         """
