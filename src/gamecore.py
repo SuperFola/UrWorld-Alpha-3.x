@@ -16,6 +16,7 @@ from pygame.locals import *
 from items import Conteneur
 import FPS_regulator
 import parametrage as prm
+import bombs_manager as bm
 
 
 def padding_0(liste):
@@ -124,7 +125,7 @@ class Game:
             ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "urworld2.wav"
         ]
         self.number_of_case = 0
-        self.boumList = []
+        self.bomb_mgr = bm.BombManager()
         self.breakListe = []
         self.liste_septre = [
             'D', 'F',
@@ -339,55 +340,6 @@ class Game:
             color = temp[i][1]
             rendu = self.font.render(msg, 1, color)
             self.fenetre.blit(rendu, (self.fenetre.get_size()[0] - 420, i * rendu.get_size()[1] + (self.fenetre.get_size()[1] - surf.get_size()[1] - 10)))
-
-    def boum_atomique(self, x, y):
-        """
-        a function who destroy a bomb and some blocs aroud it
-        :param x: position of the bomb
-        :param y: second position of the bomb
-        :return: nothing
-        """
-        explode_list = [
-            (x-3, y),
-            (x-2, y),
-            (x-1, y),
-            (x+1, y),
-            (x+2, y),
-            (x+3, y),
-            (x-1, y-1),
-            (x-2, y-1),
-            (x, y-1),
-            (x+1, y-1),
-            (x+2, y-1),
-            (x, y-2),
-            (x-1, y-2),
-            (x+1, y-2),
-            (x, y+1),
-            (x-1, y+1),
-            (x-2, y+1),
-            (x-3, y+1),
-            (x+1, y+1),
-            (x+2, y+1),
-            (x+3, y+1),
-            (x, y+2),
-            (x-1, y+2),
-            (x+1, y+2)
-        ]
-
-        for i in explode_list:
-            if 0 <= i[0] <= self.carte.get_max_fov() and 0 <= i[1] <= self.carte.get_y_len():
-                if self.carte.get_tile(i[0], i[1]) != 'cv' and self.carte.get_tile(i[0], i[1]) != 'p':
-                    #si il n'y a pas de bombe a coté ni d'eau ni de bedrock
-                    self.carte.remove_bloc(i[0], i[1], '0')
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i != (x, y) and self.carte.get_tile(i[0], i[1]) != "e":
-                    #si il y a une bombe à coté
-                    self.boumList.append([time.time(), (i[0], i[1])])
-                elif self.carte.get_tile(i[0], i[1]) == 'cv' and i[0] == x and i[1] == y:
-                    #si j'ai été une bombe à coté d'une autre
-                    self.carte.remove_bloc(x, y, '0')
-                elif i == (x, y):
-                    #on efface la bombe
-                    self.carte.remove_bloc(x, y, '0')
 
     def save(self):
         """
@@ -692,7 +644,6 @@ class Game:
         a function who draw the GUI, and manage it, who allow you to go on an older map
         :return: nothing
         """
-        vieille_carte = None
         field_of_view_chose = 0
         width_ = 500
         height_ = 450
@@ -997,7 +948,7 @@ class Game:
 
     def rc_time_telep(self, x_clic, y_clic):
         if not self.en_reseau:
-            self.annee = self.time_cruise()
+            self.time_cruise()
         else:
             message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
 
@@ -1008,7 +959,7 @@ class Game:
             self.blocs.set(tile, nbr=self.blocs.get(tile)+1)
         if self.carte.get_tile(x_clic, y_clic) == 'cv':
             #bombe atomique
-            self.boumList.append([time.time(), (x_clic, y_clic)])
+            self.bomb_mgr.add([time.time(), (x_clic, y_clic)])
         elif self.carte.get_tile(x_clic, y_clic) == 'vb':
             self.rc_telep(x_clic, y_clic)
         elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':
@@ -1335,19 +1286,6 @@ class Game:
                         self.carte.set_pixel_offset(0)
                         self.personnage.set_x_to_default()
 
-    def thread_bombs(self):
-        """
-        a function who destroy asynchronicously the bombs
-        :return: nothing
-        """
-        iBList = 0
-        while iBList <= len(self.boumList) - 1:
-            item = self.boumList[iBList]
-            if time.time() - item[0] > 2:
-                self.boum_atomique(item[1][0], item[1][1])
-                self.boumList.pop(iBList)
-            iBList += 1
-
     def thread_destroy_bloc(self):
         """
         a function who destroy asynchronicously the blocs
@@ -1376,7 +1314,7 @@ class Game:
             self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
                                  self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
         #destruction des bombes atomiques non bloquantes
-        self.thread_bombs()
+        self.bomb_mgr.check()
         #destruction des blocs non bloquant
         self.thread_destroy_bloc()
 
@@ -1409,7 +1347,9 @@ class Game:
             "Pixel offset de la carte : " + str(self.carte.get_pixel_offset()),
             "FOV : " + str(self.carte.get_fov()),
             "Testeur : " + str(self.testeur),
-            "Gamer : " + str(self.ZQSD)
+            "Gamer : " + str(self.ZQSD),
+            "Année : " + str(self.annee + 1),
+            "Taille du bombs manager : " + str(len(self.bomb_mgr.size()))
         ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))
@@ -1469,7 +1409,7 @@ class Game:
             self.fenetre.blit(pseudo_aff, (self.personnage.get_pos()[0] - len(self.personnage.get_pseudo()), self.personnage.get_pos()[1] - 12))
 
             #musique
-            if time.time() >= self.last_music_time and not pygame.mixer.music.get_busy():
+            if time.time() >= self.last_music_time and not self.play_song:
                 pygame.mixer.music.load(randchoice(self.music_liste))
                 pygame.mixer.music.play()
                 self.last_music_time = time.time() + 360
@@ -1529,10 +1469,6 @@ class Game:
                 else:
                     self.nb_cases_chut = 0
 
-            #affichage de l'année
-            pygame.draw.rect(self.root, (150, 150, 150), (8, 9, 78, 19))
-            self.root.blit(self.font.render('Année :: ' + str(self.annee + 1), 1, (0, 0, 0)), (14, 10))
-
             #affichage du 'suiveur'
             if self.suiveur:
                 pygame.draw.rect(self.fenetre, (180, 25, 150), (last_pos[0], last_pos[1], 30, 30))
@@ -1547,4 +1483,5 @@ class Game:
                 self.fenetre.blit(txt_afficher_chat, (self.personnage.get_pos()[0] + 32, self.personnage.get_pos()[1] - 7 - txt_afficher_chat.get_size()[1]))
 
             pygame.display.flip()
+
         self.save()
