@@ -658,6 +658,7 @@ class Carte:
         self.tilenotfound404 = pygame.image.load(self.texture_pack + "404.png").convert_alpha()
         self.accessdenied403 = pygame.image.load(self.texture_pack + "403.png").convert_alpha()
         self.clock = pygame.image.load(self.texture_pack + "horloge.png").convert_alpha()
+        self.pioche = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "pick_up.png").convert_alpha()
 
         self.bleu_nuit_1.set_alpha(65)
         self.bleu_nuit_1.convert_alpha()
@@ -771,7 +772,8 @@ class Carte:
             '403': self.accessdenied403,
             'ttt': self.clock,
             'lll': self.piston,
-            'kkk': self.piston_collant
+            'kkk': self.piston_collant,
+            'pio': self.pioche
         }
 
     def fire_bloc(self, pos_x, pos_y):

@@ -56,8 +56,8 @@ blocs.add('5', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True
 blocs.add('6', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
 blocs.add('7', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
 blocs.add('8', solid=True, shadow=0, gravity=True, quantity=0, innafichable=True, name='PNJ', tps_explode=0, take_fire=False)
-blocs.add('Q', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Potion de Vie', tps_explode=0, take_fire=False)
-blocs.add('S', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Potion de Mana', tps_explode=0, take_fire=False)
+blocs.add('Q', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Potion de Vie', tps_explode=0, take_fire=False)
+blocs.add('S', solid=False, shadow=0, gravity=False, quantity=10, innafichable=False, name='Potion de Mana', tps_explode=0, take_fire=False)
 blocs.add('D', solid=False, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre des Lasers', tps_explode=0, take_fire=False)
 blocs.add('F', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de Téléportation', tps_explode=0, take_fire=False)
 blocs.add('G', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Sceptre de Feu', tps_explode=0, take_fire=False)
@@ -68,8 +68,8 @@ blocs.add('qs', solid=True, shadow=0, gravity=False, quantity=10, innafichable=T
 blocs.add('sd', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Rose', tps_explode=0, take_fire=False)
 blocs.add('df', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Vert', tps_explode=0, take_fire=False)
 blocs.add('fg', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Violet', tps_explode=0, take_fire=False)
-blocs.add('/§', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Monnaie', tps_explode=0, take_fire=False)
-blocs.add('§%', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='Marteau', tps_explode=0, take_fire=False)
+blocs.add('/§', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Monnaie', tps_explode=0, take_fire=False)
+blocs.add('§%', solid=True, shadow=0, gravity=False, quantity=1, innafichable=True, name='Marteau', tps_explode=0, take_fire=False)
 blocs.add('a', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai d\'Or', tps_explode=0, take_fire=False)
 blocs.add('m', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Planches', tps_explode=0, take_fire=True)
 blocs.add('t', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Tuiles', tps_explode=0, take_fire=False)
@@ -152,6 +152,7 @@ blocs.add('404', solid=True, shadow=0, gravity=False, quantity=10, innafichable=
 blocs.add('ttt', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Horloge', tps_explode=0, take_fire=True)
 blocs.add('lll', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston on', tps_explode=0, take_fire=False)
 blocs.add('kkk', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Piston collant on', tps_explode=0, take_fire=False)
+blocs.add('pio', solid=True, shadow=0, gravity=False, quantity=1, innafichable=True, name='Pioche', tps_explode=0, take_fire=False)
 
 
 largeur_dispo = cst.taille_fenetre_largeur_win
@@ -173,7 +174,7 @@ s = [
     ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
     ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', 'ttt', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-    ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
+    ['§%', 'pio', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]
 
 print("Lancement du programme ...")

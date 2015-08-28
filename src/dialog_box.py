@@ -15,7 +15,7 @@ class DialogBox:
         return 0 pour ok, 1 pour oui et 2 pour non ou bien le resultat de la texte box
         """
 
-        self.cursor = pg.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "sword_up_g.png").convert_alpha()
+        self.cursor = pg.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "sword_up.png").convert_alpha()
         self.ecran = surface
         self.mouse_aff = mouse
         self.message = texte
