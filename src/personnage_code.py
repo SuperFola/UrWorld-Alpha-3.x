@@ -314,6 +314,9 @@ class Personnage:
     def get_direction(self):
         return self.orientation
 
+    def get_int_dir(self):
+        return +1 if self.orientation == "droite" else -1
+
     def get_immobility(self):
         return self.immobile_time
 

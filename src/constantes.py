@@ -21,6 +21,8 @@ nombre_sprite_cote = 20
 taille_sprite = 30
 cote_fenetre = nombre_sprite_cote * taille_sprite
 
+LOGGER_INDENTATION = 2
+
 #variables
 structure = []
 var_equipement = 3

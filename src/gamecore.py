@@ -17,8 +17,43 @@ from items import Conteneur
 import FPS_regulator
 import parametrage as prm
 import bombs_manager as bm
+import cmd_block_mgr as cb_mgr
 
 
+LOGGER_INDENTATION = cst.LOGGER_INDENTATION
+
+with open("Logs" + os.sep + "trace.log", "r+") as clean:
+    with open("Logs" + os.sep + "Old" + os.sep + "trace - " + time.strftime('%Y %m %d %H %M %S') + ".log", "w") as save:
+        save.write(clean.read())
+    clean.write("")
+
+
+def logger(indentation, hold_on=True):
+    logger.indent = 0
+    logger.buffer = ""
+
+    if hold_on:
+        def wrap(function):
+            def wrapped_function(*args, **kwargs):
+                indent = " " * 2 * logger.indent
+                strargs = ', '.join([repr(arg) for arg in args]
+                                    + ["{0}={1}".format(key, repr(val)) for key, val in kwargs.items()]
+                )
+                logger.buffer += "{0}> {1}({2})\n".format(indent, function.__name__, strargs)
+                logger.indent += indentation
+                result = function(*args, **kwargs)
+                logger.indent -= indentation
+                logger.buffer += "{0}< {1}\n".format(indent, result)
+                return result
+            return wrapped_function
+        return wrap
+    else:
+        print("saving trace")
+        with open("Logs" + os.sep + "trace.log", "w") as f:
+            f.write(logger.buffer)
+
+
+@logger(LOGGER_INDENTATION)
 def padding_0(liste):
     intermediaire = []
     for i in liste:
@@ -28,6 +63,7 @@ def padding_0(liste):
     return intermediaire
 
 
+@logger(LOGGER_INDENTATION)
 def reseau_speaking(socket, message, params, personnage, carte, blocs_):
     if message[:4] != 'tp->' and message[:6] != "give->" and message[:5] != "ban->" \
             and message[:9] != "upgrade->" and message[:8] != "season->":
@@ -47,6 +83,7 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 
 class Game:
+    @logger(LOGGER_INDENTATION)
     def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network,
                 root_surface, carte, rcenter, dust_electricty_driven_manager, network, hauteur_fen):
         """
@@ -71,6 +108,7 @@ class Game:
         self.numero_niv = 'map'
         self.carte = carte
         self.dust_electricty_driven_manager = dust_electricty_driven_manager
+        self.cmd_block_mgr = cb_mgr.CmdBlockManager()
         self.bomb_mgr = bm.BombManager(self.carte)
         self.dust_electricty_driven_manager.set_bomb_mgr(self.bomb_mgr)
         self.teleporteurs = []
@@ -163,6 +201,7 @@ class Game:
         self.play_song = False
         self.hauteur_fenetre = hauteur_fen
 
+    @logger(LOGGER_INDENTATION)
     def partial_load(self):
         # Pickling elements
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "inventaire.sav"):
@@ -258,6 +297,7 @@ class Game:
             #création de nouveau fichiers
             message_affiche_large(self.grd_msg_bjr, self.fenetre, self.rcenter)
 
+    @logger(LOGGER_INDENTATION)
     def load_coponents(self):
         """
         load all the files, the surfaces, the sound ... that the game need to work
@@ -316,6 +356,7 @@ class Game:
                 pickle.Pickler(f).dump(data_serv)
         self.carte.create_conteneur(self.conteneur)
         self.carte.conteneur_load()
+        self.carte.set_cb_mgr(self.cmd_block_mgr)
         self.personnage.change_test(self.testeur)
 
         self.partial_load()
@@ -323,6 +364,7 @@ class Game:
         # A lancer apres avoir chargé || initialisé une Carte | LANMap
         self.img_tous_blocs = self.carte.get_img_dict()
 
+    @logger(LOGGER_INDENTATION)
     def actualise_chat(self):
         """
         a function who ask to have the messages of the chat, and who draw it
@@ -342,6 +384,7 @@ class Game:
             rendu = self.font.render(msg, 1, color)
             self.fenetre.blit(rendu, (self.fenetre.get_size()[0] - 420, i * rendu.get_size()[1] + (self.fenetre.get_size()[1] - surf.get_size()[1] - 10)))
 
+    @logger(LOGGER_INDENTATION)
     def save(self):
         """
         a function to save some dependencies of the game
@@ -375,6 +418,7 @@ class Game:
         self.carte.conteneur_save()
         print('Sauvegarde réussie !\n\n')
 
+    @logger(LOGGER_INDENTATION)
     def molette_(self, direction):
         """
         a function who change the current bloc you are using
@@ -388,6 +432,7 @@ class Game:
             self.number_of_case = self.number_of_case - 1 if self.number_of_case - 1 >= 0 else 0
         self.obj_courant = s[self.number_of_case]
 
+    @logger(LOGGER_INDENTATION)
     def print_fps(self):
         """
         a function to calculate the FPS and draw it on the screen
@@ -398,6 +443,7 @@ class Game:
         pygame.draw.rect(self.root, (75, 155, 180), (0, self.rcenter[1] + 360, 115, 20))
         self.root.blit(self.font.render(titre, 1, (10, 10, 10)), (4, self.rcenter[1] + 362))
 
+    @logger(LOGGER_INDENTATION)
     def s_invent_dd(self, bloc_choisi, tout, obj_survol):
         """
         a function to to draw the inventory elements
@@ -448,6 +494,7 @@ class Game:
                 if breaking:
                     break
 
+    @logger(LOGGER_INDENTATION)
     def afficher_degats_pris(self):
         """
         a function who draw the damage you had took
@@ -457,6 +504,7 @@ class Game:
         y = self.personnage.get_pos()[1] - 30
         self.fenetre.blit(self.font.render("-" + str(0.5), 1, (208, 6, 6)), (x, y))
 
+    @logger(LOGGER_INDENTATION)
     def drag_and_drop_invent(self):
         """
         a function who draw and managed the events you create when the inventory is open
@@ -487,7 +535,7 @@ class Game:
         carte_img = pygame.image.load(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Inventory" + os.sep + "carte.png").convert_alpha()
 
         while continue3:
-            self.carte.update()
+            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
 
             #on dessine le fond (et accessoirement on efface ainsi la fenetre) :
             self.fenetre.blit(inventaire, (10, 10))
@@ -593,6 +641,7 @@ class Game:
             self.obj_courant = obj_retour_actu
         self.number_of_case = {v: k for k, v in enumerate([elt for line in self.inventaire for elt in line])}[self.obj_courant]
 
+    @logger(LOGGER_INDENTATION)
     def souris_ou_t_es(self):
         """
         a function who calculate the position of the mouse and draw the cursor
@@ -603,6 +652,7 @@ class Game:
         pygame.mouse.set_visible(False)
         return x_souris, y_souris
 
+    @logger(LOGGER_INDENTATION)
     def aff_bloc(self):
         """
         a function who draw your unclickable hotbar and the blocs who are near of the current bloc you are using
@@ -629,6 +679,7 @@ class Game:
                 pygame.draw.rect(self.root, (41, 235, 20), (centrage + nombre * 36, self.rcenter[1] + 310, 34, 34))
             self.root.blit(self.img_tous_blocs[bloc], (centrage + nombre * 36 + 2, self.rcenter[1] + 310 + 2))
 
+    @logger(LOGGER_INDENTATION)
     def flash(self):
         """
         a function who flash your screen
@@ -637,9 +688,10 @@ class Game:
         pygame.draw.rect(self.fenetre, (240, 240, 240), (0, 0, self.fenetre.get_size()[0], 600))
         pygame.display.flip()
         pygame.time.wait(0.1)
-        self.carte.update()
+        self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
         pygame.display.flip()
 
+    @logger(LOGGER_INDENTATION)
     def time_cruise(self):
         """
         a function who draw the GUI, and manage it, who allow you to go on an older map
@@ -655,7 +707,7 @@ class Game:
         choisi = -1
 
         while continuer:
-            self.carte.update()
+            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
             pygame.draw.rect(self.fenetre, (80, 160, 80), ((self.fenetre.get_size()[0] - width_) // 2,
                                                   300 - (height_ // 2),
                                                   width_,
@@ -711,6 +763,7 @@ class Game:
 
         self.annee = choisi if choisi != -1 else self.annee
 
+    @logger(LOGGER_INDENTATION)
     def mettre_eau(self, x_blit, y_blit):
         """
         a function who put the water tile on the map
@@ -735,6 +788,7 @@ class Game:
         self.eau_bruit.play()
         self.eau_bruit.stop()
 
+    @logger(LOGGER_INDENTATION)
     def custom(self):
         """
         a function who draw the border of the game
@@ -755,6 +809,7 @@ class Game:
         #actualisation de l'écran pour afficher les changements
         pygame.display.flip()
 
+    @logger(LOGGER_INDENTATION)
     def poser_teleporteur(self, x, y):
         """
         a function who put a teleporteur
@@ -768,6 +823,7 @@ class Game:
         else:
             self.network.sendto(pickle.dumps('set->telep' + str(x) + ',' + str(y)), self.params_co)
 
+    @logger(LOGGER_INDENTATION)
     def poser_pancarte(self, x_blit, y_blit):
         """
         a function who put a panneau
@@ -781,6 +837,7 @@ class Game:
         else:
             self.network.sendto(pickle.dumps("set->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
 
+    @logger(LOGGER_INDENTATION)
     def break_pancarte(self, x_blit, y_blit):
         """
         a function who destroy a panneau
@@ -798,6 +855,7 @@ class Game:
         else:
             self.network.sendto(pickle.dumps("break->pan" + str(x_blit) + "," + str(y_blit)), self.params_co)
 
+    @logger(LOGGER_INDENTATION)
     def break_telep(self, x_blit, y_blit):
         """
         a function who put a teleporteur
@@ -825,6 +883,7 @@ class Game:
                             self.teleporteurs.pop(i + 1)
                             self.teleporteurs.pop(i)
 
+    @logger(LOGGER_INDENTATION)
     def put_water(self, x, y):
         """
         a function who put some water
@@ -837,6 +896,7 @@ class Game:
         if self.carte.get_tile(x, y) == "e":
             self.mettre_eau(x, y)
 
+    @logger(LOGGER_INDENTATION)
     def put_blocs(self, x_blit, y_blit):
         """
         a function who do all the test and check if we can put a bloc or not
@@ -871,6 +931,7 @@ class Game:
             if self.obj_courant == 'e':
                 self.put_water(x_blit, y_blit)
 
+    @logger(LOGGER_INDENTATION)
     def rc_telep(self, x_clic, y_clic):
         #on veut se téléporter
         if not self.en_reseau:
@@ -911,7 +972,8 @@ class Game:
             self.personnage.set_y((temp[1] - 1 if y_clic - 1 >= 0 else temp[1] + 1) * 30)
             #pour etre au dessus et pas dedans
 
-    def rc_jukebox(self, x_clic, y_clic):
+    @logger(LOGGER_INDENTATION)
+    def rc_jukebox(self):
         #jukebox
         self.indice_son = 0 if self.obj_courant == 'qs' else 1
         self.indice_son = 1 if self.obj_courant == 'sd' else 2
@@ -924,6 +986,7 @@ class Game:
         pygame.mixer.music.load(self.music_liste[self.indice_son])
         pygame.mixer.music.play()
 
+    @logger(LOGGER_INDENTATION)
     def rc_pancarte(self, x_clic, y_clic):
         if not self.en_reseau:
             for i in self.pancartes_lst:
@@ -947,12 +1010,14 @@ class Game:
             else:
                 message_affiche(temp, self.rcenter)
 
-    def rc_time_telep(self, x_clic, y_clic):
+    @logger(LOGGER_INDENTATION)
+    def rc_time_telep(self):
         if not self.en_reseau:
             self.time_cruise()
         else:
             message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
 
+    @logger(LOGGER_INDENTATION)
     def rc(self, x_clic, y_clic):
         self.dust_electricty_driven_manager.right_click(x_clic, y_clic)
         tile = self.carte.conteneur_right_click(x_clic, y_clic)
@@ -964,14 +1029,22 @@ class Game:
         elif self.carte.get_tile(x_clic, y_clic) == 'vb':
             self.rc_telep(x_clic, y_clic)
         elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':
-            self.rc_jukebox(x_clic, y_clic)
+            self.rc_jukebox()
         elif self.obj_courant == '§%' and self.carte.get_tile(x_clic, y_clic) != '0':
             self.marteau.utiliser(self.carte, y_clic, x_clic)
         elif self.carte.get_tile(x_clic, y_clic) == '%a':
             self.rc_pancarte(x_clic, y_clic)
         elif self.carte.get_tile(x_clic, y_clic) == '%b':
-            self.rc_time_telep(x_clic, y_clic)
+            self.rc_time_telep()
+        elif self.carte.get_tile(x_clic, y_clic) == 'ggg':
+            self.rc_cmd_block(x_clic, y_clic)
 
+    @logger(LOGGER_INDENTATION)
+    def rc_cmd_block(self, x_clic, y_clic):
+        texte = self.cmd_block_mgr.rc(x_clic, y_clic)
+        message_affiche(texte, self.rcenter)
+
+    @logger(LOGGER_INDENTATION)
     def check_perso(self):
         """
         fonction vérifiant que le personnage n'est pas dans un bloc et le déplacant dans ce cas
@@ -985,6 +1058,7 @@ class Game:
             else:
                 self.carte.remove_bloc(x, y, '0')
 
+    @logger(LOGGER_INDENTATION)
     def pause_screen(self):
         """
         a function who display the pause screen, with the settings button, and the quit one
@@ -1034,6 +1108,7 @@ class Game:
                     x, y = e.pos
                     if btn_menu[0] <= x <= btn_menu[0] + btn_menu[2] and btn_menu[1] + self.hauteur_fenetre <= y <= btn_menu[1] + self.hauteur_fenetre + btn_menu[3]:
                         #on quitte le jeu et on retourne au menu
+                        logger(0, hold_on=False)
                         self.continuer = 0
                         continuer = 0
                     if btn_param[0] <= x <= btn_param[0] + btn_param[2] and btn_param[1] + self.hauteur_fenetre <= y <= btn_param[1] + self.hauteur_fenetre + btn_param[3]:
@@ -1061,6 +1136,7 @@ class Game:
         # on doit recharger tous les paramètres
         self.partial_load()
 
+    @logger(LOGGER_INDENTATION)
     def get_events(self):
         """
         a function who get the pygame events and run the associate action
@@ -1073,6 +1149,7 @@ class Game:
                 self.pause_screen()
             elif ev.type == QUIT and self.windowed_is:
                 self.save()
+                logger(0, hold_on=False)
                 self.continuer = 0
             #controles a la souris
             elif ev.type == MOUSEBUTTONDOWN:
@@ -1143,13 +1220,14 @@ class Game:
                                 self.blocs.use(self.obj_courant)
                             self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
                             # raffraichir la map pour voir le placement multiple :
-                            self.carte.update()
+                            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
                             if self.show_stats:
                                 self.personnage.afficher_vie()
                                 self.personnage.afficher_mana()
                                 self.marteau.render()
                             if self.obj_courant == 'e':
                                 self.mettre_eau(x_blit, y_blit)
+                        self.souris_ou_t_es()
             #controles au clavier
             elif ev.type == KEYDOWN:
                 #controles de déplacement au clavier
@@ -1290,6 +1368,7 @@ class Game:
                     pygame.image.save(self.root, ".." + os.sep + "assets" + os.sep + "Screenchots" + os.sep +
                                       str(time.strftime('%Y%m%d')) + " - " + str(time.strftime('%H %M %S')) + ".png")
 
+    @logger(LOGGER_INDENTATION)
     def thread_destroy_bloc(self):
         """
         a function who destroy asynchronicously the blocs
@@ -1304,6 +1383,7 @@ class Game:
                 self.breaking_bloc.play()
             iBreakList += 1
 
+    @logger(LOGGER_INDENTATION)
     def auto_update(self):
         """
         a function who call all the updater of the dependencies of the game
@@ -1313,7 +1393,7 @@ class Game:
         self.temps_avant_fps = time.time()
 
         if not self.en_reseau:
-            self.carte.update(self.personnage.get_case_pos())
+            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
         else:
             self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
                                  self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
@@ -1332,6 +1412,7 @@ class Game:
         #pour ne pas se retrouver bloqué
         self.check_perso()
 
+    @logger(LOGGER_INDENTATION)
     def debug_on_windows(self, xs, ys):
         rel = 30
         #pour le bloc sélectionné
@@ -1360,6 +1441,7 @@ class Game:
         for i in range(len(to_print)):
             self.fenetre.blit(self.font.render(to_print[i], 1, (10, 10, 10)), (30, rel + 25 + 15 * i))
 
+    @logger(LOGGER_INDENTATION)
     def start(self):
         """
         the main function of this class. run the main thread and load the different coponents

@@ -389,6 +389,8 @@ class Carte:
         self.generation = 0
         self.last_dir = +1
         self.y_max = 20
+        self.smooth = True
+        self.cb_mgr = None
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -497,6 +499,9 @@ class Carte:
 
     def set_pixel_offset(self, new):
         self.pixel_offset = new
+
+    def set_cb_mgr(self, new):
+        self.cb_mgr = new
 
     def blocs_action(self, methode):
         self.blocs.methode()
@@ -795,7 +800,7 @@ class Carte:
                 self.y_max = self.carte.get_max_size_y()
                 #self.carte = rle.load(map_reading)
 
-    def update(self, pos=(0, 0)):
+    def update(self, pos=(0, 0), offset_=0):
         self.gravity_for_entity()
         self.check_the_grass()
         #On blit le fond
@@ -809,7 +814,7 @@ class Carte:
             self.move_clouds()
         #on choisi le mode de rendu de la map
         if self.all_ == 2:
-            self.render_all()
+            self.render_all(0)
         elif self.all_ == 1:
             self.render_circle(pos)
         elif self.all_ == 0:
@@ -841,10 +846,9 @@ class Carte:
                         self.carte.set(x + self.fov[0], y+1, self.carte.get(x + self.fov[0], y))
                         self.carte.set(x + self.fov[0], y, '0')
 
-    def render_all(self):
+    def render_all(self, offset_):
         debut_generation = time.time()
         self.show_fire()
-        #structure = [line[self.fov[0]:self.fov[1]:] for line in self.carte.get_all()]
         structure = self.carte.get_fov(self.fov)
         self.shaders.create(structure)
         #On parcourt la liste du niveau
@@ -853,7 +857,7 @@ class Carte:
             for num_ligne in range(20):
                 #On calcule la position réelle en pixels
                 bloc_actuel = structure[num_ligne][num_case]
-                x = num_case * taille_sprite + self.pixel_offset
+                x = num_case * taille_sprite + self.pixel_offset + offset_
                 y = num_ligne * taille_sprite
                 if bloc_actuel not in self.unrenderable:
                     if not self.marteau.has_been_2nd_planed(bloc_actuel):
@@ -863,10 +867,10 @@ class Carte:
                         self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 if bloc_actuel == 'ttt':
                     #c'est une horloge urworldienne :D
-                    self.ecran.blit(self.skybox.get_clock(), (x, y))
+                    self.ecran.blit(self.skybox.get_clock(), (x + offset_, y))
                 self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
         for i in self.conteneur.list_conteners_pos_and_tile():
-            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
+            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite + offset_, i[0][1] * taille_sprite))
 
         #calcul et affichage du temps de génération du terrain
         self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
@@ -924,6 +928,9 @@ class Carte:
                 self.conteneur.add_new(x, y)
             if not self.conteneur.test(x, y):
                 self.carte.set(x, y, new)
+            if new == "ggg":
+                #cmd block
+                self.cb_mgr.add(x, y)
             else:
                 self.conteneur.add_on_existing(x, y, new)
             self.new_bloc = True

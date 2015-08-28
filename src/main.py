@@ -760,7 +760,7 @@ while continuer2:
                 #bouton quitter
                 elif bouton_quitter[0] <= e.pos[0] <= bouton_quitter[0] + largeur * 2 \
                     and bouton_quitter[1] + hauteur_fenetre <= e.pos[1] <= bouton_quitter[1] + hauteur_fenetre + hauteur * 2:
-                    sys.exit()
+                    continuer2 = 0
                 #bouton effacer (la partie)
                 elif bouton_effacer[0] <= e.pos[0] <= bouton_effacer[0] + int(largeur * 2.5) \
                     and bouton_effacer[1] + hauteur_fenetre <= e.pos[1] <= bouton_effacer[1] + hauteur_fenetre + hauteur * 2:
