@@ -1,16 +1,16 @@
 Clavier :
 'Up' : permet de monter
 'Down' : permet de descendre
-'Left' : permet d'aller ‡ gauche
-'Right' : permet d'aller ‡ droite
+'Left' : permet d'aller √† gauche
+'Right' : permet d'aller √† droite
 '0' : ouvre l'invite pour le tchat
-'1' : fullscreen -> fenÍtrÈ
-'2' : passe ou non en mode crÈatif
+'1' : fullscreen -> fen√™tre
+'2' : passe ou non en mode cr√©atif
 '3' : change de shader
-'4' : (en rÈseau) affiche ou non les
+'4' : (en r√©seau) affiche ou non les
     joueurs
 '5' : joue ou non la musique
-'6' : parler ‡ quelqu'un
+'6' : parler √† quelqu'un
 '7' : choix de la taille du FOV
 '9' : affiche l'interface de debug
 'SHIFT' : ouvre l'inventaire
@@ -21,8 +21,8 @@ Clavier :
 En mode Gamer:
 'Z' : permet de monter
 'S' : permet de descendre
-'Q' : permet d'aller ‡ gauche
-'D' : permet d'aller ‡ droite
+'Q' : permet d'aller √† gauche
+'D' : permet d'aller √† droite
 'E' : ouvre l'inventaire
 'SPACE' : active ou non le mode
     testeur
@@ -31,7 +31,12 @@ Souris :
 'molette' : permet de changer de
     bloc courant
 'left clic' : pose un bloc
-'right clic' utilise l'effet associÈ
-    ‡ un bloc si il y en a un
-'molette clic' : sÈlectionne le bloc
-    sous le pointeur 
+'right clic' utilise l'effet associ√©
+    √† un bloc si il y en a un
+'molette clic' : s√©lectionne le bloc
+    sous le pointeur
+
+Activer le lite start :
+appuyer, dans l'ordre, sur :
+1, 4, 7, 6. Le lite start se
+d√©clenchera automatiquement

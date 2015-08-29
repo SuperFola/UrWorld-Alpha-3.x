@@ -24,19 +24,26 @@ class Skybox:
         self.min = 0
         self.had_bad_weather = False
         self.font = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 8)
+        self.surfs_clock = []
         self.generate()
+        self.generate_surf_clock()
 
     def get_max_time_game(self):
         return self.max_game_time
 
+    def generate_surf_clock(self):
+        for _ in range(self.limite_frame // 8):
+            surf = pygame.Surface((30, 30))
+            frequency = 0.3
+            i = _ // 3.25
+            red = math.sin(frequency * i + 0) * 127 + 128
+            green = math.sin(frequency * i + 2 * math.pi / 3) * 127 + 128
+            blue = math.sin(frequency * i + 4 * math.pi / 3) * 127 + 128
+            surf.fill((red, green, blue))
+            self.surfs_clock.append(surf)
+
     def get_clock(self):
-        surf = pygame.Surface((30, 30))
-        frequency = 0.3
-        i = self.min // 3.25
-        red = math.sin(frequency * i + 0) * 127 + 128
-        green = math.sin(frequency * i + 2 * math.pi / 3) * 127 + 128
-        blue = math.sin(frequency * i + 4 * math.pi / 3) * 127 + 128
-        surf.fill((red, green, blue))
+        surf = self.surfs_clock[self.min]
         txt = self.font.render(self.get_s_prtime(), 1, (10, 10, 10))
         surf.blit(txt, ((30 - txt.get_size()[0]) // 2, (30 - txt.get_size()[1]) // 2))
         return surf

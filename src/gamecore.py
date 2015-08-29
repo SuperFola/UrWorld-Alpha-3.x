@@ -990,7 +990,7 @@ class Game:
             self.second_layer_put(x_clic, y_clic)
 
     def second_layer_put(self, x, y):
-        pass
+        self.carte.put_bloc_snd_lay(x, y, self.obj_courant)
     
     def check_perso(self):
         """

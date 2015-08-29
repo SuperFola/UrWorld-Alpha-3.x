@@ -604,6 +604,8 @@ avatar = pygame.image.load(".." + os.sep + "assets" + os.sep + 'Personnage' + os
 
 val_retour = 0
 
+lauche_with_lite_start = False
+
 """
                  moi        -> alpha
 r.center      :: (683, 384) -> (960, 540)
@@ -718,6 +720,16 @@ while continuer2:
             else:
                 if pas_de_partie:
                     text_box.add_letter(e)
+            if e.key == K_1 or e.key == K_KP1:
+                lauche_with_lite_start = True
+            if (e.key == K_4 or e.key == K_KP4) and lauche_with_lite_start:
+                pass
+            if (e.key == K_7 or e.key == K_KP7) and lauche_with_lite_start:
+                pass
+            if (e.key == K_6 or e.key == KP6) and lauche_with_lite_start:
+                pass
+            else:
+                lauche_with_lite_start = False
         elif e.type == MOUSEBUTTONDOWN:
             if e.button == 1:
                 #clic gauche
@@ -741,7 +753,7 @@ while continuer2:
                             thread_gen.start()
                         #on lance le jeu
                         run_demos(largeur_dispo, cote_fenetre, 60)
-                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre)
+                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre, lauche_with_lite_start)
                         pygame.mouse.set_visible(True)
                 #bouton jouer
                 elif bouton_jouer[0] <= e.pos[0] <= bouton_jouer[0] + largeur * 2 \
@@ -756,7 +768,7 @@ while continuer2:
                             thread_gen.start()
                         #on lance le jeu
                         run_demos(largeur_dispo, cote_fenetre, 60)
-                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre)
+                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre; lauche_with_lite_start)
                         pygame.mouse.set_visible(True)
                 #bouton paramètres
                 elif bouton_param[0] <= e.pos[0] <= bouton_param[0] + largeur * 4 \

@@ -389,7 +389,7 @@ class MapArray:
 
 
 class Carte:
-    def __init__(self, surface, surface_mere, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
+    def __init__(self, surface, surface_mere, nb_blocs_large, blocs, shader, draw_clouds=True, all_=1):
         self.ecran = surface
         self.root = surface_mere
         self.blocs = blocs
@@ -509,6 +509,9 @@ class Carte:
     
     def conteneur_right_click(self, x, y):
         return self.conteneur.destroy_last_bloc(x, y)
+
+    def put_bloc_snd_lay(self, x, y, new):
+        self.carte.set_oFD(x, y, new)
 
     def change_pixel_offset(self, direction=+1):
         #calcul des offset
@@ -816,10 +819,8 @@ class Carte:
                 self.skybox.bad_weather(False)
             self.skybox.draw()
             #on choisi le mode de rendu de la map
-            if self.all_ == 2:
+            if self.all_ == 1:
                 self.render_all()
-            elif self.all_ == 1:
-                self.render_circle(pos)
             elif self.all_ == 0:
                 self.render_none()
             #on blit les nuages
