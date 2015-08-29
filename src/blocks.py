@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Block:
     blocks = []
     from_id = {}

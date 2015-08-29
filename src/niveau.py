@@ -327,6 +327,7 @@ class MapArray:
         return self.defaut
 
     def get_oFD(self, x, y):
+        print("getting ofd")
         x %= self.size[0]
         if self.check(x, y):
             return self.fond[y][x]
@@ -348,9 +349,9 @@ class MapArray:
     def get_all_oFD(self):
         return self.fond
 
-    def set_all(self, array):
+    def set_all(self, array, fond):
         self.carte = array
-        self.fond = self.carte[:]
+        self.fond = fond
         self.size = (len(array[0]), len(array))
 
     def add_chunk(self, chunk):
@@ -542,7 +543,8 @@ class Carte:
         self.adresse = adresse
         with open(adresse, 'rb') as map_reading:
             #self.carte = rle.RLEUncompress(map_reading).load()
-            self.carte.set_all(pickle.Unpickler(map_reading).load())
+            map1, fond = pickle.Unpickler(map_reading).load()
+            self.carte.set_all(map1, fond)
             self.y_max = self.carte.get_max_size_y()
             #self.carte = rle.load(map_reading)
 
@@ -666,7 +668,7 @@ class Carte:
         self.clock = pygame.image.load(self.texture_pack + "horloge.png").convert_alpha()
         self.pioche = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "pick_up.png").convert_alpha()
 
-        self.bleu_nuit_1.set_alpha(65)
+        self.bleu_nuit_1.set_alpha(140)
         self.bleu_nuit_1.convert_alpha()
         self.eau_.set_alpha(cst.valeur_transparence_eau)
         self.eau_.convert_alpha()
@@ -803,7 +805,8 @@ class Carte:
         if self.adresse != "":
             with open(self.adresse, 'rb') as map_reading:
                 #self.carte = rle.RLEUncompress(map_reading).load()
-                self.carte.set_all(pickle.Unpickler(map_reading).load())
+                map1, fond = pickle.Unpickler(map_reading).load()
+                self.carte.set_all(map1, fond)
                 self.y_max = self.carte.get_max_size_y()
                 #self.carte = rle.load(map_reading)
 
@@ -891,12 +894,12 @@ class Carte:
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
                 if bloc_fnd not in self.unrenderable:
-                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_fnd)], (x, y))
+                    self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 if bloc_actuel not in self.unrenderable:
                     self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                 if bloc_actuel == 'ttt':
                     #c'est une horloge urworldienne :D
-                    self.ecran.blit(self.skybox.get_clock(), (x, y))
                     self.ecran.blit(self.skybox.get_clock(), (x, y))
                 self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
         for i in self.conteneur.list_conteners_pos_and_tile():
@@ -939,13 +942,10 @@ class Carte:
         self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
 
     def collide(self, x, y):
-        collision = False
         if 0 <= y <= self.y_max and 0 <= x <= self.carte.get_max_size_x():
             if self.carte.get(x, y) in self.collision_bloc and self.carte.get(x, y) != './':
-                collision = True
-            else:
-                collision = False
-        return collision
+                return True
+        return False
 
     def set_texture_pack(self, txt_pack):
         self.texture_pack = txt_pack
@@ -980,7 +980,7 @@ class Carte:
     def save(self):
         with open(self.adresse, "wb") as map_writing:
             #rle.RLECompress(map_writing).dump(self.carte)
-            pickle.Pickler(map_writing).dump(self.carte.get_all())
+            pickle.Pickler(map_writing).dump([self.carte.get_all(), self.carte.get_all_oFD()])
             #rle.dump(map_writing, self.carte)
         if self.new_bloc:
             numero_carte = str(len(glob.glob(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + 'Olds Maps' + os.sep + '*.lvl')) + 1)
@@ -988,7 +988,7 @@ class Carte:
                 numero_carte = '0' * (4 - len(numero_carte)) + numero_carte
                 with open(".." + os.sep + "assets" + os.sep + 'Maps' + os.sep + 'Olds Maps' + os.sep + 'map' + numero_carte + '.lvl', 'wb') as old_map_write:
                     #rle.RLECompress(old_map_write).dump(self.carte)
-                    pickle.Pickler(old_map_write).dump(self.carte.get_all())
+                    pickle.Pickler(old_map_write).dump([self.carte.get_all(), self.carte.get_all_oFD()])
                     #rle.dump(old_map_write, self.carte)
 
 
@@ -1010,7 +1010,7 @@ class LANMap(Carte):
         temp = self.socket.recv(self.buffer_size)
         temp = pickle.loads(temp)
         if type(temp) == list:
-            self.carte.set_all(temp)
+            self.carte.set_all(temp, fond=[])
         elif type(temp) == dict:
             self.carte.set(temp.keys()[0][0], temp.keys()[0][1], temp[temp.keys()[0]])
 

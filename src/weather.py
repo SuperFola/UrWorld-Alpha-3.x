@@ -178,11 +178,13 @@ class Clouds:
         for i in range(0, r.randint(2, 7)):
             altitude = r.randint(10, 90)
             direction = 1.0 - (altitude / 100 * 1.07)
+            direction = direction if sens else -direction
             self.clouds.append([
                 [
-                    0, altitude
+                    -self.cloud.get_size()[0] if direction > 0 else self.ecran.get_size()[0],
+                    altitude
                 ],
-                direction if sens else -direction
+                direction
             ])
 
     def draw(self):
@@ -192,22 +194,25 @@ class Clouds:
     def move_clouds(self):
         if not self.clouds:
             self.generate()
+        pop = -1
         for cloud in range(len(self.clouds)):
             self.clouds[cloud][0][0] += self.clouds[cloud][1]
             if self.clouds[cloud][0][0] > self.ecran.get_size()[0]:
                 if not self.time_to_pop:
                     self.clouds[cloud][0][0] = -self.cloud.get_size()[0]
                 else:
-                    self.clouds.pop(cloud)
+                    pop = cloud
                     self.time_to_pop = 0
             if self.clouds[cloud][0][0] < -self.cloud.get_size()[0]:
                 if not self.time_to_pop:
                     self.clouds[cloud][0][0] = self.ecran.get_size()[0]
                 else:
-                    self.clouds.pop(cloud)
+                    pop = cloud
                     self.time_to_pop = 0
+        if pop != -1:
+            self.clouds.pop(pop)
 
     def update(self):
-        self.time_to_pop = r.choice([0] * 8 + [1]) if not self.time_to_pop else 1
+        self.time_to_pop = r.choice([0] * 15 + [1]) if not self.time_to_pop else 1
         self.move_clouds()
         self.draw()

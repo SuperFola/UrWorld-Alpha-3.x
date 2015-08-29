@@ -36,7 +36,8 @@ Souris :
 'molette clic' : sélectionne le bloc
     sous le pointeur
 
-Activer le lite start :
+Activer le light start :
 appuyer, dans l'ordre, sur :
-1, 4, 7, 6. Le lite start se
-déclenchera automatiquement
+1, 4, 7, 6. Le ligth start se
+déclenchera quand vous cliquerez
+sur jouer

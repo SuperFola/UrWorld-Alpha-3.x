@@ -98,8 +98,6 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage,
     dust_electricty_driven_manager = ded.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
 
     game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, params_co, root, carte,
-                         rcenter, dust_electricty_driven_manager, socket_client_serv, hauteur_fen)
-    if lauche_with_lite_start:
-        game.lite_start()
-    else:
-        game.start()
+                         rcenter, dust_electricty_driven_manager, socket_client_serv,
+                         hauteur_fen, lauche_with_lite_start)
+    game.start()

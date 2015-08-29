@@ -3,6 +3,7 @@ import time
 import glob
 import pickle
 from gentest import Map
+from copy import deepcopy
 
 
 class LaunchMapGen:
@@ -97,7 +98,7 @@ class LaunchMapGen:
                         map_struct[y][x] = str(map_struct[y][x])
                 with open(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl", "wb") as file:
                     #rle.RLECompress(file).dump(map_struct)
-                    pickle.Pickler(file).dump(map_struct)
+                    pickle.Pickler(file).dump([map_struct, deepcopy(map_struct)])
                     #rle.dump(file, map_struct)
                 return None
         else:

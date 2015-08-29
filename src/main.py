@@ -19,7 +19,7 @@ if os.name != 'nt':
     sys.excepthook = pdb_post_mortem
 
 
-import PySDL2_0_9_3.sdl2.ext as pysdl2
+#import PySDL2_0_9_3.sdl2.ext as pysdl2
 
 
 VERSION = "Alpha 3.2.0"
@@ -73,7 +73,6 @@ blocs.add('sd', solid=True, shadow=0, gravity=False, quantity=10, innafichable=T
 blocs.add('df', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Vert', tps_explode=0, take_fire=False)
 blocs.add('fg', solid=True, shadow=0, gravity=False, quantity=10, innafichable=True, name='CD Violet', tps_explode=0, take_fire=False)
 blocs.add('/§', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Monnaie', tps_explode=0, take_fire=False)
-blocs.add('§%', solid=True, shadow=0, gravity=False, quantity=1, innafichable=True, name='Marteau', tps_explode=0, take_fire=False)
 blocs.add('a', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Minerai d\'Or', tps_explode=0, take_fire=False)
 blocs.add('m', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Planches', tps_explode=0, take_fire=True)
 blocs.add('t', solid=True, shadow=0, gravity=False, quantity=10, innafichable=False, name='Tuiles', tps_explode=0, take_fire=False)
@@ -339,6 +338,24 @@ def do_line_demo(surface, counter, background, fenetre):
         y2 = p2[1] * 60 + (cote_fenetre / 2)
         # This is the only line that really matters
         pygame.draw.line(surface, color, (x1, y1), (x2, y2), 4)
+
+
+def light_start_demo():
+    end = time.time() + 3
+    txt = grd_font.render("Light Start", 1, (10, 10, 10))
+    fnd = pygame.Surface(fenetre.get_size())
+    frequency = 0.3
+
+    while time.time() < end:
+        i = (end - time.time()) * 41 // 3.25
+        red = math.sin(frequency * i + 0) * 127 + 128
+        green = math.sin(frequency * i + 2 * math.pi / 3) * 127 + 128
+        blue = math.sin(frequency * i + 4 * math.pi / 3) * 127 + 128
+        fnd.fill((red, green, blue))
+        fenetre.blit(fnd, (0, 0))
+        fenetre.blit(txt, (fenetre.get_size()[0] // 2 - txt.get_size()[0] // 2,
+                           fenetre.get_size()[1] // 2 - 10))
+        pygame.display.flip()
 
 
 def reseau(surface, grd_font, hauteur_fen):
@@ -721,13 +738,17 @@ while continuer2:
                 if pas_de_partie:
                     text_box.add_letter(e)
             if e.key == K_1 or e.key == K_KP1:
+                print("Première étape ok")
                 lauche_with_lite_start = True
-            if (e.key == K_4 or e.key == K_KP4) and lauche_with_lite_start:
-                pass
-            if (e.key == K_7 or e.key == K_KP7) and lauche_with_lite_start:
-                pass
-            if (e.key == K_6 or e.key == KP6) and lauche_with_lite_start:
-                pass
+            elif (e.key == K_4 or e.key == K_KP4) and lauche_with_lite_start:
+                print("Deuxième étape ok")
+                lauche_with_lite_start = True
+            elif (e.key == K_7 or e.key == K_KP7) and lauche_with_lite_start:
+                print("Troisième étape ok")
+                lauche_with_lite_start = True
+            elif (e.key == K_6 or e.key == K_KP6) and lauche_with_lite_start:
+                print("Avant-dernière étape ok, validez pour continuer")
+                lauche_with_lite_start = True
             else:
                 lauche_with_lite_start = False
         elif e.type == MOUSEBUTTONDOWN:
@@ -752,7 +773,10 @@ while continuer2:
                             thread_gen = Thread(target=map_generator)
                             thread_gen.start()
                         #on lance le jeu
-                        run_demos(largeur_dispo, cote_fenetre, 60)
+                        if not lauche_with_lite_start:
+                            run_demos(largeur_dispo, cote_fenetre, 60)
+                        else:
+                            light_start_demo()
                         jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre, lauche_with_lite_start)
                         pygame.mouse.set_visible(True)
                 #bouton jouer
@@ -767,8 +791,11 @@ while continuer2:
                             thread_gen = Thread(target=map_generator)
                             thread_gen.start()
                         #on lance le jeu
-                        run_demos(largeur_dispo, cote_fenetre, 60)
-                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre; lauche_with_lite_start)
+                        if not lauche_with_lite_start:
+                            run_demos(largeur_dispo, cote_fenetre, 60)
+                        else:
+                            light_start_demo()
+                        jeu(hote, port, en_reseau, root_, fenetre, creatif_choisi, dossier_personnage, r.center, blocs, hauteur_fenetre, lauche_with_lite_start)
                         pygame.mouse.set_visible(True)
                 #bouton paramètres
                 elif bouton_param[0] <= e.pos[0] <= bouton_param[0] + largeur * 4 \

@@ -49,7 +49,8 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 class Game:
     def __init__(self, surface, personnage, en_reseau, inventory, creatif, params_co_network,
-                root_surface, carte, rcenter, dust_electricty_driven_manager, network, hauteur_fen):
+                root_surface, carte, rcenter, dust_electricty_driven_manager, network,
+                hauteur_fen, light_start=False):
         """
         :param surface: a pygame sub-surface
         :param personnage: an instance of the class Personnage
@@ -61,6 +62,7 @@ class Game:
         :param dust_electricty_driven_manager: a instance of the class DustElectricityDriven
         :return: nothing
         """
+        self.light_start = light_start
         self.fenetre = surface
         self.root = root_surface
         self.personnage = personnage
@@ -119,7 +121,9 @@ class Game:
         self.annee = len(glob(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Olds Maps" + os.sep + "*.lvl")) + 1
         self.music_liste = [
             ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "urworld1.wav",
-            ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "urworld2.wav"
+            ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "urworld2.wav",
+            ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "Urworld_3.wav",
+            ".." + os.sep + "assets" + os.sep + "Sons" + os.sep + "Urworld_4.wav"
         ]
         self.number_of_case = 0
         self.breakListe = []
@@ -164,9 +168,9 @@ class Game:
                 ['O',  'P',  'Q',  'S',  'D',  'F',  'G',  'H',  'J',  'K',  'W',  'X',  'C',  'V',  'B',  'az'],
                 ['ze', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'pq', 'qs', 'sd', 'df', 'fg', 'gh', 'hj', 'jk'],
                 ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
-                ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', '0', '0', '0', '0', '0', '0', '0', '0'],
+                ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', 'ttt', '0', '0', '0', '0', '0', '0', '0'],
                 ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-                ['§%', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
+                ['pio', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
             ]
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav"):
             with open(".." + os.sep + "assets" + os.sep + "Save" + os.sep + "equipement_en_cours.sav", "rb") as lire_equipement:
@@ -278,7 +282,7 @@ class Game:
         if not self.normal_gm or self.vip_bool:
             #on est encore et quand même en créatif :D
             for index in self.blocs.list():
-                if self.blocs.get(index) < 900 and index not in ('bn', 'n?', '?.', '/§', '§%'):
+                if self.blocs.get(index) < 900 and index not in ('bn', 'n?', '?.', '/§', 'pio'):
                     quant = 5000 if not self.normal_gm else self.blocs.get(index) + 150
                     self.blocs.set(index, nbr=quant)
 
@@ -469,7 +473,7 @@ class Game:
 
         structure_niveau = self.carte.get_list()
 
-        liste_innafichable_dad = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'c', '/§', '§%', 'Q', 'S']
+        liste_innafichable_dad = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'c', '/§', 'Q', 'S', 'pio']
 
         #carte affichage type bandeau / reader-like
         numero_niv = self.carte.get_fov()[0]
@@ -990,7 +994,9 @@ class Game:
             self.second_layer_put(x_clic, y_clic)
 
     def second_layer_put(self, x, y):
-        self.carte.put_bloc_snd_lay(x, y, self.obj_courant)
+        if self.blocs.get(self.obj_courant) > 0:
+            self.blocs.use(self.obj_courant)
+            self.carte.put_bloc_snd_lay(x, y, self.obj_courant)
     
     def check_perso(self):
         """
@@ -1112,8 +1118,7 @@ class Game:
                             and ((x_blit, y_blit) != (self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
                                 self.personnage.get_pos()[1] // 30) or self.obj_courant not in self.blocs.list_solid()):
                         self.put_blocs(x_blit, y_blit)
-                elif ev.button == 3 and (self.obj_courant not in self.blocs.list_unprintable() or self.obj_courant == '§%'
-                                            or self.obj_courant in self.dico_cd.keys()):
+                elif ev.button == 3:
                     x_clic = ev.pos[0] // 30 + self.carte.get_fov()[0]
                     y_clic = ev.pos[1] // 30
                     self.rc(x_clic, y_clic)
@@ -1125,7 +1130,7 @@ class Game:
                     #clique droit
                     if self.obj_courant in self.blocs.list_unprintable():
                         #on enlève 1 potion
-                        if self.obj_courant not in self.liste_septre and self.obj_courant not in self.dico_cd.keys() and self.obj_courant not in '§%':
+                        if self.obj_courant not in self.liste_septre and self.obj_courant not in self.dico_cd.keys():
                             self.blocs.use(self.obj_courant)
                         if self.obj_courant == 'Q':
                             self.personnage.update_vie(100)
@@ -1381,7 +1386,8 @@ class Game:
             "Testeur : " + str(self.testeur),
             "Gamer : " + str(self.ZQSD),
             "Année : " + str(self.annee + 1),
-            "Taille du bombs manager : " + str(self.bomb_mgr.size())
+            "Taille du bombs manager : " + str(self.bomb_mgr.size()),
+            "Light start : " + str(self.light_start)
         ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))
@@ -1470,6 +1476,12 @@ class Game:
         self.save()
 
     def start(self):
+        if self.light_start:
+            self.lite_start()
+        else:
+            self.start_game()
+
+    def start_game(self):
         """
         the main function of this class. run the main thread and load the different coponents
         :return: nothing
