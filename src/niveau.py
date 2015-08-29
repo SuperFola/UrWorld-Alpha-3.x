@@ -5,7 +5,7 @@ from math import *
 from ombrage_bloc import *
 import constantes as cst
 import glob
-from weather import Weather
+from weather import Weather, Clouds
 from threading import Thread
 import pickle
 import compressor as rle
@@ -326,22 +326,38 @@ class MapArray:
             return self.carte[y][x]
         return self.defaut
 
+    def get_oFD(self, x, y):
+        x %= self.size[0]
+        if self.check(x, y):
+            return self.fond[y][x]
+        return self.defaut
+
     def set(self, x, y, new):
         x %= self.size[0]
         if self.check(x, y):
             self.carte[y][x] = new
 
+    def set_oFD(self, x, y, new):
+        x %= self.size[0]
+        if self.check(x, y):
+            self.fond[y][x] = new
+
     def get_all(self):
         return self.carte
 
+    def get_all_oFD(self):
+        return self.fond
+
     def set_all(self, array):
         self.carte = array
+        self.fond = self.carte[:]
         self.size = (len(array[0]), len(array))
 
     def add_chunk(self, chunk):
         for y in range(0, len(self.carte)):
             for x in chunk[y]:
                 self.carte[y].append(x)
+                self.fond[y].append(x)
 
     def get_fov(self, fov):
         first = fov[0]
@@ -357,14 +373,27 @@ class MapArray:
             self.create_chunk()
         return [l[first:end:] for l in self.carte]
 
+    def get_fov_oFD(self, fov):
+        first = fov[0]
+        end = fov[1]
+        if first < 0:
+            liste = [l[0:end:] for l in self.fond]
+            temp = abs(first)
+            for y in range(len(liste)):
+                for _ in range(temp):
+                    liste[y].insert(0, '403')
+            return liste
+        if end + self.decalage_force > self.size[0]:
+            self.create_chunk()
+        return [l[first:end:] for l in self.fond]
+
 
 class Carte:
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
+    def __init__(self, surface, surface_mere, nb_blocs_large, blocs, shader, draw_clouds=True, all_=2):
         self.ecran = surface
         self.root = surface_mere
         self.blocs = blocs
         self.carte = MapArray(blocs=self.blocs)
-        self.marteau = marteau
         self.adresse = ""
         self.couleur_fond = (20, 50, 160)
         self.collision_bloc = self.blocs.list_solid()
@@ -380,7 +409,6 @@ class Carte:
         self.shaders = shader
         self.pixel_offset = 0
         self.pixel_offset_right = 0
-        self.clouds = []
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
@@ -391,6 +419,7 @@ class Carte:
         self.y_max = 20
         self.smooth = True
         self.cb_mgr = None
+        self.cloud_mgr = Clouds(self.ecran)
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -506,30 +535,6 @@ class Carte:
     def blocs_action(self, methode):
         self.blocs.methode()
 
-    def add_clouds(self):
-        sens = r.randint(0, 1)
-        for i in range(0, r.randint(2, 7)):
-            altitude = r.randint(10, 90)
-            direction = 1.0 - (altitude / 100 * 1.07)
-            self.clouds.append([
-                [
-                    r.randint(0, 250),
-                    altitude
-                ],
-                direction if sens else -direction
-            ])
-
-    def move_clouds(self):
-        if not self.clouds:
-            self.add_clouds()
-        for cloud in self.clouds:
-            cloud[0][0] += cloud[1]
-            if cloud[0][0] > self.ecran.get_size()[0]:
-                cloud[0][0] = -self.cloud.get_size()[0]
-            if cloud[0][0] < -self.cloud.get_size()[0]:
-                cloud[0][0] = self.ecran.get_size()[0]
-            self.ecran.blit(self.cloud, cloud[0])
-
     def load(self, adresse):
         self.adresse = adresse
         with open(adresse, 'rb') as map_reading:
@@ -541,7 +546,6 @@ class Carte:
     def load_images(self):
         # Chargement des images (seule celle d'arrivée contient de la transparence)
         #mode 'nuit'
-        self.cloud = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "cloud.png").convert_alpha()
         self.selection_bloc = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert()
         self.bleu_nuit_1 = pygame.image.load(self.texture_pack + "bleu_nuit.png").convert_alpha()
         #blocs
@@ -641,7 +645,6 @@ class Carte:
         self.pierre_terre = pygame.image.load(self.texture_pack + "pierre_terre.png").convert()
         self.echelle = pygame.image.load(self.texture_pack + "echelle.png").convert_alpha()
         self.monnaie_img = pygame.image.load(self.texture_pack + "monnaie.png").convert_alpha()
-        self.marteau_img = pygame.image.load(self.texture_pack + "marteau.png").convert_alpha()
         self.pancarte = pygame.image.load(self.texture_pack + "pancarte.png").convert_alpha()
         self.time_telep = pygame.image.load(self.texture_pack + "time_telep.png").convert_alpha()
         self.feu = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "feu.png").convert_alpha()
@@ -754,7 +757,6 @@ class Carte:
             '?.': self.pierre_terre,
             './': self.echelle,
             '/§': self.monnaie_img,
-            '§%': self.marteau_img,
             '%a': self.pancarte,
             '%b': self.time_telep,
             'feu': self.feu,
@@ -802,25 +804,30 @@ class Carte:
                 self.y_max = self.carte.get_max_size_y()
                 #self.carte = rle.load(map_reading)
 
-    def update(self, pos=(0, 0), offset_=0):
-        self.gravity_for_entity()
-        self.check_the_grass()
-        #On blit le fond
-        if not self.get_action_meteo():
-            self.skybox.bad_weather(True)
+    def update(self, pos=(0, 0), lite=False):
+        if not lite:
+            self.gravity_for_entity()
+            self.check_the_grass()
+
+            #On blit le fond
+            if not self.get_action_meteo():
+                self.skybox.bad_weather(True)
+            else:
+                self.skybox.bad_weather(False)
+            self.skybox.draw()
+            #on choisi le mode de rendu de la map
+            if self.all_ == 2:
+                self.render_all()
+            elif self.all_ == 1:
+                self.render_circle(pos)
+            elif self.all_ == 0:
+                self.render_none()
+            #on blit les nuages
+            if self.draw_clouds:
+                self.cloud_mgr.update()
         else:
-            self.skybox.bad_weather(False)
-        self.skybox.draw()
-        #on blit les nuages
-        if self.draw_clouds:
-            self.move_clouds()
-        #on choisi le mode de rendu de la map
-        if self.all_ == 2:
-            self.render_all(0)
-        elif self.all_ == 1:
-            self.render_circle(pos)
-        elif self.all_ == 0:
-            self.render_none()
+            self.skybox.draw()
+            self.lite_render()
 
     def check_the_grass(self):
         structure = self.carte.get_fov(self.fov)
@@ -848,10 +855,30 @@ class Carte:
                         self.carte.set(x + self.fov[0], y+1, self.carte.get(x + self.fov[0], y))
                         self.carte.set(x + self.fov[0], y, '0')
 
-    def render_all(self, offset_):
+    def lite_render(self):
+        debut_generation = time.time()
+        structure = self.carte.get_fov(self.fov)
+        #On parcourt la liste du niveau
+        for num_case in range(self.fov[1] - self.fov[0]):
+            #On parcourt les listes de lignes
+            for num_ligne in range(20):
+                #On calcule la position réelle en pixels
+                bloc_actuel = structure[num_ligne][num_case]
+                x = num_case * taille_sprite + self.pixel_offset
+                y = num_ligne * taille_sprite
+                if bloc_actuel not in self.unrenderable:
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
+        for i in self.conteneur.list_conteners_pos_and_tile():
+            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
+
+        #calcul et affichage du temps de génération du terrain
+        self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
+
+    def render_all(self):
         debut_generation = time.time()
         self.show_fire()
         structure = self.carte.get_fov(self.fov)
+        struct_fnd = self.carte.get_fov_oFD(self.fov)
         self.shaders.create(structure)
         #On parcourt la liste du niveau
         for num_case in range(self.fov[1] - self.fov[0]):
@@ -859,20 +886,20 @@ class Carte:
             for num_ligne in range(20):
                 #On calcule la position réelle en pixels
                 bloc_actuel = structure[num_ligne][num_case]
-                x = num_case * taille_sprite + self.pixel_offset + offset_
+                bloc_fnd = struct_fnd[num_ligne][num_case]
+                x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
+                if bloc_fnd not in self.unrenderable:
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                 if bloc_actuel not in self.unrenderable:
-                    if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
-                    else:
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
-                        self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                 if bloc_actuel == 'ttt':
                     #c'est une horloge urworldienne :D
-                    self.ecran.blit(self.skybox.get_clock(), (x + offset_, y))
+                    self.ecran.blit(self.skybox.get_clock(), (x, y))
+                    self.ecran.blit(self.skybox.get_clock(), (x, y))
                 self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
         for i in self.conteneur.list_conteners_pos_and_tile():
-            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite + offset_, i[0][1] * taille_sprite))
+            self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
 
         #calcul et affichage du temps de génération du terrain
         self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
@@ -900,16 +927,15 @@ class Carte:
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
                 if bloc_actuel not in self.unrenderable:
-                    if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
-                    else:
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
-                        self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                 self.shaders.update(x=num_case, y=num_ligne)
         for i in self.conteneur.list_conteners_pos_and_tile():
             x = (i[0][0] - self.fov[0]) * taille_sprite
             y = i[0][1] * taille_sprite
             self.ecran.blit(self.img_tous_blocs[i[1]], (x, y))
+
+        #calcul et affichage du temps de génération du terrain
+        self.generation = "%3.3f" % ((time.time() - debut_generation) * 1000)
 
     def collide(self, x, y):
         collision = False
@@ -966,17 +992,17 @@ class Carte:
 
 
 class LANMap(Carte):
-    def __init__(self, surface, surface_mere, marteau, nb_blocs_large, socket, params, blocs, shader, draw_clouds=False):
-        super().__init__(surface, surface_mere, marteau, nb_blocs_large, blocs, shader, draw_clouds=draw_clouds)
+    def __init__(self, surface, surface_mere, nb_blocs_large, socket, params, blocs, shader, draw_clouds=False):
+        super().__init__(surface, surface_mere, nb_blocs_large, blocs, shader, draw_clouds=draw_clouds)
         self.blocs = blocs
         self.ecran = surface
         self.root = surface_mere
-        self.marteau = marteau
         self.nb_blocs_large = nb_blocs_large
         self.socket = socket
         self.params = params
         self.buffer_size = 4096
         self.print_oth = True
+        self.cloud_mgr = Clouds(self.ecran)
 
     def receive_map(self):
         self.socket.sendto(pickle.dumps("map->" + str(self.fov[0]) + ":" + str(self.fov[1])), self.params)
@@ -1012,8 +1038,8 @@ class LANMap(Carte):
         else:
             self.skybox.bad_weather(False)
         self.skybox.draw()
-        self.move_clouds()
         self.render()
+        self.cloud_mgr.update()
 
     def render(self):
         debut_generation = time.time()
@@ -1035,11 +1061,8 @@ class LANMap(Carte):
                 x = num_case * taille_sprite
                 y = num_ligne * taille_sprite
                 if bloc_actuel not in self.unrenderable:
-                    if not self.marteau.has_been_2nd_planed(bloc_actuel):
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
-                    else:
-                        self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)[2::]], (x, y))
-                        self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
+                    self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
                 self.shaders.update(x=num_case, y=num_ligne)
 
         if self.print_oth:

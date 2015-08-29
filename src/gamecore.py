@@ -48,7 +48,7 @@ def reseau_speaking(socket, message, params, personnage, carte, blocs_):
 
 
 class Game:
-    def __init__(self, surface, personnage, en_reseau, inventory, creatif, marteau, params_co_network,
+    def __init__(self, surface, personnage, en_reseau, inventory, creatif, params_co_network,
                 root_surface, carte, rcenter, dust_electricty_driven_manager, network, hauteur_fen):
         """
         :param surface: a pygame sub-surface
@@ -56,7 +56,6 @@ class Game:
         :param en_reseau: a boolean who say if you are connect to a network or not
         :param inventory: an instance of the class Inventory
         :param creatif: a boolean who say if you are in infinite creation mode or not
-        :param marteau: an instance of the class Marteau
         :param params_co_network: the parameters to connect the socket to the network
         :param root_surface: a pygame surface (the window)
         :param dust_electricty_driven_manager: a instance of the class DustElectricityDriven
@@ -81,7 +80,6 @@ class Game:
         self.inventaire = []
         self.testeur = os.path.exists('test.test')
         self.windowed_is = self.testeur
-        self.marteau = marteau
         self.params_co = params_co_network
         self.nb_blocs_large = self.fenetre.get_size()[0] // 30 + 1
         self.rcenter = self.fenetre.get_size()[0] // 2, rcenter[1]  # self.fenetre.get_size()[1] // 2
@@ -113,13 +111,8 @@ class Game:
         ]
         self.temps_saut_attendre = 0.125
         self.liste_hauteur_saut = [
-            -1,
-            -1,
-            -1,
-            +1,
-            +1,
-            +1,
-            +1,
+            -1, -1, -1,
+            +1,  +1, +1, +1,
         ]
         self.hauteur_saut = 0
         self.show_cursor = False
@@ -147,12 +140,6 @@ class Game:
         self.last_cd_used = ""
         self.indice_son = 0
         self.prise_de_degats = 0
-        self.vip_bool = os.path.exists(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "0" + os.sep + "vip.file")
-        if self.vip_bool:
-            tmp = open(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "0" + os.sep + "vip.file", "r")
-            if tmp.read() != self.personnage.get_pseudo() + "::VIP":
-                self.vip_bool = False
-            tmp.close()
         self.conteneur = Conteneur()
         self.continuer = 1
         self.temps_avant_fps = time.time()
@@ -278,6 +265,14 @@ class Game:
 
         #on n'affiche pas le curseur de la souris !
         pygame.mouse.set_visible(False)
+
+        #mode VIP
+        self.vip_bool = os.path.exists(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "0" + os.sep + "vip.file")
+        if self.vip_bool:
+            tmp = open(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "0" + os.sep + "vip.file", "r")
+            if tmp.read() != self.personnage.get_pseudo() + "::VIP":
+                self.vip_bool = False
+            tmp.close()
 
         #si on est en créatif, on a tout les blocs en *9999 !
         if not self.normal_gm or self.vip_bool:
@@ -416,8 +411,6 @@ class Game:
         for y_, ligne in enumerate(self.inventaire):
             for x_, x_s in enumerate(ligne):
                 nom_entite = x_s
-                if self.marteau.has_been_2nd_planed(nom_entite):
-                    nom_entite = nom_entite[2::]
                 if nom_entite in self.blocs.list():
                     self.fenetre.blit(self.img_tous_blocs[nom_entite], (x_ * 31 + 52, y_ * 31 + 52))
                     if nom_entite == bloc_choisi and bloc_choisi != '0':
@@ -426,8 +419,6 @@ class Game:
                         self.fenetre.blit(self.check, (x_ * 31 + 52, y_ * 31 + 52))
                         vide_choisi = True
                 if tout:
-                    if self.marteau.has_been_2nd_planed(nom_entite):
-                        nom_entite = nom_entite[2::]
                     if nom_entite != "0" and nom_entite in self.blocs.list() and self.blocs.get(nom_entite) <= 999:
                         #sinon on aura des gros trait blancs tout moches :P
                         nb = self.font.render("%3i" % self.blocs.get(nom_entite), 1, (240, 240, 240))
@@ -491,7 +482,7 @@ class Game:
         carte_img = pygame.image.load(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Inventory" + os.sep + "carte.png").convert_alpha()
 
         while continue3:
-            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
+            self.carte.update(self.personnage.get_case_pos())
 
             #on dessine le fond (et accessoirement on efface ainsi la fenetre) :
             self.fenetre.blit(inventaire, (10, 10))
@@ -503,7 +494,6 @@ class Game:
             for y_ in range(20):
                 for x_ in range(len(carte_miniature[0])):
                     case = carte_miniature[y_][x_]
-                    case = case if not self.marteau.has_been_2nd_planed(case) else case[2::]
                     if case not in liste_innafichable_dad:
                         self.fenetre.blit(self.petits_blocs[case], ((x_ * 10) + center_x + 10,
                                                             (y_ * 10) + center_screen + 30))
@@ -640,7 +630,7 @@ class Game:
         pygame.draw.rect(self.fenetre, (240, 240, 240), (0, 0, self.fenetre.get_size()[0], 600))
         pygame.display.flip()
         pygame.time.wait(0.1)
-        self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
+        self.carte.update(self.personnage.get_case_pos())
         pygame.display.flip()
 
     def time_cruise(self):
@@ -658,7 +648,7 @@ class Game:
         choisi = -1
 
         while continuer:
-            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
+            self.carte.update(self.personnage.get_case_pos())
             pygame.draw.rect(self.fenetre, (80, 160, 80), ((self.fenetre.get_size()[0] - width_) // 2,
                                                   300 - (height_ // 2),
                                                   width_,
@@ -853,15 +843,9 @@ class Game:
                 if self.blocs.use(self.obj_courant):
                     #on vient d'enlever un bloc, et cela a fonctionner (renvoit de True)
                     #"temps" de destruction d'un bloc
-                    if self.marteau.has_been_2nd_planed(self.carte.get_tile(x_blit, y_blit)):
-                        #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
-                        self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
-                        self.blocs.set(self.carte.get_tile(x_blit, y_blit)[2::], nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit)[2::])+1)
-                    else:
-                        #le bloc n'est pas un bloc de second plan
-                        #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
-                        self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
-                        self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
+                    #item: #0 : x #1 : y #2 : nouveau bloc #3 : temps #4 : heure de la pose
+                    self.breakListe.append([x_blit, y_blit, self.obj_courant, self.blocs.get_time(self.carte.get_tile(x_blit, y_blit)[2::]) // 100, time.time()])
+                    self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
             self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
             if self.obj_courant == 'vb':
                 self.poser_teleporteur(x_blit, y_blit)
@@ -880,6 +864,34 @@ class Game:
                     #on "gagne" un bloc :D
                     self.blocs.set(self.carte.get_tile(x_blit, y_blit), nbr=self.blocs.get(self.carte.get_tile(x_blit, y_blit))+1)
                 self.carte.remove_bloc(x_blit, y_blit, '0')
+        elif self.carte.get_tile(x_blit, y_blit) != '0':
+            self.lc(x_blit, y_blit)
+
+    def lc(self, x, y):
+        if self.carte.get_tile(x, y) == 'ggg':
+            self.lc_cmd_block(x, y)
+        if self.carte.get_tile(x, y) == '%a':
+            self.lc_pancarte(x, y)
+
+    def lc_pancarte(self, x, y):
+        if not self.en_reseau:
+            for i in self.pancartes_lst:
+                if i[0] == (x, y):
+                    i[1] = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
+                                         self.rcenter, self.grd_font, self.y_ecart, type_btn=2, mouse=True,
+                                         carte=self.carte).render()
+                    break
+        else:
+            texte_pan_to_send = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
+                                              self.rcenter, self.grd_font, self.y_ecart, type_btn=2,
+                                              mouse=True, carte=self.carte).render()
+            self.network.sendto(pickle.dumps("set->pan" + str(x) + "," + str(y) + "," + texte_pan_to_send), self.params_co)
+
+    def lc_cmd_block(self, x, y):
+        code = dlb.DialogBox(self.fenetre, 'Entrez votre code :', 'Edition d\'un command block',
+                             self.rcenter, self.grd_font, self.y_ecart, type_btn=2, mouse=True,
+                             carte=self.carte).render()
+        self.cmd_block_mgr.modify(x, y, code)
     
     def rc_telep(self, x_clic, y_clic):
         #on veut se téléporter
@@ -938,30 +950,23 @@ class Game:
         if not self.en_reseau:
             for i in self.pancartes_lst:
                 if i[0] == (x_clic, y_clic):
-                    if i[1] != '':
-                        message_affiche(i[1], self.rcenter)
-                    else:
-                        i[1] = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
-                                             self.rcenter, self.grd_font, self.y_ecart, type_btn=2, mouse=True,
-                                             carte=self.carte).render()
+                    message_affiche(i[1], self.rcenter)
                     break
         else:
             self.network.sendto(pickle.dumps("get->pan" + str(x_clic) + "," + str(y_clic)), self.params_co)
             temp = self.network.recv(4096)
             temp = pickle.loads(temp)
-            if not temp:
-                texte_pan_to_send = dlb.DialogBox(self.fenetre, 'Entrez votre texte :', 'Edition d\'une pancarte',
-                                                  self.rcenter, self.grd_font, self.y_ecart, type_btn=2,
-                                                  mouse=True, carte=self.carte).render()
-                self.network.sendto(pickle.dumps("set->pan" + str(x_clic) + "," + str(y_clic) + "," + texte_pan_to_send), self.params_co)
-            else:
-                message_affiche(temp, self.rcenter)
+            message_affiche(temp, self.rcenter)
     
     def rc_time_telep(self):
         if not self.en_reseau:
             self.time_cruise()
         else:
             message_affiche("Vous ne pouvez pas voyager dans le temps en mode réseau", self.rcenter)
+
+    def rc_cmd_block(self, x_clic, y_clic):
+        texte = self.cmd_block_mgr.rc(x_clic, y_clic)
+        message_affiche(texte, self.rcenter)
 
     def rc(self, x_clic, y_clic):
         self.dust_electricty_driven_manager.right_click(x_clic, y_clic)
@@ -975,18 +980,17 @@ class Game:
             self.rc_telep(x_clic, y_clic)
         elif self.obj_courant in self.dico_cd.keys() and self.carte.get_tile(x_clic, y_clic) == 'B':
             self.rc_jukebox()
-        elif self.obj_courant == '§%' and self.carte.get_tile(x_clic, y_clic) != '0':
-            self.marteau.utiliser(self.carte, y_clic, x_clic)
         elif self.carte.get_tile(x_clic, y_clic) == '%a':
             self.rc_pancarte(x_clic, y_clic)
         elif self.carte.get_tile(x_clic, y_clic) == '%b':
             self.rc_time_telep()
         elif self.carte.get_tile(x_clic, y_clic) == 'ggg':
             self.rc_cmd_block(x_clic, y_clic)
+        elif self.carte.get_tile(x_clic, y_clic) == '0':
+            self.second_layer_put(x_clic, y_clic)
 
-    def rc_cmd_block(self, x_clic, y_clic):
-        texte = self.cmd_block_mgr.rc(x_clic, y_clic)
-        message_affiche(texte, self.rcenter)
+    def second_layer_put(self, x, y):
+        pass
     
     def check_perso(self):
         """
@@ -1154,11 +1158,10 @@ class Game:
                             else:
                                 self.carte.remove_bloc(x_blit, y_blit, self.obj_courant)
                             # raffraichir la map pour voir le placement multiple :
-                            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
+                            self.carte.update(self.personnage.get_case_pos())
                             if self.show_stats:
                                 self.personnage.afficher_vie()
                                 self.personnage.afficher_mana()
-                                self.marteau.render()
                             if self.obj_courant == 'e':
                                 self.mettre_eau(x_blit, y_blit)
                         else:
@@ -1323,7 +1326,7 @@ class Game:
                 self.breaking_bloc.play()
             iBreakList += 1
 
-    def auto_update(self):
+    def auto_update(self, lite=False):
         """
         a function who call all the updater of the dependencies of the game
         :return: nothing
@@ -1331,28 +1334,31 @@ class Game:
         #pour les FPS
         self.temps_avant_fps = time.time()
 
-        if not self.en_reseau:
-            self.carte.update(self.personnage.get_case_pos(), offset_=self.personnage.get_int_dir())
-        else:
-            self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
-                                 self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
+        if not lite:
+            if not self.en_reseau:
+                self.carte.update(self.personnage.get_case_pos())
+            else:
+                self.carte.update_([self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0],
+                                     self.personnage.get_pos()[1] // 30, self.personnage.get_direction()])
+            self.pointeur = self.arme_h_g if self.obj_courant != 'pio' else self.pioche_h_g
+            pygame.mouse.set_visible(False)
+            #pour ne pas se retrouver bloqué
+            self.check_perso()
+        elif lite:
+            self.carte.update(self.personnage.get_case_pos(), lite=True)
+
         #destruction des bombes atomiques non bloquantes
         self.bomb_mgr.check()
         #destruction des blocs non bloquant
         self.thread_destroy_bloc()
 
-        self.pointeur = self.arme_h_g if self.obj_courant != 'pio' else self.pioche_h_g
-        pygame.mouse.set_visible(False)
-
         #vie & mana
         if self.show_stats:
             self.personnage.afficher_vie()
             self.personnage.afficher_mana()
-            self.marteau.render()
+
         #régénration de la mana
         self.personnage.regen_mana()
-        #pour ne pas se retrouver bloqué
-        self.check_perso()
 
     def debug_on_windows(self, xs, ys):
         rel = 30
@@ -1381,6 +1387,87 @@ class Game:
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))
         for i in range(len(to_print)):
             self.fenetre.blit(self.font.render(to_print[i], 1, (10, 10, 10)), (30, rel + 25 + 15 * i))
+
+    def lite_start(self):
+        """
+        a sub main function of this class. run the main thread and check the minimal number of coponents
+        use if your configuration is very, very bad
+        :return: nothing
+        """
+        self.tps_tour = time.time() + 0.1
+        self.load_coponents()
+
+        self.txt_chat = ""
+        self.time_blitting_txt_chat = 0
+        self.nb_cases_chut = 0
+        pseudo_aff = self.font.render(self.personnage.get_pseudo(), 1, (0, 0, 0))
+
+        #le "tour" de l'ecran de jeu
+        self.custom()
+
+        while self.continuer:
+            self.auto_update(lite=True)
+
+            #pour la souris
+            x_souris, y_souris = self.souris_ou_t_es()
+
+            #pour les events
+            self.get_events()
+
+            #fin de boucle => régulation et affichage des FPS
+            self.FPS.actualise()
+            self.print_fps()
+
+            #blit ici de toutes les surfaces
+            #on affiche le personnage
+            self.personnage.render()
+
+            self.fenetre.blit(pseudo_aff, (self.personnage.get_pos()[0] - len(self.personnage.get_pseudo()), self.personnage.get_pos()[1] - 12))
+
+            #affichage du personnage en fonction de la souris
+            if x_souris < self.personnage.get_pos()[0]:
+                #souris à gauche
+                self.personnage.change_direction('gauche', mouse=True)
+            else:
+                #souris à droite
+                self.personnage.change_direction('droite', mouse=True)
+
+            if self.prise_de_degats > 0:
+                self.personnage.encaisser_degats(0.5)
+                self.afficher_degats_pris()
+                self.falling.play()
+                self.falling.stop()
+                self.prise_de_degats = 0
+
+            self.aff_bloc()
+
+            #saut
+            if self.saut and self.time_saut <= time.time():
+                self.time_saut = time.time() + self.temps_saut_attendre
+                if self.personnage.get_pos()[1] + (self.liste_hauteur_saut[self.hauteur_saut % len(self.liste_hauteur_saut)] * 30) >= 0 and \
+                        not self.carte.collide(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30 +
+                                (self.liste_hauteur_saut[self.hauteur_saut % len(self.liste_hauteur_saut)])):
+                    self.personnage.set_y(self.personnage.get_pos()[1] + (self.liste_hauteur_saut[self.hauteur_saut % len(self.liste_hauteur_saut)]) * 30)
+                self.hauteur_saut += 1
+                if self.hauteur_saut == len(self.liste_hauteur_saut) - 1:
+                    self.saut = False
+                    self.hauteur_saut = 0
+
+            #gravité active non bloquante
+            if self.personnage.get_pos()[1] // 30 + 1 <= 18:
+                if self.carte.get_tile(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30 + 1) not in self.blocs.list_solid() \
+                        and self.carte.get_tile(self.personnage.get_pos()[0] // 30 + self.carte.get_fov()[0], self.personnage.get_pos()[1] // 30 + 1) != './' \
+                        and not self.saut:
+                    self.personnage.set_y(self.personnage.get_pos()[1] + 30)
+                    self.nb_cases_chut += 1
+                    if self.nb_cases_chut >= 3:
+                        self.prise_de_degats = 1
+                else:
+                    self.nb_cases_chut = 0
+
+            pygame.display.flip()
+
+        self.save()
 
     def start(self):
         """
@@ -1413,9 +1500,6 @@ class Game:
             #gestion du réseau ici
             if self.en_reseau:
                 self.actualise_chat()
-
-            #items
-            self.marteau.update()
 
             #fin de boucle => régulation et affichage des FPS
             self.FPS.actualise()
@@ -1463,9 +1547,7 @@ class Game:
                 #on affiche les caractéristiques du bloc survolé :)
                 if self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30) != 'p' and \
                         0 <= x_souris // 30 <= self.fenetre.get_size()[0] and 0 <= y_souris // 30 <= self.carte.get_y_len():
-                    bloc_actuel = self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)\
-                        if not self.marteau.has_been_2nd_planed(self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30))\
-                        else self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)[2::]
+                    bloc_actuel = self.carte.get_tile(x_souris // 30 + self.carte.get_fov()[0], y_souris // 30)
                     bloc_carac = self.font.render(self.blocs.dict_name()[bloc_actuel] + ' : %3i,' % self.blocs.get(bloc_actuel) +
                             ' x:{}, y:{}, collide:{}, innafichable:{}'
                             .format(str(x_souris // 30 + self.carte.get_fov()[0]),

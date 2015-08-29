@@ -26,7 +26,7 @@ class CmdBlockManager:
                 if not modifiy:
                     return self.blocks[i]
                 else:
-                    self.blocks[i] = modif
+                    self.blocks[i][1] = modif
 
     def get_code(self, x, y):
         block = self.get_block(x, y)

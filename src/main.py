@@ -18,7 +18,11 @@ def pdb_post_mortem(exc_type, exc_val, exc_tb):
 if os.name != 'nt':
     sys.excepthook = pdb_post_mortem
 
-VERSION = "Alpha 3.1.0"
+
+import PySDL2_0_9_3.sdl2.ext as pysdl2
+
+
+VERSION = "Alpha 3.2.0"
 finished = False
 
 if not finished:
@@ -174,7 +178,7 @@ s = [
     ['kl', 'lm', 'mw', 'wx', 'xc', 'cv', 'vb', 'bn', 'n?', '?.', './', '%a', '%b', 'aaa', 'bbb', 'ccc'],
     ['ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj', '404', 'ttt', '0', '0', '0', '0', '0', '0', '0'],
     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-    ['§%', 'pio', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
+    ['pio', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '/§']
 ]
 
 print("Lancement du programme ...")

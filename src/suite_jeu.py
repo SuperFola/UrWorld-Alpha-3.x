@@ -7,7 +7,6 @@ from commerces_p import message_affiche
 import pickle
 import socket
 import personnage_code
-import items as itm
 import ded_manager as ded
 import niveau as niveau_pkg
 import weather
@@ -21,7 +20,6 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     
     font = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 8)
     grd_font = pygame.font.Font(".." + os.sep + "assets" + os.sep + "GUI" + os.sep + "Fonts" + os.sep + "freesansbold.otf", 12)
-    marteau = itm.Marteau(rcenter, fenetre, font)
     params_co = (hote, port)
     y_ecart = (root.get_size()[1] - 600) // 2
 
@@ -32,7 +30,7 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
         pseudo = pseudo_lire.read()
     #réseau
     if not en_reseau:
-        carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
+        carte = niveau_pkg.Carte(fenetre, root, fenetre.get_size()[0] // 30 + 1, blocs, shader)
         carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
         socket_client_serv = None
     else:
@@ -54,22 +52,22 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
                     dlb.DialogBox(fenetre, ["Le mot de passe est faux /", "Vous n'avez pas de compte"], "Erreur", rcenter, grd_font, y_ecart, type_btn=0).render()
                     en_reseau = False
                     message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)
-                    carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
+                    carte = niveau_pkg.Carte(fenetre, root, fenetre.get_size()[0] // 30 + 1, blocs, shader)
                     carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
                 else:
                     #tout est correct !
                     en_reseau = True
-                    carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
+                    carte = niveau_pkg.LANMap(fenetre, root, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
                     carte.receive_map()
             else:
                 #il n'y avait pas besoin de mot de passe, on se connecte normalement et on demande la map :)
                 en_reseau = True
-                carte = niveau_pkg.LANMap(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
+                carte = niveau_pkg.LANMap(fenetre, root, fenetre.get_size()[0] // 30 + 1, socket_client_serv, params_co, blocs, shader)
                 carte.receive_map()
         except OSError:
             en_reseau = False
             message_affiche("Le serveur n'est pas joignable, le jeu quitte le mode réseau.", rcenter)
-            carte = niveau_pkg.Carte(fenetre, root, marteau, fenetre.get_size()[0] // 30 + 1, blocs, shader)
+            carte = niveau_pkg.Carte(fenetre, root, fenetre.get_size()[0] // 30 + 1, blocs, shader)
             carte.load(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl")
 
     #personnage in game
@@ -98,6 +96,6 @@ def jeu(hote, port, en_reseau, root, fenetre, creatif, dossier_personnage, rcent
     
     dust_electricty_driven_manager = ded.DustElectricityDriven(carte, font, fenetre, en_reseau=en_reseau)
 
-    game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, marteau, params_co, root, carte,
+    game = gamecore.Game(fenetre, personnage, en_reseau, blocs, creatif, params_co, root, carte,
                          rcenter, dust_electricty_driven_manager, socket_client_serv, hauteur_fen)
-    game.start()
+    game.lite_start()

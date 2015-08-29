@@ -2,8 +2,9 @@ import pygame
 from pygame.locals import *
 import os
 import random
+import random as r
 import time
-import timeit
+
 
 class Weather:
     def __init__(self, *methodes):
@@ -17,8 +18,10 @@ class Weather:
         for methode in self.methodes:
             methode.do(action)
 
-    def get_action(self):
+    @staticmethod
+    def get_action():
         return True
+
 
 class Wind:
     def __init__(self, carte, ecran, perso):
@@ -53,6 +56,7 @@ class Wind:
 
     def get_action(self):
         return self.can
+
 
 class Rain:
     def __init__(self, carte, ecran, perso, blocs):
@@ -118,6 +122,7 @@ class Rain:
     def get_action(self):
         return self.waterflow
 
+
 class Storm:
     def __init__(self, carte, ecran, perso):
         self.carte = carte
@@ -159,3 +164,50 @@ class Storm:
 
     def get_action(self):
         return self.fall
+
+
+class Clouds:
+    def __init__(self, ecran):
+        self.ecran = ecran
+        self.cloud = pygame.image.load(".." + os.sep + "assets" + os.sep + "Particules" + os.sep + "cloud.png").convert_alpha()
+        self.clouds = []
+        self.time_to_pop = 0
+
+    def generate(self):
+        sens = r.randint(0, 1)
+        for i in range(0, r.randint(2, 7)):
+            altitude = r.randint(10, 90)
+            direction = 1.0 - (altitude / 100 * 1.07)
+            self.clouds.append([
+                [
+                    0, altitude
+                ],
+                direction if sens else -direction
+            ])
+
+    def draw(self):
+        for cloud in self.clouds:
+            self.ecran.blit(self.cloud, cloud[0])
+
+    def move_clouds(self):
+        if not self.clouds:
+            self.generate()
+        for cloud in range(len(self.clouds)):
+            self.clouds[cloud][0][0] += self.clouds[cloud][1]
+            if self.clouds[cloud][0][0] > self.ecran.get_size()[0]:
+                if not self.time_to_pop:
+                    self.clouds[cloud][0][0] = -self.cloud.get_size()[0]
+                else:
+                    self.clouds.pop(cloud)
+                    self.time_to_pop = 0
+            if self.clouds[cloud][0][0] < -self.cloud.get_size()[0]:
+                if not self.time_to_pop:
+                    self.clouds[cloud][0][0] = self.ecran.get_size()[0]
+                else:
+                    self.clouds.pop(cloud)
+                    self.time_to_pop = 0
+
+    def update(self):
+        self.time_to_pop = r.choice([0] * 8 + [1]) if not self.time_to_pop else 1
+        self.move_clouds()
+        self.draw()
