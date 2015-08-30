@@ -148,7 +148,7 @@ class Game:
         self.continuer = 1
         self.temps_avant_fps = time.time()
         self.suiveur = False
-        self.surf_debug = pygame.Surface((420, 245))
+        self.surf_debug = pygame.Surface((420, 300))
         self.surf_debug.fill((220, 220, 220))
         self.surf_debug.set_alpha(90)
         self.surf_debug.convert_alpha()
@@ -1387,7 +1387,8 @@ class Game:
             "Gamer : " + str(self.ZQSD),
             "Année : " + str(self.annee + 1),
             "Taille du bombs manager : " + str(self.bomb_mgr.size()),
-            "Light start : " + str(self.light_start)
+            "Light start : " + str(self.light_start),
+            "Nombre de bloc d'arrière plan blitté : " + str(self.carte.get_count_fnd_blit())
         ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))

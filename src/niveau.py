@@ -16,6 +16,7 @@ from pygame.locals import *
 import os
 from map_generator import LaunchMapGen
 from skybox import Skybox
+from copy import deepcopy
 
 
 pygame.display.init()
@@ -360,11 +361,13 @@ class MapArray:
                 self.carte[y].append(x)
                 self.fond[y].append(x)
 
-    def get_fov(self, fov):
+    def get_fov(self, fov, crt=None):
+        if crt is None:
+            crt = self.carte
         first = fov[0]
         end = fov[1]
         if first < 0:
-            liste = [l[0:end:] for l in self.carte]
+            liste = [l[0:end:] for l in crt]
             temp = abs(first)
             for y in range(len(liste)):
                 for _ in range(temp):
@@ -372,21 +375,10 @@ class MapArray:
             return liste
         if end + self.decalage_force > self.size[0]:
             self.create_chunk()
-        return [l[first:end:] for l in self.carte]
+        return [l[first:end:] for l in crt]
 
     def get_fov_oFD(self, fov):
-        first = fov[0]
-        end = fov[1]
-        if first < 0:
-            liste = [l[0:end:] for l in self.fond]
-            temp = abs(first)
-            for y in range(len(liste)):
-                for _ in range(temp):
-                    liste[y].insert(0, '403')
-            return liste
-        if end + self.decalage_force > self.size[0]:
-            self.create_chunk()
-        return [l[first:end:] for l in self.fond]
+        return self.get_fov(fov, crt=self.fond)
 
 
 class Carte:
@@ -420,6 +412,7 @@ class Carte:
         self.y_max = 20
         self.smooth = True
         self.cb_mgr = None
+        self.count_fnd = 0
         self.cloud_mgr = Clouds(self.ecran)
 
     def load_components(self):
@@ -782,6 +775,12 @@ class Carte:
             'kkk': self.piston_collant,
             'pio': self.pioche
         }
+        self.img_blc_fnd = {k: None for k, v in self.img_tous_blocs.items()}
+        for k, v in self.img_blc_fnd.items():
+            img_tmp = pygame.Surface((30, 30))
+            img_tmp.blit(self.img_tous_blocs[k], (0, 0))
+            img_tmp.blit(self.bleu_nuit_1, (0, 0), special_flags=BLEND_RGBA_ADD)
+            self.img_blc_fnd[k] = img_tmp
 
     def fire_bloc(self, pos_x, pos_y):
         self.bloc_fired = pos_x, pos_y
@@ -849,6 +848,9 @@ class Carte:
                     pass
                 last_b = bloc
 
+    def get_count_fnd_blit(self):
+        return self.count_fnd
+
     def gravity_for_entity(self):
         structure = self.carte.get_fov(self.fov)
         for x in range(len(structure[0])):
@@ -881,6 +883,7 @@ class Carte:
     def render_all(self):
         debut_generation = time.time()
         self.show_fire()
+        self.count_fnd = 0
         structure = self.carte.get_fov(self.fov)
         struct_fnd = self.carte.get_fov_oFD(self.fov)
         self.shaders.create(structure)
@@ -893,9 +896,9 @@ class Carte:
                 bloc_fnd = struct_fnd[num_ligne][num_case]
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
-                if bloc_fnd not in self.unrenderable:
-                    self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_fnd)], (x, y))
-                    self.ecran.blit(self.bleu_nuit_1, (x, y), special_flags=BLEND_RGBA_ADD)
+                if bloc_fnd not in self.unrenderable and bloc_actuel not in self.collision_bloc:
+                    self.count_fnd += 1
+                    self.ecran.blit(self.img_blc_fnd[self.blocs.get_by_code(bloc_fnd)], (x, y))
                 if bloc_actuel not in self.unrenderable:
                     self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
                 if bloc_actuel == 'ttt':
