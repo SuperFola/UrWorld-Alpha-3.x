@@ -17,6 +17,7 @@ import os
 from map_generator import LaunchMapGen
 from skybox import Skybox
 from copy import deepcopy
+import fluides
 
 
 pygame.display.init()
@@ -405,7 +406,7 @@ class Carte:
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
-        self.unrenderable = ('0', 'ttt')
+        self.unrenderable = ('0', 'ttt', 'e')
         self.skybox = None
         self.generation = 0
         self.last_dir = +1
@@ -414,6 +415,7 @@ class Carte:
         self.cb_mgr = None
         self.count_fnd = 0
         self.cloud_mgr = Clouds(self.ecran)
+        self.fluides_mgr = fluides.Water(self.ecran, self)
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -809,6 +811,9 @@ class Carte:
                 self.y_max = self.carte.get_max_size_y()
                 #self.carte = rle.load(map_reading)
 
+    def get_map_fov(self):
+        return self.carte.get_fov(self.fov)
+
     def update(self, pos=(0, 0), lite=False):
         if not lite:
             self.gravity_for_entity()
@@ -828,11 +833,14 @@ class Carte:
             #on blit les nuages
             if self.draw_clouds:
                 self.cloud_mgr.update()
+            #fluide manager
+            self.fluides_mgr.update()
         else:
             self.skybox.draw()
             self.lite_render()
 
     def check_the_grass(self):
+        #optimiser les appels !
         structure = self.carte.get_fov(self.fov)
         last_b = '0'
         for x in range(len(structure[0])):
@@ -852,6 +860,7 @@ class Carte:
         return self.count_fnd
 
     def gravity_for_entity(self):
+        #optimiser les appels
         structure = self.carte.get_fov(self.fov)
         for x in range(len(structure[0])):
             for y in range(len(structure)):
@@ -872,7 +881,7 @@ class Carte:
                 bloc_actuel = structure[num_ligne][num_case]
                 x = num_case * taille_sprite + self.pixel_offset
                 y = num_ligne * taille_sprite
-                if bloc_actuel not in self.unrenderable:
+                if bloc_actuel not in self.unrenderable[:2]:
                     self.ecran.blit(self.img_tous_blocs[self.blocs.get_by_code(bloc_actuel)], (x, y))
         for i in self.conteneur.list_conteners_pos_and_tile():
             self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
@@ -882,6 +891,7 @@ class Carte:
 
     def render_all(self):
         debut_generation = time.time()
+        cur_game_time = self.skybox.get_game_time()
         self.show_fire()
         self.count_fnd = 0
         structure = self.carte.get_fov(self.fov)
@@ -904,7 +914,7 @@ class Carte:
                 if bloc_actuel == 'ttt':
                     #c'est une horloge urworldienne :D
                     self.ecran.blit(self.skybox.get_clock(), (x, y))
-                self.shaders.update(x=num_case, y=num_ligne, time_game=self.skybox.get_game_time())
+                self.shaders.update(x=num_case, y=num_ligne, time_game=cur_game_time)
         for i in self.conteneur.list_conteners_pos_and_tile():
             self.ecran.blit(self.img_tous_blocs[i[1]], ((i[0][0] - self.fov[0]) * taille_sprite, i[0][1] * taille_sprite))
 

@@ -36,7 +36,7 @@ class Structure:
 TREE = Structure(
     lambda: [
         [None, None, None, 6   , 6   , 6   , 6   , None, None, None],
-        [None, 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   ],
+        [None, 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , None],
         [6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   ],
         [6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   ],
         [6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   , 6   ],

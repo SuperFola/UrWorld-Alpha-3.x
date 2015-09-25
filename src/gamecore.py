@@ -148,13 +148,14 @@ class Game:
         self.continuer = 1
         self.temps_avant_fps = time.time()
         self.suiveur = False
-        self.surf_debug = pygame.Surface((420, 300))
+        self.surf_debug = pygame.Surface((435, 300))
         self.surf_debug.fill((220, 220, 220))
         self.surf_debug.set_alpha(90)
         self.surf_debug.convert_alpha()
         self.ZQSD = False
         self.play_song = False
         self.hauteur_fenetre = hauteur_fen
+        self.max_FPS_atteint = 0
 
     def partial_load(self):
         # Pickling elements
@@ -399,6 +400,7 @@ class Game:
         :return: nothing
         """
         vrais_fps = trunc(((1000 / (time.time() - self.temps_avant_fps)) / 1000) if time.time() - self.temps_avant_fps else 300)
+        self.max_FPS_atteint = vrais_fps if self.max_FPS_atteint < vrais_fps else self.max_FPS_atteint
         titre = "/* FPS : %5i */" % vrais_fps
         pygame.draw.rect(self.root, (75, 155, 180), (0, self.rcenter[1] + 360, 115, 20))
         self.root.blit(self.font.render(titre, 1, (10, 10, 10)), (4, self.rcenter[1] + 362))
@@ -1244,6 +1246,7 @@ class Game:
                         dlb.DialogBox(self.fenetre, "Les autres joueurs ne sont plus visibles" if not self.carte.get_oth_visibility() else "Les autres joueurs sont visibles",
                                     "Visiblité des joueurs", self.rcenter, self.grd_font, self.y_ecart, type_btn=0, carte=self.carte).render()
                 elif ev.key == K_KP3:
+                    self.max_FPS_atteint = 0
                     self.carte.switch_shader()
                 elif ev.key == K_KP2:
                     if self.normal_gm:
@@ -1260,7 +1263,7 @@ class Game:
                 #passage fullscreen -> windowed / windowed -> fullscreen
                 elif ev.key == K_KP1:
                     if self.windowed_is:
-                        self.root = pygame.display.set_mode((0, 0), FULLSCREEN)
+                        self.root = pygame.display.set_mode((0, 0), FULLSCREEN + HWSURFACE)
                         r = pygame.Rect(0, 0, self.fenetre.get_size()[0], 600)  # definition de la taille de la fenetre de jeu
                         r.center = self.root.get_rect().center  # centrage de la fenetre par rapport a l'ecran total
                         self.fenetre = self.root.subsurface(r)  # definition de la fenetre de jeu
@@ -1388,7 +1391,8 @@ class Game:
             "Année : " + str(self.annee + 1),
             "Taille du bombs manager : " + str(self.bomb_mgr.size()),
             "Light start : " + str(self.light_start),
-            "Nombre de bloc d'arrière plan blitté : " + str(self.carte.get_count_fnd_blit())
+            "Nombre de bloc d'arrière plan blitté : " + str(self.carte.get_count_fnd_blit()),
+            "Max FPS atteint : " + str(self.max_FPS_atteint)
         ]
         self.fenetre.blit(self.surf_debug, (15, rel))
         self.fenetre.blit(self.grd_font.render("Mode debug ON", 1, (160, 20, 40)), (20, rel + 2))

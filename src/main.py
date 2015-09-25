@@ -192,7 +192,7 @@ if not finished:
     root_ = pygame.display.set_mode((0, 0))  # definition de l'ecran principal
     fullscreen = False
 else:
-    root_ = pygame.display.set_mode((0, 0), FULLSCREEN)  # definition de l'ecran principal
+    root_ = pygame.display.set_mode((0, 0), FULLSCREEN + HWSURFACE)  # definition de l'ecran principal
     fullscreen = True
 
 r = pygame.Rect(0, 0, largeur_dispo, 600)  # definition de la taille de la fenetre de jeu

@@ -101,7 +101,7 @@ def windows_property(fenetre, grd_font, hauteur_fen, fullscreen):
     if fullscreen:
         root_ = pygame.display.set_mode((0, 0))  #definition de l'ecran principal
     else:
-        root_ = pygame.display.set_mode((0, 0), FULLSCREEN)  #definition de l'ecran principal
+        root_ = pygame.display.set_mode((0, 0), FULLSCREEN + HWSURFACE)  #definition de l'ecran principal
     r = pygame.Rect(0, 0, largeur_dispo, 600)  #definition de la taille de la fenetre de jeu
     r.center = root_.get_rect().center  #centrage de la fenetre par rapport a l'ecran total
     fenetre = root_.subsurface(r)  #definition de la fenetre de jeu

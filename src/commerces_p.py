@@ -51,7 +51,6 @@ def message_short(message, rcenter):
     continuer_2 = 1
     tps_deb = time.time() + 2
     while continuer_2:
-        pygame.time.Clock().tick(120)
         if time.time() >= tps_deb:
             continuer_2 = 0
         for event in pygame.event.get():
@@ -108,7 +107,6 @@ def message_affiche(message, rcenter):
     # texte.TEXT = message
     continuer_2 = 1
     while continuer_2:
-        pygame.time.Clock().tick(120)
         for event in pygame.event.get():
             texte.show()
             if event.type == KEYDOWN:
@@ -129,7 +127,6 @@ def message_affiche_large(message, fenetre, rcenter):
     # texte.TEXT = message
     continuer_2 = 1
     while continuer_2:
-        pygame.time.Clock().tick(120)
         pygame.draw.rect(fenetre, (10, 10, 10), (0, 0, 600, 600))
         for event in pygame.event.get():
             texte.show()
