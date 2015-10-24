@@ -109,7 +109,8 @@ img_ = {
     'jjj': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "conteneur_thumbnail.png").convert_alpha(),
     '404': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "404_thumbnail.png").convert_alpha(),
     '403': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "403_thumbnail.png").convert_alpha(),
-    'ttt': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "horloge_thumbnail.png").convert_alpha()
+    'ttt': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "horloge_thumbnail.png").convert_alpha(),
+    'lav': pygame.image.load(".." + os.sep + "assets" + os.sep + "Tiles" + os.sep + "thumbnail" + os.sep + "lava_thumbnail.png").convert_alpha()
 }
 
 
@@ -397,16 +398,16 @@ class Carte:
         self.fov = [0, self.nb_blocs_large]
         self.new_bloc = False
         self.gravity_entity = self.blocs.list_gravity()
+        self.fired_entity = self.blocs.list_fire()
         self.meteos = []
-        self.start_fireing = -1
-        self.bloc_fired = -1, -1
+        self.bloc_fired = []
         self.shaders = shader
         self.pixel_offset = 0
         self.pixel_offset_right = 0
         self.draw_clouds = draw_clouds
         self.conteneur = None
         self.all_ = all_
-        self.unrenderable = ('0', 'ttt', 'e')
+        self.unrenderable = ('0', 'ttt', 'e', 'lav')
         self.skybox = None
         self.generation = 0
         self.last_dir = +1
@@ -416,6 +417,7 @@ class Carte:
         self.count_fnd = 0
         self.cloud_mgr = Clouds(self.ecran)
         self.fluides_mgr = fluides.Water(self.ecran, self)
+        self.lava_mgr = fluides.Lava(self.ecran, self)
 
     def load_components(self):
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "Settings" + os.sep + "couleur.sav"):
@@ -430,6 +432,9 @@ class Carte:
 
     def get_background_color(self):
         return self.couleur_fond
+
+    def get_fire_list(self):
+        return self.fired_entity
 
     def get_curent_shader(self):
         return self.shaders.get_cur_shader()
@@ -662,6 +667,7 @@ class Carte:
         self.accessdenied403 = pygame.image.load(self.texture_pack + "403.png").convert_alpha()
         self.clock = pygame.image.load(self.texture_pack + "horloge.png").convert_alpha()
         self.pioche = pygame.image.load(".." + os.sep + "assets" + os.sep + "Personnage" + os.sep + "Arme" + os.sep + "pick_up.png").convert_alpha()
+        self.lava = pygame.image.load(self.texture_pack + "lava.png").convert_alpha()
 
         self.bleu_nuit_1.set_alpha(140)
         self.bleu_nuit_1.convert_alpha()
@@ -775,7 +781,8 @@ class Carte:
             'ttt': self.clock,
             'lll': self.piston,
             'kkk': self.piston_collant,
-            'pio': self.pioche
+            'pio': self.pioche,
+            'lav': self.lava
         }
         self.img_blc_fnd = {k: None for k, v in self.img_tous_blocs.items()}
         for k, v in self.img_blc_fnd.items():
@@ -785,15 +792,20 @@ class Carte:
             self.img_blc_fnd[k] = img_tmp
 
     def fire_bloc(self, pos_x, pos_y):
-        self.bloc_fired = pos_x, pos_y
-        self.start_fireing = time.time() + 0.125
+        self.bloc_fired.append([pos_x, pos_y, time.time() + 0.125])
         self.remove_bloc(pos_x, pos_y, 'feu')
 
     def show_fire(self):
-        if time.time() > self.start_fireing and self.bloc_fired != (-1, -1):
-            self.remove_bloc(self.bloc_fired[0], self.bloc_fired[1], '0')
-            self.start_fireing = -1
-            self.bloc_fired = -1, -1
+        if self.bloc_fired:
+            items = []
+            i = 0
+            for bloc in self.bloc_fired:
+                if time.time() > bloc[2]:
+                    self.remove_bloc(bloc[0], bloc[1], '0')
+                    items.append(i)
+                i += 1
+            for j in items.__reversed__():
+                self.bloc_fired.pop(j)
 
     def add_meteo(self, meteo):
         self.meteos.append(meteo)
@@ -835,6 +847,7 @@ class Carte:
                 self.cloud_mgr.update()
             #fluide manager
             self.fluides_mgr.update()
+            self.lava_mgr.update()
         else:
             self.skybox.draw()
             self.lite_render()

@@ -295,16 +295,15 @@ wl = {
     },
     'users':
     {
-        'folaefolc': 64,
-        'test': 16
+        '/=0|_43/=0|_<': 64
     },
     'bannis':
     [
     ],
-    'serveur_name': '',
-    'serveur_description': '',
-    'pvp': True,
-    'secure': True
+    'serveur_name': 'Folaefolc server',
+    'serveur_description': 'This is the first test of an online server !',
+    'pvp': False,
+    'secure': False
 }
 
 if os.path.exists("wl.txt"):
@@ -313,7 +312,7 @@ if os.path.exists("wl.txt"):
 else:
     with open("wl.txt", "w") as wl_w:
         white_list = wl
-        wl_w.write(white_list)
+        wl_w.write(str(white_list))
 with open("serveur_data.txt", "r") as serv_carac:
     temp = serv_carac.read()
     white_list['serveur_name'] = temp.split(':')[0]
@@ -324,13 +323,15 @@ os.system("color 0f")
 texte_serv_bienvenue = "***** " + white_list['serveur_name'] + ", bienvenue. *****\n\n\n"
 print(" " * (78 // 2 - len(texte_serv_bienvenue) // 2) + texte_serv_bienvenue)
 
-hote = ''
-try:
-    hote = socket.gethostbyname(socket.gethostname())
-except NameError as nom_err:
-    print(nom_err)
-except TypeError as type_err:
-    print(type_err)
+hote = input("Hote [this/other] > ")
+
+if hote.lower() == 'this':
+    try:
+        hote = socket.gethostbyname(socket.gethostname())
+    except NameError as nom_err:
+        print(nom_err)
+    except TypeError as type_err:
+        print(type_err)
 print("\n" * 2 + " " * 21 + "Écoute sur le serveur {0}.\n".format(hote))
 
 sport = 60000

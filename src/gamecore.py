@@ -715,7 +715,7 @@ class Game:
         a function who put the water tile on the map
         :param x_blit: the position of the mouse click
         :param y_blit: the second position of the mouse click
-        :return:
+        :return: nothing
         """
         y_bloque = []
         cpt_blit_eau = 0
@@ -733,6 +733,28 @@ class Game:
                         self.carte.remove_bloc(j, i, 'e')
         self.eau_bruit.play()
         self.eau_bruit.stop()
+
+    def mettre_lava(self, x_blit, y_blit):
+        """
+        a function who put the lava tile on the map
+        :param x_blit: the position of the mouse click
+        :param y_blit: the second position of the mouse click
+        :return: nothing
+        """
+        y_bloque = []
+        cpt_blit_lav = 0
+        for i in range(y_blit, 20):
+            if self.carte.get_tile(x_blit, i) == "0":
+                if i not in y_bloque:
+                    self.carte.remove_bloc(x_blit, i, '0')
+            else:
+                y_bloque.append(i)
+            cpt_blit_lav += 1
+            for j in range(x_blit - cpt_blit_lav, x_blit + cpt_blit_lav):
+                if j >= 0 and j <= self.carte.get_x_len():
+                    #pour ne pas dépasser
+                    if self.carte.get_tile(j, i) == "0" and i not in y_bloque:
+                        self.carte.remove_bloc(j, i, 'lav')
     
     def custom(self):
         """
@@ -836,6 +858,18 @@ class Game:
         if self.carte.get_tile(x, y) == "e":
             self.mettre_eau(x, y)
 
+    def put_lava(self, x, y):
+        """
+        a function who put some lava
+        :param x: the poition of the block
+        :param y: the second position of the block
+        :return: nothing
+        """
+        #lava
+        self.carte.remove_bloc(x, y, 'lav')
+        if self.carte.get_tile(x, y) == 'lav':
+            self.mettre_lava(x, y)
+
     def put_blocs(self, x_blit, y_blit):
         """
         a function who do all the test and check if we can put a bloc or not
@@ -863,6 +897,8 @@ class Game:
                 self.break_telep(x_blit, y_blit)
             if self.obj_courant == 'e':
                 self.put_water(x_blit, y_blit)
+            if self.obj_courant == 'lav':
+                self.put_lava(x_blit, y_blit)
         if self.obj_courant == 'pio':
             #on a la pioche, on peut donc casser des blocs :D
             if self.carte.get_tile(x_blit, y_blit) not in self.blocs.list_unprintable():
@@ -1171,6 +1207,8 @@ class Game:
                                 self.personnage.afficher_mana()
                             if self.obj_courant == 'e':
                                 self.mettre_eau(x_blit, y_blit)
+                            if self.obj_courant == 'lav':
+                                self.mettre_lava(x_blit, y_blit)
                         else:
                             if self.obj_courant == 'pio' and self.carte.get_tile(x_blit, y_blit) not in self.blocs.list_unprintable():
                                 #on a la pioche, on peut donc casser des blocs :D

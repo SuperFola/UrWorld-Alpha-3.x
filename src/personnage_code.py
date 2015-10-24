@@ -240,6 +240,7 @@ class Mana:
         end = abs(pos_player // 30 + 5) if abs(pos_player // 30 + 5) <= 20 else 20
         for i in range(abs(pos_player // 30 - 5), end):
             self.carte.remove_bloc(x + self.carte.get_fov()[0], i, obj_courant)
+        raise NotImplementedError
 
     def sphere(self, pos_player):
         vitesse = 5
