@@ -4,9 +4,10 @@ import os
 
 pygame.font.init()
 
+
 class TextEntry:
-    def __init__(self, position, surface, size=194, type_txt=''):
-        self.texte = ""
+    def __init__(self, position, surface, size=194, type_txt='', default_value=''):
+        self.texte = default_value
         self.size = size
         self.max_len = self.size // 11
         self.pos = position

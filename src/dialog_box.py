@@ -4,6 +4,7 @@ import text_entry as txte
 import os
 import constantes as cst
 
+
 class DialogBox:
     def __init__(self, surface, texte, titre, center_screen, font, hauteur, type_btn=0, mouse=True, carte=None):
         """
@@ -25,7 +26,7 @@ class DialogBox:
         self.size = (400, 275)
         self.y_ecart = hauteur
         self.font = font
-        self.carte = carte
+        self.callback = carte
         self.ok_type0_pos = (self.center_screen[0] - 35 // 2, self.center_screen[1] + self.size[1] // 2 - 38)
         self.oui_type0_pos = (self.center_screen[0] - 35 // 2 - 30, self.center_screen[1] + self.size[1] // 2 - 38)
         self.non_type0_pos = (self.center_screen[0] - 35 // 2 + 30, self.center_screen[1] + self.size[1] // 2 - 38)
@@ -44,8 +45,8 @@ class DialogBox:
 
         while continuer:
             #le fond
-            if self.carte is not None:
-                self.carte.update()
+            if self.callback is not None:
+                self.callback.update()
             else:
                 pg.draw.rect(self.ecran, (0, 0, 0), (0, 0, self.ecran.get_size()[0], self.ecran.get_size()[1]))
 

@@ -259,7 +259,6 @@ def run_demos(width, height, fps):
     clock = pygame.time.Clock()
     the_world_is_a_happy_place = 0
     tmps_fin = time.time() + 2.5
-    tmps_change_fond = time.time() + 0.25
     while True:
         the_world_is_a_happy_place += 1
         if os.path.exists(".." + os.sep + "assets" + os.sep + "Maps" + os.sep + "map.lvl") \
@@ -269,15 +268,14 @@ def run_demos(width, height, fps):
         for event in pygame.event.get():
             if is_trying_to_quit(event, False):
                 return
-            elif event.type == MOUSEBUTTONDOWN and event.button == 5:  #la molette descend
+            elif event.type == MOUSEBUTTONDOWN and event.button == 5:  # la molette descend
                 fps -= 5
-            elif event.type == MOUSEBUTTONDOWN and event.button == 4:  #la molette monte
+            elif event.type == MOUSEBUTTONDOWN and event.button == 4:  # la molette monte
                 fps += 5
         fenetre.blit(background, (0, 0))
         do_line_demo(fenetre, the_world_is_a_happy_place, background, fenetre)
         pygame.display.flip()
         clock.tick(fps)
-        os_clear_command = 'cls' if sys.platform == 'win32' else 'clear'
 
 
 def rotate_3d_points(points, angle_x, angle_y, angle_z, background, fenetre):
@@ -380,11 +378,6 @@ def reseau(surface, grd_font, hauteur_fen):
     nouveau_pos = (surface.get_size()[0] // 2 + width_ // 2 + 30, surface.get_size()[1] // 3)
     modifier_pos = (surface.get_size()[0] // 2 + width_ // 2 + 30, surface.get_size()[1] // 3 + hauteur + 20)
     oublier_pos = (surface.get_size()[0] // 2 + width_ // 2 + 30, surface.get_size()[1] // 3 + 2 * (hauteur + 20))
-    jouer_couleur = (140, 140, 140) #(20, 180, 20)
-    nouveau_couleur = (140, 140, 140) #(20, 20, 180)
-    menu_couleur = (140, 140, 140) #(180, 20, 20)
-    oublier_couleur = (140, 140, 140) #(180, 180, 20)
-    modifier_couleur = (140, 140, 140) #(180, 20, 180)
 
     hote = ''
     port = 50000
@@ -612,7 +605,7 @@ if pas_de_partie or dossier_personnage == '0/':
 ########################################################################################################################
 en_reseau = False
 hote = '192.168.1.0'
-port = 50000
+port = 60000
 realistic = False
 
 avatar = pygame.image.load(".." + os.sep + "assets" + os.sep + 'Personnage' + os.sep + dossier_personnage + 'perso_droite.png').convert_alpha()
@@ -620,14 +613,6 @@ avatar = pygame.image.load(".." + os.sep + "assets" + os.sep + 'Personnage' + os
 val_retour = 0
 
 lauche_with_lite_start = False
-
-"""
-                 moi        -> alpha
-r.center      :: (683, 384) -> (960, 540)
-screen width  :: 1366       -> 1280
-middle screen :: 683        -> 640
-probleme      ::               îîî
-"""
 
 while continuer2:
     #mise à jour des variables
